@@ -5,6 +5,7 @@ guest: Reiner Pope
 blurb: Chip design from the bottom up
 date: 2026-05-22
 youtube: https://youtu.be/oIk3R-sMX5o
+transcript: transcripts/reiner-pope-2.md
 substack: https://www.dwarkesh.com/p/reiner-pope-2
 ---
 
