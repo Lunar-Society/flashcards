@@ -9,9 +9,221 @@
   },
   "sections": [
     {
-      "id": "diodes-bjts",
+      "id": "new-node",
+      "timestamp": "00:00:47",
+      "title": "Bringing up a new node",
+      "cards": [
+        {
+          "question_md": "Explain the basic mechanism of transmission electron microscopy.",
+          "answer_md": "A sample is made very thin (less than 100 nanometers). Then, electrons are shot at the sample. Different materials block or scatter the electrons by different amounts. These show up as darker or lighter regions in the image. This technique can visualize features down to the atomic scale.",
+          "question_html": "Explain the basic mechanism of transmission electron microscopy.",
+          "answer_html": "A sample is made very thin (less than 100 nanometers). Then, electrons are shot at the sample. Different materials block or scatter the electrons by different amounts. These show up as darker or lighter regions in the image. This technique can visualize features down to the atomic scale."
+        }
+      ]
+    },
+    {
+      "id": "10nm",
+      "timestamp": "00:03:22",
+      "title": "Lessons from 10 nanometer",
+      "cards": [
+        {
+          "question_md": "What technical problems caused delays to Intel's 10 nm node?",
+          "answer_md": "1. Cobalt interconnects. This material was complex to integrate and hurt yields.\n2. Multiple patterning. This increased the number of lithography passes and complicated the process substantially.\n3. Contact over active gate. This decreased the tolerance for misalignment and caused yield issues.",
+          "question_html": "What technical problems caused delays to Intel's 10 nm node?",
+          "answer_html": "1. Cobalt interconnects. This material was complex to integrate and hurt yields.\n2. Multiple patterning. This increased the number of lithography passes and complicated the process substantially.\n3. Contact over active gate. This decreased the tolerance for misalignment and caused yield issues."
+        },
+        {
+          "question_md": "Give an overview of how 13.5 nm EUV light is generated in an ASML EUV lithography machine.",
+          "answer_md": "Droplets of liquid tin 25-30 micrometers wide are dropped into a chamber where they are hit by two laser pulses. The first laser pulse reshapes the tin droplet into a flat sheet. Then, a second, higher power, pulse hits the droplet and vaporizes it into a plasma. The electrons in this plasma become excited and emit 13.5 nm light when they lose energy.",
+          "question_html": "Give an overview of how 13.5 nm EUV light is generated in an ASML EUV lithography machine.",
+          "answer_html": "Droplets of liquid tin 25-30 micrometers wide are dropped into a chamber where they are hit by two laser pulses. The first laser pulse reshapes the tin droplet into a flat sheet. Then, a second, higher power, pulse hits the droplet and vaporizes it into a plasma. The electrons in this plasma become excited and emit 13.5 nm light when they lose energy."
+        }
+      ]
+    },
+    {
+      "id": "gate-all-around",
+      "timestamp": "00:06:28",
+      "title": "From planar to gate-all-around",
+      "cards": [
+        {
+          "question_md": "Sketch in your head what a MOSFET looks like.",
+          "answer_md": "Top to bottom: gate (metal) on top of an SiO₂ insulator, sitting on a P-type substrate. Two N-doped wells flank the gate on the left and right — the source and the drain. When the gate is positive, a channel of electrons forms in the substrate just under the insulator, connecting source to drain.\n\n![NMOS cross-section](/images/silicon/mosfet-cross-section.png)",
+          "question_html": "Sketch in your head what a MOSFET looks like.",
+          "answer_html": "Top to bottom: gate (metal) on top of an SiO₂ insulator, sitting on a P-type substrate. Two N-doped wells flank the gate on the left and right — the source and the drain. When the gate is positive, a channel of electrons forms in the substrate just under the insulator, connecting source to drain.\n\n<img src=\"mosfet-cross-section.png\" alt=\"NMOS cross-section\">"
+        },
+        {
+          "question_md": "Why does a positive charge at the gate open up the channel underneath the insulator? (Consider an NMOS.)",
+          "answer_md": "It pulls up the electrons in the P-type substrate, filling up the holes at the top — the channel.",
+          "question_html": "Why does a positive charge at the gate open up the channel underneath the insulator? (Consider an NMOS.)",
+          "answer_html": "It pulls up the electrons in the P-type substrate, filling up the holes at the top — the channel."
+        },
+        {
+          "question_md": "At a high level, what is the difference between planar, FinFET, and gate-all-around?",
+          "answer_md": "- Planar: gate sits flat atop the source-to-drain channel.\n- FinFET: gate drapes the channel from three sides.\n- Gate-all-around: gate fully wraps the channel from all sides.",
+          "question_html": "At a high level, what is the difference between planar, FinFET, and gate-all-around?",
+          "answer_html": "• Planar: gate sits flat atop the source-to-drain channel.\n• FinFET: gate drapes the channel from three sides.\n• Gate-all-around: gate fully wraps the channel from all sides."
+        },
+        {
+          "question_md": "MOSFET technology has progressed from planar (1965–2011) to FinFET (2011–2022) to gate-all-around (2022 onwards). Why?",
+          "answer_md": "Better gate control means you can shrink the source-to-drain distance (the \"gate length\") without source/drain fields leaking current through.",
+          "question_html": "MOSFET technology has progressed from planar (1965–2011) to FinFET (2011–2022) to gate-all-around (2022 onwards). Why?",
+          "answer_html": "Better gate control means you can shrink the source-to-drain distance (the \"gate length\") without source/drain fields leaking current through."
+        },
+        {
+          "question_md": "Why do modern transistor processes use a dummy gate that is replaced at the end with the actual gate stack?",
+          "answer_md": "The gate consists of several metals that are chosen to optimize the conductivity of the gate and threshold voltage of the device. They can melt and degrade when subjected to high temperature processes that occur at the beginning of transistor fabrication. Therefore, they are deposited last to avoid these high temperature steps.",
+          "question_html": "Why do modern transistor processes use a dummy gate that is replaced at the end with the actual gate stack?",
+          "answer_html": "The gate consists of several metals that are chosen to optimize the conductivity of the gate and threshold voltage of the device. They can melt and degrade when subjected to high temperature processes that occur at the beginning of transistor fabrication. Therefore, they are deposited last to avoid these high temperature steps."
+        },
+        {
+          "question_md": "Why did we have to switch from naive SiO2 gates to high-K metal gates (eg. HfO2 for the dielectric and metals atop)?",
+          "answer_md": "As transistors got smaller, silicon dioxide would let too much current leak between the gate and the channel. High K metal gates have better capacitance.",
+          "question_html": "Why did we have to switch from naive SiO2 gates to high-K metal gates (eg. HfO2 for the dielectric and metals atop)?",
+          "answer_html": "As transistors got smaller, silicon dioxide would let too much current leak between the gate and the channel. High K metal gates have better capacitance."
+        },
+        {
+          "question_md": "What was Dennard scaling and why did it come to an end?",
+          "answer_md": "Dennard scaling refers to the period from 1960-2005 in which planar MOSFETs were scaled down by directly shrinking their dimensions, which increased power density.\n\nHowever, threshold voltage and leakage current do not scale with transistor length - Source and Drain got so close together that they would be current even without the channel being on.",
+          "question_html": "What was Dennard scaling and why did it come to an end?",
+          "answer_html": "Dennard scaling refers to the period from 1960-2005 in which planar MOSFETs were scaled down by directly shrinking their dimensions, which increased power density.\n\nHowever, threshold voltage and leakage current do not scale with transistor length - Source and Drain got so close together that they would be current even without the channel being on."
+        },
+        {
+          "question_md": "Explain the basic mechanism of atomic layer deposition (ALD)",
+          "answer_md": "The first precursor gas is passed over the wafer. It typically has a metal part and an organic part. The metal portion binds to the surface, forming a single layer with the organic sticking up. This process is self-limiting because binding only happens between the wafer and the metal, not between the metal and the organic. Next, the chamber is purged and the second precursor is introduced. This gas reacts with the dangling organics pulling off the organic part of the molecule and leaving a single atomic layer of the metal. This process is repeated for as many layers as desired.",
+          "question_html": "Explain the basic mechanism of atomic layer deposition (ALD)",
+          "answer_html": "The first precursor gas is passed over the wafer. It typically has a metal part and an organic part. The metal portion binds to the surface, forming a single layer with the organic sticking up. This process is self-limiting because binding only happens between the wafer and the metal, not between the metal and the organic. Next, the chamber is purged and the second precursor is introduced. This gas reacts with the dangling organics pulling off the organic part of the molecule and leaving a single atomic layer of the metal. This process is repeated for as many layers as desired."
+        }
+      ]
+    },
+    {
+      "id": "high-na",
+      "timestamp": "00:13:13",
+      "title": "High-NA EUV and the PDK",
+      "cards": [
+        {
+          "question_md": "What is numerical aperture (NA), and how does High-NA EUV change it?",
+          "answer_md": "NA measures how wide a cone of light the scanner's optics can focus onto the wafer. A wider cone focuses to a smaller spot, so finer features can be printed. Standard EUV has an NA of 0.33; High-NA raises it to 0.55, which prints features about 1.7× smaller (0.55 / 0.33) in a single pass.",
+          "question_html": "What is numerical aperture (NA), and how does High-NA EUV change it?",
+          "answer_html": "NA measures how wide a cone of light the scanner's optics can focus onto the wafer. A wider cone focuses to a smaller spot, so finer features can be printed. Standard EUV has an NA of 0.33; High-NA raises it to 0.55, which prints features about 1.7× smaller (0.55 / 0.33) in a single pass."
+        },
+        {
+          "question_md": "A high-NA EUV machine has an NA of 0.55. The theoretical maximum value for the NA is 1. What are the optical reasons EUV NA likely cannot scale much beyond 0.75? (1 out of 2 okay)",
+          "answer_md": "1\\. As the NA increases, the lenses become very large. Large lenses mean that the light will strike the lenses at a large angle. At large angles different polarizations of light are reflected differently. This reduces the contrast between the absorbing and reflecting parts of the mask. 2. The depth of field (DOF) quantifies what thickness of the resist is in focus during exposure. DOF ~ 1 / NA². Therefore, as the NA is increased, the DOF gets smaller, meaning a thinner resist must be used. Thinner resists are worse at blocking subsequent etching steps.",
+          "question_html": "A high-NA EUV machine has an NA of 0.55. The theoretical maximum value for the NA is 1. What are the optical reasons EUV NA likely cannot scale much beyond 0.75? (1 out of 2 okay)",
+          "answer_html": "1. As the NA increases, the lenses become very large. Large lenses mean that the light will strike the lenses at a large angle. At large angles different polarizations of light are reflected differently. This reduces the contrast between the absorbing and reflecting parts of the mask. 2. The depth of field (DOF) quantifies what thickness of the resist is in focus during exposure. DOF ~ 1 / NA². Therefore, as the NA is increased, the DOF gets smaller, meaning a thinner resist must be used. Thinner resists are worse at blocking subsequent etching steps."
+        },
+        {
+          "question_md": "What is multiple patterning, and why is it costly?",
+          "answer_md": "When features are smaller than the scanner can print, the pattern is split across two, three, or even four exposures, each printing a different subset of the features. Every extra pass takes time on a ~$200 million EUV machine and adds another opportunity for defects.",
+          "question_html": "What is multiple patterning, and why is it costly?",
+          "answer_html": "When features are smaller than the scanner can print, the pattern is split across two, three, or even four exposures, each printing a different subset of the features. Every extra pass takes time on a ~$200 million EUV machine and adds another opportunity for defects."
+        },
+        {
+          "question_md": "What is backside power delivery?",
+          "answer_md": "A chip has thick power lines, which deliver electricity to the transistors, and thin signal lines, which must be spaced apart so signals don't interfere. Traditionally both were crammed together in the wiring above the transistors. Backside power moves the power lines below the transistors, to the back of the wafer, so the signal lines on top don't have to be packed as tightly.",
+          "question_html": "What is backside power delivery?",
+          "answer_html": "A chip has thick power lines, which deliver electricity to the transistors, and thin signal lines, which must be spaced apart so signals don't interfere. Traditionally both were crammed together in the wiring above the transistors. Backside power moves the power lines below the transistors, to the back of the wafer, so the signal lines on top don't have to be packed as tightly."
+        },
+        {
+          "question_md": "Why does High-NA EUV make economic sense for Intel's 14A but not (yet) for TSMC?",
+          "answer_md": "Intel uses backside power, which relaxes the wiring pitch on the front side enough to print those layers in a single High-NA pass. TSMC's processes don't have backside power, so their front-side pitches are tighter and would still need multiple passes with High-NA. For them, double-patterned standard EUV is cheaper.",
+          "question_html": "Why does High-NA EUV make economic sense for Intel's 14A but not (yet) for TSMC?",
+          "answer_html": "Intel uses backside power, which relaxes the wiring pitch on the front side enough to print those layers in a single High-NA pass. TSMC's processes don't have backside power, so their front-side pitches are tighter and would still need multiple passes with High-NA. For them, double-patterned standard EUV is cheaper."
+        }
+      ]
+    },
+    {
+      "id": "tech-tree",
+      "timestamp": "00:19:20",
+      "title": "A different tech tree",
+      "cards": [
+        {
+          "question_md": "What is a CFET, and what is its main advantage over today's gate-all-around transistors?",
+          "answer_md": "A complementary field-effect transistor. Today the n-type (NMOS) and p-type (PMOS) transistors are built side by side. A CFET stacks them directly on top of each other, which in principle fits twice as many transistors into the same area.",
+          "question_html": "What is a CFET, and what is its main advantage over today's gate-all-around transistors?",
+          "answer_html": "A complementary field-effect transistor. Today the n-type (NMOS) and p-type (PMOS) transistors are built side by side. A CFET stacks them directly on top of each other, which in principle fits twice as many transistors into the same area."
+        },
+        {
+          "question_md": "Memory like 3D NAND and HBM is already stacked many layers high. Why is stacking logic (e.g. CFET) harder?",
+          "answer_md": "Heat. Logic consumes far more power than memory, and every stacked layer adds heat that has no clear path to escape.",
+          "question_html": "Memory like 3D NAND and HBM is already stacked many layers high. Why is stacking logic (e.g. CFET) harder?",
+          "answer_html": "Heat. Logic consumes far more power than memory, and every stacked layer adds heat that has no clear path to escape."
+        }
+      ]
+    },
+    {
+      "id": "ruthenium",
+      "timestamp": "00:29:30",
+      "title": "Ruthenium interconnects",
+      "cards": [
+        {
+          "question_md": "Until recently, copper is used for interconnects except for the end part that actually touches the transistor, which is made of tungsten. 1. Why is tungsten used there? 2 Why is copper used elsewhere?",
+          "answer_md": "Copper diffuses so much that if it was directly touching the transistor, you'd worry about it damaging sensitive areas. So we used Tungsten there.\n\nTungsten has higher resistivity, so it would require more power for all the interconnects if we used tungsten all over.",
+          "question_html": "Until recently, copper is used for interconnects except for the end part that actually touches the transistor, which is made of tungsten. 1. Why is tungsten used there? 2 Why is copper used elsewhere?",
+          "answer_html": "Copper diffuses so much that if it was directly touching the transistor, you'd worry about it damaging sensitive areas. So we used Tungsten there.\n\nTungsten has higher resistivity, so it would require more power for all the interconnects if we used tungsten all over."
+        },
+        {
+          "question_md": "Why is ruthenium preferred over copper for interconnects, despite having more bulk resistivity? Give 2 reasons",
+          "answer_md": "Ruthenium is easier to etch than copper, which allows you to etch out air gaps (air has the lowest capacitance)\n\nAt nanoscale, ruthenium has lower resistance, because mean free path of an electron is lower, which means it accumulates and thus dissipates less energy between collisions",
+          "question_html": "Why is ruthenium preferred over copper for interconnects, despite having more bulk resistivity? Give 2 reasons",
+          "answer_html": "Ruthenium is easier to etch than copper, which allows you to etch out air gaps (air has the lowest capacitance)\n\nAt nanoscale, ruthenium has lower resistance, because mean free path of an electron is lower, which means it accumulates and thus dissipates less energy between collisions"
+        },
+        {
+          "question_md": "Why is it advantageous that ruthenium can be etched?",
+          "answer_md": "1. This allows air gaps to be created between interconnects. Air is a very good insulator, so this lowers the capacitance between interconnects when compared to having a dielectric there.\n2. It simplifies the process compared to making copper interconnects. Depositing and then etching ruthenium is easier than the Damascene process used to make copper interconnects.",
+          "question_html": "Why is it advantageous that ruthenium can be etched?",
+          "answer_html": "1. This allows air gaps to be created between interconnects. Air is a very good insulator, so this lowers the capacitance between interconnects when compared to having a dielectric there.\n2. It simplifies the process compared to making copper interconnects. Depositing and then etching ruthenium is easier than the Damascene process used to make copper interconnects."
+        }
+      ]
+    },
+    {
+      "id": "stacking",
+      "timestamp": "00:32:41",
+      "title": "Stacking transistors",
+      "cards": [
+        {
+          "question_md": "Why is interconnecting a CFET hard?",
+          "answer_md": "Connections that used to run on top of (or below) the transistors now have to go vertically between the stacked devices. That requires deep, narrow trenches. High-aspect-ratio etches are difficult, and filling those tiny spaces can leave air gaps or voids that never fill.",
+          "question_html": "Why is interconnecting a CFET hard?",
+          "answer_html": "Connections that used to run on top of (or below) the transistors now have to go vertically between the stacked devices. That requires deep, narrow trenches. High-aspect-ratio etches are difficult, and filling those tiny spaces can leave air gaps or voids that never fill."
+        }
+      ]
+    },
+    {
+      "id": "packaging",
+      "timestamp": "00:39:45",
+      "title": "Hybrid bonding",
+      "cards": [
+        {
+          "question_md": "What is the difference between 2.5D and 3D packaging?",
+          "answer_md": "In 2.5D, different chips are placed on an interposer. Connections between the chips are run through the interposer. In 3D, the chips are bonded directly to one another through solder bumps or copper connections.",
+          "question_html": "What is the difference between 2.5D and 3D packaging?",
+          "answer_html": "In 2.5D, different chips are placed on an interposer. Connections between the chips are run through the interposer. In 3D, the chips are bonded directly to one another through solder bumps or copper connections."
+        },
+        {
+          "question_md": "What is the area-versus-perimeter problem, and why does it matter for AI chips?",
+          "answer_md": "Two chips side by side communicate through their facing edges. Doubling a chip's width and length gives 4× the area for compute but only 2× the edge length for connections. So as transistors get denser, a chip's ability to compute grows faster than its ability to move data, and in AI workloads the data traffic (e.g. between GPU and HBM) is often the bottleneck.",
+          "question_html": "What is the area-versus-perimeter problem, and why does it matter for AI chips?",
+          "answer_html": "Two chips side by side communicate through their facing edges. Doubling a chip's width and length gives 4× the area for compute but only 2× the edge length for connections. So as transistors get denser, a chip's ability to compute grows faster than its ability to move data, and in AI workloads the data traffic (e.g. between GPU and HBM) is often the bottleneck."
+        },
+        {
+          "question_md": "How does hybrid bonding work, and why is it better than bonding chips with solder bumps?",
+          "answer_md": "The copper pads of two chips are aligned, pressed together, and heated. The copper expands to bridge the gap and fuses, and the insulating surfaces around the copper bond too. Removing the bulky, resistive solder bumps allows much finer pitch, so connections are denser and shorter. The hard part is alignment and defects, which is why it is only now entering volume manufacturing.",
+          "question_html": "How does hybrid bonding work, and why is it better than bonding chips with solder bumps?",
+          "answer_html": "The copper pads of two chips are aligned, pressed together, and heated. The copper expands to bridge the gap and fuses, and the insulating surfaces around the copper bond too. Removing the bulky, resistive solder bumps allows much finer pitch, so connections are denser and shorter. The hard part is alignment and defects, which is why it is only now entering volume manufacturing."
+        },
+        {
+          "question_md": "What is the difference between wafer-to-wafer and chip-to-wafer hybrid bonding? What is the yield advantage of chip-to-wafer?",
+          "answer_md": "Wafer-to-wafer bonds two full wafers together, so the dies on each must match exactly in size and position, and good and bad dies are paired randomly: some good dies get bonded to bad ones and are wasted. Chip-to-wafer singulates and tests the dies first, so only known good dies are bonded to known good positions. Wafer-to-wafer dominates CMOS image sensors; chip-to-wafer makes more sense for logic-on-logic.",
+          "question_html": "What is the difference between wafer-to-wafer and chip-to-wafer hybrid bonding? What is the yield advantage of chip-to-wafer?",
+          "answer_html": "Wafer-to-wafer bonds two full wafers together, so the dies on each must match exactly in size and position, and good and bad dies are paired randomly: some good dies get bonded to bad ones and are wasted. Chip-to-wafer singulates and tests the dies first, so only known good dies are bonded to known good positions. Wafer-to-wafer dominates CMOS image sensors; chip-to-wafer makes more sense for logic-on-logic."
+        }
+      ]
+    },
+    {
+      "id": "not-covered",
       "timestamp": null,
-      "title": "Diodes and BJTs",
+      "title": "Not covered in the video",
       "cards": [
         {
           "question_md": "What is a diode?",
@@ -42,25 +254,6 @@
           "answer_md": "You're allowing electrons from the emitter to get all the way up into the base, so close that they can jump across the depletion region between base and collector.\n\n![NPN BJT electron flow: emitter → base → collector](/images/silicon/bjt-electron-flow.png)\n\n*Image from Ben Eater's transistor video.*",
           "question_html": "If electrons are flowing from emitter to base (i.e. you turn the transistor on), why does that enable those electrons to now reach the collector?",
           "answer_html": "You're allowing electrons from the emitter to get all the way up into the base, so close that they can jump across the depletion region between base and collector.\n\n<img src=\"bjt-electron-flow.png\" alt=\"NPN BJT electron flow: emitter → base → collector\">\n\n<i>Image from Ben Eater's transistor video.</i>"
-        }
-      ]
-    },
-    {
-      "id": "mosfet",
-      "timestamp": null,
-      "title": "How a MOSFET works",
-      "cards": [
-        {
-          "question_md": "Sketch in your head what a MOSFET looks like.",
-          "answer_md": "Top to bottom: gate (metal) on top of an SiO₂ insulator, sitting on a P-type substrate. Two N-doped wells flank the gate on the left and right — the source and the drain. When the gate is positive, a channel of electrons forms in the substrate just under the insulator, connecting source to drain.\n\n![NMOS cross-section](/images/silicon/mosfet-cross-section.png)",
-          "question_html": "Sketch in your head what a MOSFET looks like.",
-          "answer_html": "Top to bottom: gate (metal) on top of an SiO₂ insulator, sitting on a P-type substrate. Two N-doped wells flank the gate on the left and right — the source and the drain. When the gate is positive, a channel of electrons forms in the substrate just under the insulator, connecting source to drain.\n\n<img src=\"mosfet-cross-section.png\" alt=\"NMOS cross-section\">"
-        },
-        {
-          "question_md": "Why does a positive charge at the gate open up the channel underneath the insulator? (Consider an NMOS.)",
-          "answer_md": "It pulls up the electrons in the P-type substrate, filling up the holes at the top — the channel.",
-          "question_html": "Why does a positive charge at the gate open up the channel underneath the insulator? (Consider an NMOS.)",
-          "answer_html": "It pulls up the electrons in the P-type substrate, filling up the holes at the top — the channel."
         },
         {
           "question_md": "Why do the source and the drain regions have to be doped in a transistor?",
@@ -97,68 +290,12 @@
           "answer_md": "Capacitance measures the ability of an interface to store charge. A higher capacitance means that a lower voltage can be used to store the same amount of charge.\n\nA high gate capacitance means that the gate can effectively pull charge in or out of the channel to turn the device on or off.\n\nIn the context of wires, capacitance is bad because it causes charges in different wires to interfere with each other. This slows down signalling and therefore the clock speed of the chip.",
           "question_html": "What is capacitance? Why do we want the gate capacitance to be high? Why do we want the capacitance between wires to be low?",
           "answer_html": "Capacitance measures the ability of an interface to store charge. A higher capacitance means that a lower voltage can be used to store the same amount of charge.\n\nA high gate capacitance means that the gate can effectively pull charge in or out of the channel to turn the device on or off.\n\nIn the context of wires, capacitance is bad because it causes charges in different wires to interfere with each other. This slows down signalling and therefore the clock speed of the chip."
-        }
-      ]
-    },
-    {
-      "id": "10nm",
-      "timestamp": "00:03:22",
-      "title": "What Intel learned from 10nm",
-      "cards": [
-        {
-          "question_md": "What technical problems caused delays to Intel's 10 nm node?",
-          "answer_md": "1. Cobalt interconnects. This material was complex to integrate and hurt yields.\n2. Multiple patterning. This increased the number of lithography passes and complicated the process substantially.\n3. Contact over active gate. This decreased the tolerance for misalignment and caused yield issues.",
-          "question_html": "What technical problems caused delays to Intel's 10 nm node?",
-          "answer_html": "1. Cobalt interconnects. This material was complex to integrate and hurt yields.\n2. Multiple patterning. This increased the number of lithography passes and complicated the process substantially.\n3. Contact over active gate. This decreased the tolerance for misalignment and caused yield issues."
-        }
-      ]
-    },
-    {
-      "id": "gate-all-around",
-      "timestamp": "00:06:28",
-      "title": "From planar transistors to gate-all-around",
-      "cards": [
+        },
         {
           "question_md": "The original 1947 transistor was made of germanium, which also has 4 valence electrons like silicon. Why can't germanium be used to build MOSFETs?",
           "answer_md": "Its native oxide (GeO₂) is water-soluble and electrically defective. MOSFETs need a thin, stable, near-perfect insulator on the channel — only silicon grows one (SiO₂).",
           "question_html": "The original 1947 transistor was made of germanium, which also has 4 valence electrons like silicon. Why can't germanium be used to build MOSFETs?",
           "answer_html": "Its native oxide (GeO₂) is water-soluble and electrically defective. MOSFETs need a thin, stable, near-perfect insulator on the channel — only silicon grows one (SiO₂)."
-        },
-        {
-          "question_md": "What was Dennard scaling and why did it come to an end?",
-          "answer_md": "Dennard scaling refers to the period from 1960-2005 in which planar MOSFETs were scaled down by directly shrinking their dimensions, which increased power density.\n\nHowever, threshold voltage and leakage current do not scale with transistor length - Source and Drain got so close together that they would be current even without the channel being on.",
-          "question_html": "What was Dennard scaling and why did it come to an end?",
-          "answer_html": "Dennard scaling refers to the period from 1960-2005 in which planar MOSFETs were scaled down by directly shrinking their dimensions, which increased power density.\n\nHowever, threshold voltage and leakage current do not scale with transistor length - Source and Drain got so close together that they would be current even without the channel being on."
-        },
-        {
-          "question_md": "At a high level, what is the difference between planar, FinFET, and gate-all-around?",
-          "answer_md": "- Planar: gate sits flat atop the source-to-drain channel.\n- FinFET: gate drapes the channel from three sides.\n- Gate-all-around: gate fully wraps the channel from all sides.",
-          "question_html": "At a high level, what is the difference between planar, FinFET, and gate-all-around?",
-          "answer_html": "• Planar: gate sits flat atop the source-to-drain channel.\n• FinFET: gate drapes the channel from three sides.\n• Gate-all-around: gate fully wraps the channel from all sides."
-        },
-        {
-          "question_md": "MOSFET technology has progressed from planar (1965–2011) to FinFET (2011–2022) to gate-all-around (2022 onwards). Why?",
-          "answer_md": "Better gate control means you can shrink the source-to-drain distance (the \"gate length\") without source/drain fields leaking current through.",
-          "question_html": "MOSFET technology has progressed from planar (1965–2011) to FinFET (2011–2022) to gate-all-around (2022 onwards). Why?",
-          "answer_html": "Better gate control means you can shrink the source-to-drain distance (the \"gate length\") without source/drain fields leaking current through."
-        },
-        {
-          "question_md": "Why did we have to switch from naive SiO2 gates to high-K metal gates (eg. HfO2 for the dielectric and metals atop)?",
-          "answer_md": "As transistors got smaller, silicon dioxide would let too much current leak between the gate and the channel. High K metal gates have better capacitance.",
-          "question_html": "Why did we have to switch from naive SiO2 gates to high-K metal gates (eg. HfO2 for the dielectric and metals atop)?",
-          "answer_html": "As transistors got smaller, silicon dioxide would let too much current leak between the gate and the channel. High K metal gates have better capacitance."
-        },
-        {
-          "question_md": "Why do modern transistor processes use a dummy gate that is replaced at the end with the actual gate stack?",
-          "answer_md": "The gate consists of several metals that are chosen to optimize the conductivity of the gate and threshold voltage of the device. They can melt and degrade when subjected to high temperature processes that occur at the beginning of transistor fabrication. Therefore, they are deposited last to avoid these high temperature steps.",
-          "question_html": "Why do modern transistor processes use a dummy gate that is replaced at the end with the actual gate stack?",
-          "answer_html": "The gate consists of several metals that are chosen to optimize the conductivity of the gate and threshold voltage of the device. They can melt and degrade when subjected to high temperature processes that occur at the beginning of transistor fabrication. Therefore, they are deposited last to avoid these high temperature steps."
-        },
-        {
-          "question_md": "Explain the basic mechanism of atomic layer deposition (ALD)",
-          "answer_md": "The first precursor gas is passed over the wafer. It typically has a metal part and an organic part. The metal portion binds to the surface, forming a single layer with the organic sticking up. This process is self-limiting because binding only happens between the wafer and the metal, not between the metal and the organic. Next, the chamber is purged and the second precursor is introduced. This gas reacts with the dangling organics pulling off the organic part of the molecule and leaving a single atomic layer of the metal. This process is repeated for as many layers as desired.",
-          "question_html": "Explain the basic mechanism of atomic layer deposition (ALD)",
-          "answer_html": "The first precursor gas is passed over the wafer. It typically has a metal part and an organic part. The metal portion binds to the surface, forming a single layer with the organic sticking up. This process is self-limiting because binding only happens between the wafer and the metal, not between the metal and the organic. Next, the chamber is purged and the second precursor is introduced. This gas reacts with the dangling organics pulling off the organic part of the molecule and leaving a single atomic layer of the metal. This process is repeated for as many layers as desired."
         },
         {
           "question_md": "Where is the inner spacer in a gate-all-around transistor and what is its purpose?",
@@ -171,14 +308,7 @@
           "answer_md": "To create the inner spacer, small crevices have to be carved out under the channel sheets. A liquid etchant would pull down these sheets due to the weight of the liquid as it dries. Therefore, a gas must be used to etch the crevice and avoid the pattern collapse.",
           "question_html": "Why is isotropic dry etching necessary for creating the inner spacer in gate-all-around transistors?",
           "answer_html": "To create the inner spacer, small crevices have to be carved out under the channel sheets. A liquid etchant would pull down these sheets due to the weight of the liquid as it dries. Therefore, a gas must be used to etch the crevice and avoid the pattern collapse."
-        }
-      ]
-    },
-    {
-      "id": "fab-steps",
-      "timestamp": null,
-      "title": "More fab steps",
-      "cards": [
+        },
         {
           "question_md": "What is the difference between chemical vapor deposition and thermal oxidation?",
           "answer_md": "In thermal oxidation, you're actually reacting with the silicon directly to make a new compound (Si -> SiO2) whereas in chemical vapor deposition, you're reacting some precursor gas to accumulate atop the existing material, not by turning it into something",
@@ -204,25 +334,6 @@
           "answer_html": "In dry etching, chemical reactants are shot at the wafer where they react and remove material. In wet etching, the wafer is submersed in a liquid etchant that removes material. Dry etching is typically more directional than wet etching."
         },
         {
-          "question_md": "Explain the basic mechanism of transmission electron microscopy.",
-          "answer_md": "A sample is made very thin (less than 100 nanometers). Then, electrons are shot at the sample. Different materials block or scatter the electrons by different amounts. These show up as darker or lighter regions in the image. This technique can visualize features down to the atomic scale.",
-          "question_html": "Explain the basic mechanism of transmission electron microscopy.",
-          "answer_html": "A sample is made very thin (less than 100 nanometers). Then, electrons are shot at the sample. Different materials block or scatter the electrons by different amounts. These show up as darker or lighter regions in the image. This technique can visualize features down to the atomic scale."
-        }
-      ]
-    },
-    {
-      "id": "euv",
-      "timestamp": "00:13:13",
-      "title": "EUV and High-NA EUV",
-      "cards": [
-        {
-          "question_md": "Give an overview of how 13.5 nm EUV light is generated in an ASML EUV lithography machine.",
-          "answer_md": "Droplets of liquid tin 25-30 micrometers wide are dropped into a chamber where they are hit by two laser pulses. The first laser pulse reshapes the tin droplet into a flat sheet. Then, a second, higher power, pulse hits the droplet and vaporizes it into a plasma. The electrons in this plasma become excited and emit 13.5 nm light when they lose energy.",
-          "question_html": "Give an overview of how 13.5 nm EUV light is generated in an ASML EUV lithography machine.",
-          "answer_html": "Droplets of liquid tin 25-30 micrometers wide are dropped into a chamber where they are hit by two laser pulses. The first laser pulse reshapes the tin droplet into a flat sheet. Then, a second, higher power, pulse hits the droplet and vaporizes it into a plasma. The electrons in this plasma become excited and emit 13.5 nm light when they lose energy."
-        },
-        {
           "question_md": "Explain the main difference between DUV and EUV masks",
           "answer_md": "DUV masks are transmitting, meaning they selectively transmit or absorb light based on the pattern. Since every material absorbs EUV light, this approach cannot be used in the EUV case. Instead of transmitting, EUV masks must be reflective in the regions where the resist should be exposed.",
           "question_html": "Explain the main difference between DUV and EUV masks",
@@ -235,44 +346,6 @@
           "answer_html": "1. EUV masks are reflective, so the blank mask must be made of 40-50 alternating layers of silicon and molybdenum. This structure is hard to fabricate. 2. Patterning the mask requires a dedicated multi-beam electron lithography tool. Inspecting the mask for defects requires another dedicated high-resolution inspection tool. Mask yield is ~50% which increases cost. 3. To keep dust particles off the mask, a pellicle must be placed over the mask which must be ultra thin and temperature resilient."
         },
         {
-          "question_md": "A high-NA EUV machine has an NA of 0.55. The theoretical maximum value for the NA is 1. What are the optical reasons EUV NA likely cannot scale much beyond 0.75? (1 out of 2 okay)",
-          "answer_md": "1\\. As the NA increases, the lenses become very large. Large lenses mean that the light will strike the lenses at a large angle. At large angles different polarizations of light are reflected differently. This reduces the contrast between the absorbing and reflecting parts of the mask. 2. The depth of field (DOF) quantifies what thickness of the resist is in focus during exposure. DOF ~ 1 / NA². Therefore, as the NA is increased, the DOF gets smaller, meaning a thinner resist must be used. Thinner resists are worse at blocking subsequent etching steps.",
-          "question_html": "A high-NA EUV machine has an NA of 0.55. The theoretical maximum value for the NA is 1. What are the optical reasons EUV NA likely cannot scale much beyond 0.75? (1 out of 2 okay)",
-          "answer_html": "1. As the NA increases, the lenses become very large. Large lenses mean that the light will strike the lenses at a large angle. At large angles different polarizations of light are reflected differently. This reduces the contrast between the absorbing and reflecting parts of the mask. 2. The depth of field (DOF) quantifies what thickness of the resist is in focus during exposure. DOF ~ 1 / NA². Therefore, as the NA is increased, the DOF gets smaller, meaning a thinner resist must be used. Thinner resists are worse at blocking subsequent etching steps."
-        }
-      ]
-    },
-    {
-      "id": "ruthenium",
-      "timestamp": "00:29:30",
-      "title": "Replacing copper wires with ruthenium",
-      "cards": [
-        {
-          "question_md": "Until recently, copper is used for interconnects except for the end part that actually touches the transistor, which is made of tungsten. 1. why is tungsten used there? 2 why is copper used elsewhere.",
-          "answer_md": "Copper diffuses so much that if it was directly touching the transistor, you'd worry about it damaging sensitive areas. So we used Tungsten there.\n\nTungsten has higher resistivity, so it would require more power for all the interconnects if we used tungsten all over.",
-          "question_html": "Until recently, copper is used for interconnects except for the end part that actually touches the transistor, which is made of tungsten. 1. why is tungsten used there? 2 why is copper used elsewhere.",
-          "answer_html": "Copper diffuses so much that if it was directly touching the transistor, you'd worry about it damaging sensitive areas. So we used Tungsten there.\n\nTungsten has higher resistivity, so it would require more power for all the interconnects if we used tungsten all over."
-        },
-        {
-          "question_md": "Why is ruthenium preferred over copper for interconnects, despite having more bulk resistivity? Give 2 reasons",
-          "answer_md": "Ruthenium is easier to etch than copper, which allows you to etch out air gaps (air has the lowest capacitance)\n\nAt nanoscale, ruthenium has lower resistance, because mean free path of an electron is lower, which means it accumulates and thus dissipates less energy between collisions",
-          "question_html": "Why is ruthenium preferred over copper for interconnects, despite having more bulk resistivity? Give 2 reasons",
-          "answer_html": "Ruthenium is easier to etch than copper, which allows you to etch out air gaps (air has the lowest capacitance)\n\nAt nanoscale, ruthenium has lower resistance, because mean free path of an electron is lower, which means it accumulates and thus dissipates less energy between collisions"
-        },
-        {
-          "question_md": "Why is it advantageous that ruthenium can be etched?",
-          "answer_md": "1. This allows air gaps to be created between interconnects. Air is a very good insulator, so this lowers the capacitance between interconnects when compared to having a dielectric there.\n2. It simplifies the process compared to making copper interconnects. Depositing and then etching ruthenium is easier than the Damascene process used to make copper interconnects.",
-          "question_html": "Why is it advantageous that ruthenium can be etched?",
-          "answer_html": "1. This allows air gaps to be created between interconnects. Air is a very good insulator, so this lowers the capacitance between interconnects when compared to having a dielectric there.\n2. It simplifies the process compared to making copper interconnects. Depositing and then etching ruthenium is easier than the Damascene process used to make copper interconnects."
-        }
-      ]
-    },
-    {
-      "id": "stacking",
-      "timestamp": "00:32:41",
-      "title": "Stacked transistors and 2D materials",
-      "cards": [
-        {
           "question_md": "What characteristic of transistors do 2D materials improve?",
           "answer_md": "2D materials improve the ability to turn the transistor on and off. Since the 2D material is very thin, the gate material is very close to the charges in the channel and can control them more easily.",
           "question_html": "What characteristic of transistors do 2D materials improve?",
@@ -283,19 +356,6 @@
           "answer_md": "1. Making contacts to 2D materials is hard. Since they are so thin, the metal contact has to fuse with a thin layer of atoms, which is a difficult chemistry problem.\n2. 2D materials are very delicate. Their small thickness means small perturbations during manufacturing can ruin the material.\n3. Different materials have to be used for the NMOS and PMOS channels. There isn't a single 2D material that would work for both cases, so two different materials have to be used.",
           "question_html": "Name some of the technical issues with 2D materials that are preventing them from being widely adopted.",
           "answer_html": "1. Making contacts to 2D materials is hard. Since they are so thin, the metal contact has to fuse with a thin layer of atoms, which is a difficult chemistry problem.\n2. 2D materials are very delicate. Their small thickness means small perturbations during manufacturing can ruin the material.\n3. Different materials have to be used for the NMOS and PMOS channels. There isn't a single 2D material that would work for both cases, so two different materials have to be used."
-        }
-      ]
-    },
-    {
-      "id": "packaging",
-      "timestamp": "00:39:45",
-      "title": "Hybrid bonding and packaging",
-      "cards": [
-        {
-          "question_md": "What is the difference between 2.5D and 3D packaging?",
-          "answer_md": "In 2.5D, different chips are placed on an interposer. Connections between the chips are run through the interposer. In 3D, the chips are bonded directly to one another through solder bumps or copper connections.",
-          "question_html": "What is the difference between 2.5D and 3D packaging?",
-          "answer_html": "In 2.5D, different chips are placed on an interposer. Connections between the chips are run through the interposer. In 3D, the chips are bonded directly to one another through solder bumps or copper connections."
         }
       ]
     }
