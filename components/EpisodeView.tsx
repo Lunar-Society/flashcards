@@ -83,19 +83,29 @@ function Contents({ episode }: { episode: Episode }) {
           <ContentsRow key={s.id} href={`#${s.id}`} title={s.title} meta={`${s.cards.length}`} />
         ))}
         {episode.resources ? (
-          <ContentsRow href={`#${RESOURCES_ID}`} title="Further reading" meta="" />
+          <ContentsRow href={`#${RESOURCES_ID}`} title="Further reading" meta="" bold />
         ) : null}
       </ol>
     </nav>
   );
 }
 
-function ContentsRow({ href, title, meta }: { href: string; title: string; meta: string }) {
+function ContentsRow({
+  href,
+  title,
+  meta,
+  bold = false,
+}: {
+  href: string;
+  title: string;
+  meta: string;
+  bold?: boolean;
+}) {
   return (
     <li className="border-b border-rule last:border-b-0">
       <a
         href={href}
-        className="group flex items-baseline justify-between gap-4 py-1.5 text-[0.95rem] text-ink-muted transition-colors hover:text-ink"
+        className={`group flex items-baseline justify-between gap-4 py-1.5 text-[0.95rem] transition-colors hover:text-ink ${bold ? "font-semibold text-ink" : "text-ink-muted"}`}
       >
         <span className="underline decoration-transparent decoration-1 underline-offset-[3px] group-hover:decoration-accent">
           {title}
