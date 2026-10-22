@@ -14,5 +14,7 @@ public/exports/*
 !public/exports/eric-jang/**
 !public/exports/pretraining
 !public/exports/pretraining/**
-!public/exports/silicon
-!public/exports/silicon/**
+!public/exports/intel
+!public/exports/intel/**
+!public/exports/reiner-pope-2
+!public/exports/reiner-pope-2/**
