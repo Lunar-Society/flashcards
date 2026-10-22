@@ -23,7 +23,7 @@ export default function Page() {
           </h1>
         </header>
 
-        <DeckSection label="Blackboard lectures" decks={siteLectures} />
+        <DeckSection label="Episodes" decks={siteLectures} />
         {siteSubjects.length > 0 ? (
           <DeckSection
             label="Blog posts & side projects"
