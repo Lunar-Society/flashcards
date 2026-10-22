@@ -20,6 +20,8 @@
 //   youtube: https://...          # optional
 //   substack: https://...         # optional
 //   note: Banner shown on page    # optional
+//   credit: Thanks to [X](url)    # optional; markdown acknowledgment
+//                                 # shown under the blurb
 //   flatten: true                 # optional; collapses all parsed
 //                                 # sections into one "All cards"
 //                                 # section. Useful before timestamps
@@ -82,6 +84,7 @@ type Frontmatter = {
   youtube?: string;
   substack?: string;
   note?: string;
+  credit?: string;
   flatten?: boolean;
 };
 
@@ -132,6 +135,7 @@ function parseFrontmatter(text: string, sourcePath: string): {
     youtube: raw.youtube,
     substack: raw.substack,
     note: raw.note,
+    credit: raw.credit,
     flatten: raw.flatten === "true",
   };
   return {
@@ -342,6 +346,7 @@ export function parseEpisodeMd(relPath: string): Episode {
     youtubeUrl: frontmatter.youtube,
     substackUrl: frontmatter.substack,
     note: frontmatter.note,
+    credit: frontmatter.credit,
     sections,
     ...(resources.length ? { resources } : {}),
   };
