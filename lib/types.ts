@@ -49,6 +49,9 @@ export type Episode = {
   // Optional banner shown at the top of the deck page (for context such as
   // "Prepared before the episode aired").
   note?: string;
+  // Optional acknowledgment shown under the blurb. Inline markdown, so
+  // names can link out (e.g. "Thanks to [Name](https://...)").
+  credit?: string;
   sections: Section[];
   // Optional further reading, shown below the cards.
   resources?: ResourceGroup[];

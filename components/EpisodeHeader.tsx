@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
 import { BackIcon, CheckIcon, CopyIcon, DownloadIcon } from "./Icons";
+import { Markdown } from "./Markdown";
 
 export function EpisodeHeader({ episode }: { episode: Episode }) {
   const [copied, setCopied] = useState(false);
@@ -86,6 +87,11 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
         <p className="mt-3 max-w-prose text-[1.0125rem] leading-relaxed text-ink-muted">
           {episode.blurb}
         </p>
+        {episode.credit ? (
+          <Markdown className="mt-2 max-w-prose font-serif text-[0.95rem] italic leading-relaxed text-ink-faint [&_a]:text-ink-muted [&_a]:transition-colors hover:[&_a]:text-accent">
+            {episode.credit}
+          </Markdown>
+        ) : null}
 
         {isSubject && episode.substackUrl ? (
           <a
