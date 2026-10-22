@@ -136,8 +136,11 @@ def build_deck(data_file: Path, model: genanki.Model) -> tuple[Path, int, int]:
             for src in find_referenced_images(q_html + a_html):
                 fname = Path(src).name
                 # Look in public/images/<slug>/ first (per-episode generated
-                # assets), then fall back to public/images/ (shared assets).
-                for candidate in (IMAGES_DIR / slug / fname, IMAGES_DIR / fname):
+                # assets), then public/images/ (shared assets), then any
+                # other public/images/<dir>/ (assets shared between decks).
+                candidates = [IMAGES_DIR / slug / fname, IMAGES_DIR / fname,
+                              *sorted(IMAGES_DIR.glob(f"*/{fname}"))]
+                for candidate in candidates:
                     if candidate.exists():
                         media.add(candidate)
                         break

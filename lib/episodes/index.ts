@@ -8,16 +8,17 @@ import { jacobKimmel } from "./jacob-kimmel";
 import { lewisBollard } from "./lewis-bollard";
 import { stephenKotkin } from "./stephen-kotkin";
 import { pretraining } from "./pretraining";
-import { silicon } from "./silicon";
+import { intel } from "./intel";
+import { reinerPope2 } from "./reiner-pope-2";
 
-// Blackboard-lecture episodes (have a guest, video, transcript).
-export const siteLectures: Episode[] = [ericJang, reinerPope];
+// Podcast episodes: blackboard lectures and the Intel fab tour (have a
+// guest, video, transcript).
+export const siteLectures: Episode[] = [intel, reinerPope2, ericJang, reinerPope];
 
 // Subject decks (blog posts and side projects). Rendered as a
 // separate section beneath the lectures on the home page.
 export const siteSubjects: Episode[] = [
   pretraining,
-  silicon,
 ];
 
 // Everything that statically renders to the public site.

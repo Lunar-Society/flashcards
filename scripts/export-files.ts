@@ -48,6 +48,16 @@ function buildFlashcardsMd(ep: Episode): string {
       lines.push("");
     });
   }
+  if (ep.resources) {
+    lines.push("## Further reading");
+    lines.push("");
+    for (const g of ep.resources) {
+      lines.push(`### ${g.title}`);
+      lines.push("");
+      for (const l of g.links) lines.push(`- [${l.label}](${l.url})`);
+      lines.push("");
+    }
+  }
   return lines.join("\n");
 }
 
