@@ -35,8 +35,9 @@ export type Episode = {
   // For lectures, the guest name (e.g. "Reiner Pope"). Omitted for
   // subjects, where the title carries the identity.
   guest?: string;
-  // One-line blurb shown on both the deck list and the deck page.
-  blurb: string;
+  // Optional one-line subtitle, shown after the title on both the deck
+  // list and the deck page.
+  blurb?: string;
   // Typically "YYYY-MM" or "YYYY-MM-DD". Undefined for not-yet-aired episodes.
   date?: string;
   youtubeUrl?: string;

@@ -24,8 +24,10 @@ function buildFlashcardsMd(ep: Episode): string {
   if (ep.substackUrl) lines.push(`- Substack: ${ep.substackUrl}`);
   lines.push(`- Total cards: ${totalCardCount(ep)}`);
   lines.push("");
-  lines.push(ep.blurb);
-  lines.push("");
+  if (ep.blurb) {
+    lines.push(ep.blurb);
+    lines.push("");
+  }
   if (ep.note) {
     lines.push(`> ${ep.note}`);
     lines.push("");

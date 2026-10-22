@@ -14,7 +14,7 @@ export function generateMetadata({
 }): Metadata {
   const episode = getSiteEpisode(params.slug);
   if (!episode) return { title: "Not found" };
-  const title = `${episode.title}: ${episode.blurb} — Flashcards`;
+  const title = `${episode.title}${episode.blurb ? `: ${episode.blurb}` : ""} — Flashcards`;
   return {
     title,
     description: episode.blurb,

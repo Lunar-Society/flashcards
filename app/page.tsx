@@ -73,7 +73,7 @@ function DeckCard({ ep }: { ep: Episode }) {
           <div className="min-w-0 flex-1">
             <h3 className="font-serif text-[1.3rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.5rem]">
               <span className="transition-colors group-hover:text-accent">{heading}</span>
-              <span className="text-ink-muted">: {ep.blurb}</span>
+              {ep.blurb ? <span className="text-ink-muted">: {ep.blurb}</span> : null}
             </h3>
             <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.825rem] text-ink-faint">
               {ep.date ? (

@@ -82,7 +82,7 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
           ) : (
             episode.title
           )}
-          <span className="text-ink-muted">: {episode.blurb}</span>
+          {episode.blurb ? <span className="text-ink-muted">: {episode.blurb}</span> : null}
         </h1>
         {episode.credit ? (
           <Markdown className="mt-2 max-w-prose font-serif text-[0.95rem] italic leading-relaxed text-ink-faint [&_a]:text-ink-muted [&_a]:transition-colors hover:[&_a]:text-accent">

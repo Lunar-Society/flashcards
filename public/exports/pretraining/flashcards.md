@@ -3,8 +3,6 @@
 - Substack: https://www.dwarkesh.com/p/notes-on-pretraining-parallelisms
 - Total cards: 18
 
-Why pretraining runs fail, and the chain of problems and fixes behind FSDP / pipeline / tensor parallelism.
-
 ---
 
 ## Why pretraining runs fail

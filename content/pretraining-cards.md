@@ -2,7 +2,6 @@
 slug: pretraining
 title: Pretraining parallelisms and failed runs
 kind: subject
-blurb: Why pretraining runs fail, and the chain of problems and fixes behind FSDP / pipeline / tensor parallelism.
 substack: https://www.dwarkesh.com/p/notes-on-pretraining-parallelisms
 ---
 

@@ -2,7 +2,6 @@
   "meta": {
     "slug": "pretraining",
     "title": "Pretraining parallelisms and failed runs",
-    "blurb": "Why pretraining runs fail, and the chain of problems and fixes behind FSDP / pipeline / tensor parallelism.",
     "date": null,
     "youtube": null,
     "substack": "https://www.dwarkesh.com/p/notes-on-pretraining-parallelisms"

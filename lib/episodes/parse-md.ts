@@ -13,7 +13,7 @@
 //   slug: eric-jang
 //   title: Eric Jang
 //   guest: Eric Jang             # required for lectures, omit for subjects
-//   blurb: Building AlphaGo from scratch
+//   blurb: Building AlphaGo from scratch  # optional subtitle
 //   kind: lecture                 # optional; "lecture" (default) or "subject"
 //   date: 2026-05-08              # optional
 //   transcript: transcripts/...   # optional
@@ -78,7 +78,7 @@ type Frontmatter = {
   slug: string;
   title: string;
   guest?: string;
-  blurb: string;
+  blurb?: string;
   date?: string;
   transcript?: string;
   youtube?: string;
@@ -88,7 +88,7 @@ type Frontmatter = {
   flatten?: boolean;
 };
 
-const REQUIRED_KEYS: (keyof Frontmatter)[] = ["slug", "title", "blurb"];
+const REQUIRED_KEYS: (keyof Frontmatter)[] = ["slug", "title"];
 
 function parseFrontmatter(text: string, sourcePath: string): {
   frontmatter: Frontmatter;
@@ -129,7 +129,7 @@ function parseFrontmatter(text: string, sourcePath: string): {
     slug: raw.slug,
     title: raw.title,
     guest: raw.guest || undefined,
-    blurb: raw.blurb,
+    blurb: raw.blurb || undefined,
     date: raw.date,
     transcript: raw.transcript,
     youtube: raw.youtube,
