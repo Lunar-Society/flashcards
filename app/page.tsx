@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteLectures, siteSubjects } from "@/lib/episodes";
 import { Episode, totalCardCount } from "@/lib/types";
 import { ArrowIcon } from "@/components/Icons";
-import { Footer } from "@/components/Footer";
+import { formatDate } from "@/lib/format";
 
 export default function Page() {
   return (
@@ -31,8 +31,6 @@ export default function Page() {
             className="mt-14"
           />
         ) : null}
-
-        <Footer className="mt-20" />
       </main>
     </div>
   );
@@ -105,26 +103,4 @@ function DeckCard({ ep }: { ep: Episode }) {
       </Link>
     </li>
   );
-}
-
-function formatDate(iso: string): string {
-  // Handles "YYYY-MM" and "YYYY-MM-DD"
-  const parts = iso.split("-");
-  const year = parseInt(parts[0], 10);
-  const month = parseInt(parts[1] ?? "1", 10);
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${monthNames[month - 1]} ${year}`;
 }

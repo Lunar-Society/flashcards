@@ -1,4 +1,4 @@
-# Reiner Pope – Chip design from the bottom up
+# Reiner Pope
 
 - YouTube: https://youtu.be/oIk3R-sMX5o
 - Substack: https://www.dwarkesh.com/p/reiner-pope-2

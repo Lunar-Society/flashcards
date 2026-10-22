@@ -63,10 +63,13 @@
 //     `<!-- comments -->`) is ignored.
 //   - `flatten: true` in the frontmatter collapses all sections into
 //     a single section called "All cards".
+//   - An optional `# Resources` heading ends the cards. Below it,
+//     `## Group title` lines start groups of `- [label](url)` links,
+//     shown as further reading at the bottom of the deck page.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { Card, DeckKind, Episode, Section } from "../types";
+import type { Card, DeckKind, Episode, ResourceGroup, Section } from "../types";
 
 type Frontmatter = {
   kind?: DeckKind;
@@ -288,11 +291,38 @@ function parseBody(body: string, sourcePath: string): Section[] {
   return sections.filter((s) => s.cards.length > 0);
 }
 
+function splitResources(body: string): { cards: string; resources: string } {
+  const m = /^#\s+Resources\s*$/m.exec(body);
+  if (!m) return { cards: body, resources: "" };
+  return { cards: body.slice(0, m.index), resources: body.slice(m.index + m[0].length) };
+}
+
+function parseResources(text: string, sourcePath: string): ResourceGroup[] {
+  const groups: ResourceGroup[] = [];
+  for (const raw of text.split("\n")) {
+    const line = raw.trim();
+    if (!line || isHr(line)) continue;
+    const heading = /^##\s+(.+)$/.exec(line);
+    if (heading) {
+      groups.push({ title: heading[1].trim(), links: [] });
+      continue;
+    }
+    const link = /^[-*]\s+\[(.+)\]\((\S+)\)$/.exec(line);
+    if (!link || groups.length === 0) {
+      throw new Error(`${sourcePath}: unexpected line under # Resources: ${line}`);
+    }
+    groups[groups.length - 1].links.push({ label: link[1], url: link[2] });
+  }
+  return groups.filter((g) => g.links.length > 0);
+}
+
 export function parseEpisodeMd(relPath: string): Episode {
   const fullPath = join(process.cwd(), relPath);
   const text = readFileSync(fullPath, "utf8");
   const { frontmatter, body } = parseFrontmatter(text, relPath);
-  let sections = parseBody(body, relPath);
+  const split = splitResources(body);
+  let sections = parseBody(split.cards, relPath);
+  const resources = parseResources(split.resources, relPath);
 
   if (frontmatter.flatten) {
     const allCards = sections.flatMap((s) => s.cards);
@@ -313,5 +343,6 @@ export function parseEpisodeMd(relPath: string): Episode {
     substackUrl: frontmatter.substack,
     note: frontmatter.note,
     sections,
+    ...(resources.length ? { resources } : {}),
   };
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Episode, totalCardCount } from "@/lib/types";
+import { formatDate } from "@/lib/format";
 import { BackIcon, CheckIcon, CopyIcon, DownloadIcon } from "./Icons";
 
 export function EpisodeHeader({ episode }: { episode: Episode }) {
@@ -182,25 +183,4 @@ function toYouTubeEmbed(url: string): string | null {
   } catch {
     return null;
   }
-}
-
-function formatDate(iso: string): string {
-  const parts = iso.split("-");
-  const year = parseInt(parts[0], 10);
-  const month = parseInt(parts[1] ?? "1", 10);
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${monthNames[month - 1]} ${year}`;
 }

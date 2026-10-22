@@ -4,6 +4,8 @@
 
 How the world's most advanced chips are made
 
+> The first two sections are a primer on how transistors work. The rest follow the episode, chapter by chapter. Further reading is at the bottom.
+
 ---
 
 ## Diodes and BJTs
@@ -212,3 +214,37 @@ At nanoscale, ruthenium has lower resistance, because mean free path of an elect
 ### Q1. What is the difference between 2.5D and 3D packaging?
 
 In 2.5D, different chips are placed on an interposer. Connections between the chips are run through the interposer. In 3D, the chips are bonded directly to one another through solder bumps or copper connections.
+
+## Further reading
+
+### General semiconductor background
+
+- [How do Transistors Build into a CPU?](https://www.youtube.com/watch?v=_Pqfjer8-O4)
+- [Integrated Circuit Fabrication by Plummer and Griffin](https://plummergriffinbook.stanford.edu/)
+
+### Gate-all-around transistors
+
+- [Gate-All-Around — The Future of Transistors](https://www.youtube.com/watch?v=bfkIp_j0Iv8)
+- [The Gate-All-Around Transistor is Coming](https://www.youtube.com/watch?v=5RPFfPtgw7g)
+- [The Future of the Transistor](https://newsletter.semianalysis.com/p/the-future-of-the-transistor)
+
+### Industry history and economics
+
+- [Intel’s Reign of Terror](https://www.youtube.com/watch?v=TdSAuYCcs_o)
+- [The 3-D Transistor Transition](https://www.youtube.com/watch?v=i3dDslo9ibw)
+- [Intel Should Raise Capital](https://newsletter.semianalysis.com/p/intel-should-raise-capital)
+
+### Packaging
+
+- [Why Hybrid Bonding is the Future of Packaging](https://www.youtube.com/watch?v=OlRLuajAgIc)
+- [Applied Materials’ Kinex™ Integrated Hybrid Bonding System](https://www.youtube.com/watch?v=wJVDpclyG6A)
+- [Hybrid Bonding Process Flow - Advanced Packaging Part 5](https://newsletter.semianalysis.com/p/hybrid-bonding-process-flow-advanced)
+
+### Fabrication technologies
+
+- [What ASML Has Next After EUV](https://www.youtube.com/watch?v=en7hhFJBrAI)
+- [The Extreme Engineering of ASML’s EUV Light Source](https://www.youtube.com/watch?v=5Ge2RcvDlgw)
+- [Multi-Patterning Techniques: Enabling Dimensions Beyond Lithography Resolution Limits](https://www.youtube.com/watch?v=XI5Ypy77fVE)
+- [Engineering the Gate-All-Around Transistor](https://www.youtube.com/watch?v=xaKyDrWfHes)
+- [Applied Materials’ Pattern-Shaping Technology](https://www.youtube.com/watch?v=GSuTyOMq1Bg)
+- [Embracing Chaos: The Imperfect Art of Semiconductor Manufacturing And Lithography](https://newsletter.semianalysis.com/p/embracing-chaos-the-imperfect-art)

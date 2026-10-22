@@ -3,6 +3,11 @@ export type Card = {
   a: string;
 };
 
+export type ResourceGroup = {
+  title: string;
+  links: { label: string; url: string }[];
+};
+
 export type Section = {
   id: string;
   title: string;
@@ -45,6 +50,8 @@ export type Episode = {
   // "Prepared before the episode aired").
   note?: string;
   sections: Section[];
+  // Optional further reading, shown below the cards.
+  resources?: ResourceGroup[];
 };
 
 export function totalCardCount(episode: Episode): number {

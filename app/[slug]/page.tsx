@@ -14,11 +14,12 @@ export function generateMetadata({
 }): Metadata {
   const episode = getSiteEpisode(params.slug);
   if (!episode) return { title: "Not found" };
+  const title = `${episode.title}: ${episode.blurb} — Flashcards`;
   return {
-    title: `${episode.title} — Flashcards`,
+    title,
     description: episode.blurb,
     openGraph: {
-      title: `${episode.title} — Flashcards`,
+      title,
       description: episode.blurb,
       type: "website",
     },

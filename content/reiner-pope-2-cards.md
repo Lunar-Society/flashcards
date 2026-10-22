@@ -1,6 +1,6 @@
 ---
 slug: reiner-pope-2
-title: Reiner Pope – Chip design from the bottom up
+title: Reiner Pope
 guest: Reiner Pope
 blurb: Chip design from the bottom up
 date: 2026-05-22
