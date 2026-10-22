@@ -4,8 +4,8 @@ title: Intel
 blurb: How the world's most advanced chips are made
 date: 2026-10
 transcript: transcripts/intel.md
+youtube: https://youtu.be/frYSOKvNiiE
 credit: Many thanks to [Will Michaels](https://willmichaels.com/) for collaborating with me on the research and production of this episode!
-note: Sections follow the episode, chapter by chapter. The last section covers background the episode doesn't get into. Further reading is at the bottom.
 ---
 
 # Editing notes

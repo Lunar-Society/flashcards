@@ -71,8 +71,9 @@ function DeckCard({ ep }: { ep: Episode }) {
       >
         <div className="flex items-start justify-between gap-5">
           <div className="min-w-0 flex-1">
-            <h3 className="font-serif text-[1.65rem] font-medium leading-tight tracking-tight text-ink transition-colors group-hover:text-accent sm:text-[1.85rem]">
-              {heading}
+            <h3 className="font-serif text-[1.3rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.5rem]">
+              <span className="transition-colors group-hover:text-accent">{heading}</span>
+              <span className="text-ink-muted">: {ep.blurb}</span>
             </h3>
             <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.825rem] text-ink-faint">
               {ep.date ? (
@@ -89,9 +90,6 @@ function DeckCard({ ep }: { ep: Episode }) {
                 </>
               ) : null}
             </div>
-            <p className="mt-3 max-w-prose text-[0.975rem] leading-relaxed text-ink-muted">
-              {ep.blurb}
-            </p>
           </div>
           <span
             aria-hidden

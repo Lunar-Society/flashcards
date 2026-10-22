@@ -30,7 +30,6 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
   };
 
   const metaItems: React.ReactNode[] = [];
-  if (episode.guest) metaItems.push(<span key="guest">{episode.guest}</span>);
   if (episode.date)
     metaItems.push(
       <span key="date" className="tabular-nums">
@@ -69,7 +68,7 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
           ))}
         </div>
 
-        <h1 className="mt-2 font-serif text-[2rem] font-medium leading-[1.1] tracking-tight text-ink sm:text-[2.4rem]">
+        <h1 className="mt-2 font-serif text-[1.6rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.9rem]">
           {episode.substackUrl ? (
             <a
               href={episode.substackUrl}
@@ -83,10 +82,8 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
           ) : (
             episode.title
           )}
+          <span className="text-ink-muted">: {episode.blurb}</span>
         </h1>
-        <p className="mt-3 max-w-prose text-[1.0125rem] leading-relaxed text-ink-muted">
-          {episode.blurb}
-        </p>
         {episode.credit ? (
           <Markdown className="mt-2 max-w-prose font-serif text-[0.95rem] italic leading-relaxed text-ink-faint [&_a]:text-ink-muted [&_a]:transition-colors hover:[&_a]:text-accent">
             {episode.credit}

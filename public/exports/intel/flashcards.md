@@ -1,10 +1,9 @@
 # Intel
 
+- YouTube: https://youtu.be/frYSOKvNiiE
 - Total cards: 48
 
 How the world's most advanced chips are made
-
-> Sections follow the episode, chapter by chapter. The last section covers background the episode doesn't get into. Further reading is at the bottom.
 
 ---
 
