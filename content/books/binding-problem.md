@@ -6,7 +6,6 @@ subtitle: Max Hodak’s theory of consciousness
 kind: article
 date: 2026-01-10
 link: https://maxhodak.com/nonfiction/2025/12/05/the-binding-problem
-youtube: https://youtu.be/DI6Hu-DhQwE
 substack: https://www.dwarkesh.com/p/notes-jan-10-2026 | What I've been reading – Jan 10, 2026
 ---
 

@@ -13,7 +13,10 @@
 //   cover: his-excellency.jpg     # file in public/covers/ (optional;
 //                                 # without one the shelf shows a title
 //                                 # card)
-//   youtube: https://youtu.be/... # optional; embedded at the top of the page
+//   youtube: https://youtu.be/... # optional; only for a video of me
+//                                 # narrating this exact piece. Embedded
+//                                 # at the top and marks the shelf tile
+//                                 # with a play badge.
 //   substack: https://...         # optional; marks this as a mirror of a
 //                                 # Substack post (sets the canonical URL).
 //                                 # "url | Post title" for a piece that is
