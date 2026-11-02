@@ -6,12 +6,14 @@
 //   author: Joseph J. Ellis
 //   subtitle: George Washington   # optional
 //   date: 2026-11-02              # when written; sorts the shelf, newest first
-//   cover: his-excellency.jpg     # file in public/covers/
+//   cover: his-excellency.jpg     # file in public/covers/ (not needed
+//                                 # when `books` lists the covers)
 //   youtube: https://youtu.be/... # optional; embedded at the top of the page
 //   substack: https://...         # optional; marks this as a mirror of a
 //                                 # Substack post (sets the canonical URL)
-//   books:                        # optional; for an entry about several
-//     - The Power Broker | power-broker.jpg   # books. "Title | cover"
+//   books:                        # optional; for one piece about several
+//     - The Power Broker | power-broker.jpg   # books. "Title | cover".
+//                                 # Every cover shows on the shelf.
 //   draft: true                   # optional; hides the entry
 //   ---
 //
@@ -65,9 +67,18 @@ function parse(file: string): Book & { draft?: boolean } {
     }
   }
   const str = (k: string) => (typeof fm[k] === "string" ? (fm[k] as string) : undefined);
-  for (const k of ["slug", "title", "author", "date", "cover"]) {
+  for (const k of ["slug", "title", "author", "date"]) {
     if (!str(k)) throw new Error(`${file}: frontmatter needs "${k}"`);
   }
+  const books = Array.isArray(fm.books)
+    ? fm.books.map((s) => {
+        const [title, cover] = s.split("|").map((x) => x.trim());
+        if (!title || !cover) throw new Error(`${file}: books entries look like "Title | cover.jpg"`);
+        return { title, cover };
+      })
+    : undefined;
+  const cover = str("cover") ?? books?.[0]?.cover;
+  if (!cover) throw new Error(`${file}: frontmatter needs "cover" (or a "books" list)`);
   const body = m[2].replace(/<!--[\s\S]*?-->/g, "").trim();
   return {
     slug: str("slug")!,
@@ -75,16 +86,11 @@ function parse(file: string): Book & { draft?: boolean } {
     author: str("author")!,
     subtitle: str("subtitle"),
     date: str("date")!,
-    cover: str("cover")!,
+    cover,
     youtube: str("youtube"),
     substack: str("substack"),
     draft: str("draft") === "true",
-    books: Array.isArray(fm.books)
-      ? fm.books.map((s) => {
-          const [title, cover] = s.split("|").map((x) => x.trim());
-          return { title, cover };
-        })
-      : undefined,
+    books: books && books.length > 1 ? books : undefined,
     body,
     words: body.split(/\s+/).filter(Boolean).length,
   };
@@ -104,6 +110,13 @@ function load(): Book[] {
 }
 
 export const books: Book[] = load();
+
+// The author's name is worth showing unless the title already says it
+// ("The books of Robert Caro").
+export function showAuthor(book: Book): boolean {
+  const surname = book.author.split(" ").pop() ?? "";
+  return !book.title.includes(surname);
+}
 
 export function getBook(slug: string): Book | undefined {
   return books.find((b) => b.slug === slug);

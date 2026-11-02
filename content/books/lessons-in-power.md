@@ -4,7 +4,6 @@ title: The books of Robert Caro
 author: Robert A. Caro
 subtitle: What I learned about power from LBJ and Robert Moses
 date: 2026-10-29
-cover: power-broker.jpg
 youtube: https://youtu.be/kX_WmQK_tt0
 substack: https://www.dwarkesh.com/p/lessons-in-power
 books:

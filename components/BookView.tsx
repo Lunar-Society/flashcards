@@ -1,4 +1,4 @@
-import { Book } from "@/lib/books";
+import { Book, showAuthor } from "@/lib/books";
 import { formatDate } from "@/lib/format";
 import { Prose } from "./Prose";
 import { Shell } from "./Shell";
@@ -21,7 +21,7 @@ export function BookView({ book }: { book: Book }) {
             <h1 className="text-[2.3rem] font-normal italic leading-[1.1] tracking-[-0.01em] sm:text-[2.8rem]">
               {book.title}
             </h1>
-            {book.books ? null : <p className="mt-2 text-[1.3rem] text-ink-muted">{book.author}</p>}
+            {showAuthor(book) ? <p className="mt-2 text-[1.3rem] text-ink-muted">{book.author}</p> : null}
             {book.subtitle ? (
               <p className="mt-4 text-[1.3rem] italic leading-snug text-ink">{book.subtitle}</p>
             ) : null}
@@ -46,7 +46,7 @@ export function BookView({ book }: { book: Book }) {
         </header>
 
         {book.books ? (
-          <ul className="mt-9 grid grid-cols-3 gap-x-3 gap-y-4 sm:grid-cols-6">
+          <ul className={`mt-9 grid gap-x-4 gap-y-4 ${coverGrid(book.books.length)}`}>
             {book.books.map((b) => (
               <li key={b.title}>
                 <img
@@ -55,7 +55,7 @@ export function BookView({ book }: { book: Book }) {
                   className="aspect-[2/3] w-full object-cover shadow-[0_1px_2px_rgba(0,0,0,0.12)]"
                   loading="lazy"
                 />
-                <p className="mt-1.5 text-[0.85rem] italic leading-tight text-ink-muted">{b.title}</p>
+                <p className="mt-1.5 text-[0.95rem] italic leading-tight text-ink-muted">{b.title}</p>
               </li>
             ))}
           </ul>
@@ -73,4 +73,12 @@ export function BookView({ book }: { book: Book }) {
       </article>
     </Shell>
   );
+}
+
+// A few books show large; a long series shrinks to fit one row.
+function coverGrid(n: number): string {
+  if (n === 2) return "max-w-[20rem] grid-cols-2";
+  if (n === 3) return "max-w-[30rem] grid-cols-3";
+  if (n === 4) return "grid-cols-4";
+  return "grid-cols-3 sm:grid-cols-6";
 }

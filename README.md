@@ -30,8 +30,9 @@ substack: https://www.dwarkesh.com/p/...  # optional, for mirrored posts
 Whatever you have to say, any length.
 ```
 
-An entry covering several books can list them under `books:` as
-`- Title | cover.jpg` lines (see `lessons-in-power.md`). Add
+One piece about several books lists them under `books:` as
+`- Title | cover.jpg` lines instead of a single `cover:` (see
+`joseph-ellis.md`). Every cover shows on the shelf with its own title. Add
 `draft: true` to hide an entry. Open Library
 (`https://covers.openlibrary.org/b/id/<id>-L.jpg`) is a good source of
 covers.
