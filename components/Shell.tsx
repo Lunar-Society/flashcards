@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 // Page frame shared by every page: one centered column (wider on the
-// homepage for the shelf of covers), an optional "home" link above,
-// and a quiet footer.
+// homepage for the shelf of covers) and an optional "home" link
+// above.
 export function Shell({
   children,
   home = true,
@@ -24,17 +24,6 @@ export function Shell({
           </nav>
         ) : null}
         {children}
-        <footer className="mt-24 flex flex-wrap gap-x-6 gap-y-1 border-t border-rule pt-5">
-          <Link href="/" className="label transition-colors hover:text-accent">
-            Home
-          </Link>
-          <a href="https://www.dwarkesh.com" className="label transition-colors hover:text-accent">
-            Substack
-          </a>
-          <a href="https://www.youtube.com/@DwarkeshPatel" className="label transition-colors hover:text-accent">
-            YouTube
-          </a>
-        </footer>
       </div>
     </div>
   );

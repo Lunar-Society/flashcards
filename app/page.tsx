@@ -18,11 +18,15 @@ export default function Page() {
         <a href="#flashcards" className="link">
           flashcards
         </a>{" "}
-        for episodes of the{" "}
-        <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
-          Dwarkesh Podcast
+        for episodes of the Dwarkesh Podcast (
+        <a href="https://www.dwarkesh.com" className="link">
+          Substack
         </a>
-        .
+        ,{" "}
+        <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
+          YouTube
+        </a>
+        ).
       </h1>
 
       <section id="reading" className="mt-10 scroll-mt-8 sm:mt-12">
