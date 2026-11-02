@@ -10,7 +10,7 @@ substack: https://www.dwarkesh.com/p/the-prize-1
 
 Some notes I wrote while reading Part 1 of Daniel Yergin’s *[The Prize:](https://www.amazon.com/Prize-Daniel-Yergin/dp/1847376460)* [The Epic Quest for Oil, Money & Power](https://www.amazon.com/Prize-Daniel-Yergin/dp/1847376460).
 
-If you know Mr. Yergin, please tell I’d love to have him on my [podcast](https://www.youtube.com/DwarkeshPatel). You can reach me at dwarkesh@dwarkeshpatel.com.
+If you want to watch my full interview with Mr. Yergin, please check it out here: [YouTube](https://www.youtube.com/watch?v=sveBcfz0fHk) or [Substack](https://www.dwarkesh.com/p/daniel-yergin).
 
 ---
 
