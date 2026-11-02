@@ -5,6 +5,7 @@ author: Daniel Yergin
 subtitle: Notes on Part 1
 date: 2024-03-04
 cover: the-prize.jpg
+link: https://www.amazon.com/Prize-Daniel-Yergin/dp/1847376460
 substack: https://www.dwarkesh.com/p/the-prize-1
 ---
 

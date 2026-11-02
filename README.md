@@ -25,6 +25,7 @@ date: 2026-11-02                     # sorts the shelf, newest first
 cover: his-excellency.jpg
 youtube: https://youtu.be/...        # optional, embedded at the top
 substack: https://www.dwarkesh.com/p/...  # optional, for mirrored posts
+link: https://...                    # optional; defaults to an Amazon search
 ---
 
 Whatever you have to say, any length.
@@ -32,7 +33,12 @@ Whatever you have to say, any length.
 
 One piece about several books lists them under `books:` as
 `- Title | cover.jpg` lines instead of a single `cover:` (see
-`joseph-ellis.md`). Every cover shows on the shelf with its own title. Add
+`joseph-ellis.md`). Every cover shows on the shelf with its own title.
+Add a third `| link` to a line to point that book somewhere specific.
+
+Every book page links to Amazon (a search for the title and author,
+unless `link` says otherwise) from the cover, the header, and a short
+list at the end. Add
 `draft: true` to hide an entry. Open Library
 (`https://covers.openlibrary.org/b/id/<id>-L.jpg`) is a good source of
 covers.

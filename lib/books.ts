@@ -11,9 +11,12 @@
 //   youtube: https://youtu.be/... # optional; embedded at the top of the page
 //   substack: https://...         # optional; marks this as a mirror of a
 //                                 # Substack post (sets the canonical URL)
+//   link: https://...             # optional; where to get the book. Defaults
+//                                 # to an Amazon search for title + author.
 //   books:                        # optional; for one piece about several
-//     - The Power Broker | power-broker.jpg   # books. "Title | cover".
-//                                 # Every cover shows on the shelf.
+//     - The Power Broker | power-broker.jpg   # books: "Title | cover", plus
+//                                 # an optional "| link". Every cover
+//                                 # shows on the shelf.
 //   draft: true                   # optional; hides the entry
 //   ---
 //
@@ -25,7 +28,11 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { episodes } from "./episodes";
 
-export type BookRef = { title: string; cover: string };
+// Where to get a book: an Amazon page or search, or wherever it's
+// published (some books are free online).
+export type BookLink = { url: string; label: string };
+
+export type BookRef = { title: string; cover: string; link: BookLink };
 
 export type Book = {
   slug: string;
@@ -36,6 +43,7 @@ export type Book = {
   cover: string;
   youtube?: string;
   substack?: string;
+  link: BookLink;
   books?: BookRef[];
   body: string;
   words: number;
@@ -72,9 +80,9 @@ function parse(file: string): Book & { draft?: boolean } {
   }
   const books = Array.isArray(fm.books)
     ? fm.books.map((s) => {
-        const [title, cover] = s.split("|").map((x) => x.trim());
+        const [title, cover, url] = s.split("|").map((x) => x.trim());
         if (!title || !cover) throw new Error(`${file}: books entries look like "Title | cover.jpg"`);
-        return { title, cover };
+        return { title, cover, link: bookLink(url, title, str("author")!) };
       })
     : undefined;
   const cover = str("cover") ?? books?.[0]?.cover;
@@ -89,11 +97,21 @@ function parse(file: string): Book & { draft?: boolean } {
     cover,
     youtube: str("youtube"),
     substack: str("substack"),
+    link: bookLink(str("link"), str("title")!, str("author")!),
     draft: str("draft") === "true",
     books: books && books.length > 1 ? books : undefined,
     body,
     words: body.split(/\s+/).filter(Boolean).length,
   };
+}
+
+function bookLink(url: string | undefined, title: string, author: string): BookLink {
+  if (!url) {
+    const q = encodeURIComponent(`${title} ${author}`).replace(/%20/g, "+");
+    return { url: `https://www.amazon.com/s?k=${q}&i=stripbooks`, label: "Find on Amazon" };
+  }
+  const host = new URL(url).hostname;
+  return { url, label: /(^|\.)amazon\./.test(host) ? "Find on Amazon" : "Read it online" };
 }
 
 function load(): Book[] {

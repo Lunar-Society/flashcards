@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { books, Book, showAuthor } from "@/lib/books";
+import { books, Book } from "@/lib/books";
 import { siteLectures, siteSubjects } from "@/lib/episodes";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
@@ -102,6 +102,7 @@ function BookTile({ book }: { book: Book }) {
 function MultiBookTile({ book }: { book: Book }) {
   const books = book.books!;
   const n = books.length;
+  const caption = book.subtitle ?? book.title;
   // Columns to span on the shelf (2 on phones, 3 on small screens, 4 wide).
   const span =
     n === 2 ? "col-span-2" : n === 3 ? "col-span-2 sm:col-span-3" : "col-span-2 sm:col-span-3 md:col-span-4";
@@ -128,9 +129,13 @@ function MultiBookTile({ book }: { book: Book }) {
           ))}
         </ul>
         <div className="mt-4 border-t border-rule pt-2.5">
+          {/* The covers already name the books, so caption with the piece's
+              own subtitle when it has one. */}
           <h3 className="text-[1.12rem] leading-tight transition-colors group-hover:text-accent">
-            {book.title}
-            {showAuthor(book) ? <span className="text-ink-muted"> · {book.author}</span> : null}
+            {caption}
+            {caption.includes(book.author.split(" ").pop() ?? "") ? null : (
+              <span className="text-ink-muted"> · {book.author}</span>
+            )}
           </h3>
         </div>
       </Link>
