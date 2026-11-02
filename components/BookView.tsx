@@ -91,19 +91,6 @@ export function BookView({ book }: { book: Book }) {
           <Prose>{book.body}</Prose>
         </div>
 
-        {/* After reading, a last easy way to go get the book(s). */}
-        <aside className="mt-14 border-t border-rule pt-4">
-          <h2 className="label">{book.books ? "The books" : book.kind === "article" ? "The essay" : "The book"}</h2>
-          <ul className="mt-2 space-y-1">
-            {(book.books ?? [{ title: book.title, cover: book.cover, link: book.link }]).map((b) => (
-              <li key={b.title} className="text-[1.1rem] leading-snug">
-                <span className="italic">{b.title}</span>
-                <span className="text-ink-faint"> · </span>
-                <OutLink link={b.link} />
-              </li>
-            ))}
-          </ul>
-        </aside>
       </article>
     </Shell>
   );
