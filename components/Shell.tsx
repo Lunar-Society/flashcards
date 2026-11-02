@@ -19,7 +19,7 @@ export function Shell({
         {home ? (
           <nav className="mb-10 sm:mb-14">
             <Link href="/" className="label transition-colors hover:text-accent">
-              ← Dwarkesh Patel
+              ← Home
             </Link>
           </nav>
         ) : null}
