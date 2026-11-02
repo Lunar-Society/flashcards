@@ -8,31 +8,26 @@ import { Shell } from "@/components/Shell";
 export default function Page() {
   const decks = [...siteLectures, ...siteSubjects];
   return (
-    <Shell home={false}>
-      <header className="max-w-col">
-        <h1 className="text-[2.6rem] font-normal leading-none tracking-[-0.01em] sm:text-[3.2rem]">
-          Dwarkesh Patel
-        </h1>
-        <p className="mt-5 text-[1.3rem] italic leading-snug text-ink-muted">
-          Notes on books I&rsquo;ve read, and flashcards for episodes of the{" "}
-          <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
-            Dwarkesh Podcast
-          </a>
-          .
-        </p>
-        <nav className="mt-6 flex gap-5">
-          <a href="#books" className="label transition-colors hover:text-accent">
-            Books
-          </a>
-          <a href="#flashcards" className="label transition-colors hover:text-accent">
-            Flashcards
-          </a>
-        </nav>
-      </header>
+    <Shell home={false} wide>
+      <h1 className="max-w-col text-[1.35rem] font-normal italic leading-snug text-ink-muted">
+        Notes on{" "}
+        <a href="#books" className="link">
+          books
+        </a>{" "}
+        I&rsquo;ve read, and{" "}
+        <a href="#flashcards" className="link">
+          flashcards
+        </a>{" "}
+        for episodes of the{" "}
+        <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
+          Dwarkesh Podcast
+        </a>
+        .
+      </h1>
 
-      <section id="books" className="mt-16 scroll-mt-8 sm:mt-20">
+      <section id="books" className="mt-10 scroll-mt-8 sm:mt-12">
         <SectionHeading>Books</SectionHeading>
-        <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5">
+        <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4">
           {books.map((b) => (
             <BookTile key={b.slug} book={b} />
           ))}
@@ -41,10 +36,7 @@ export default function Page() {
 
       <section id="flashcards" className="mt-20 scroll-mt-8 sm:mt-24">
         <SectionHeading>Flashcards</SectionHeading>
-        <p className="mt-3 max-w-col text-[1.1rem] italic leading-snug text-ink-muted">
-          Practice questions for episodes, with Anki decks to download.
-        </p>
-        <ul className="mt-6 max-w-[48rem] border-t border-rule">
+        <ul>
           {decks.map((ep) => (
             <DeckRow key={ep.slug} ep={ep} />
           ))}

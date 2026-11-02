@@ -15,7 +15,7 @@
 //   draft: true                   # optional; hides the entry
 //   ---
 //
-//   Body in Markdown. Footnotes ([^1]) render as sidenotes in the margin.
+//   Body in Markdown. Footnotes ([^1]) collect at the end.
 //
 // Files are read at build time, so a new book is just a new file.
 

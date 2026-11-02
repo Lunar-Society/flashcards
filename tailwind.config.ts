@@ -20,7 +20,6 @@ const config: Config = {
         accent: "var(--accent)",
       },
       maxWidth: {
-        page: "62rem",
         col: "36rem",
       },
     },

@@ -34,7 +34,7 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
 
   return (
     <header>
-      <div className="max-w-col">
+      <div>
         <p className="label lining">{meta.join(" · ")}</p>
         <h1 className="mt-3 text-[2.3rem] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[2.8rem]">
           {episode.title}
@@ -58,12 +58,12 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
       </div>
 
       {episode.youtubeUrl ? (
-        <div className="mt-9 max-w-[48rem]">
+        <div className="mt-9">
           <YouTube url={episode.youtubeUrl} title={`${episode.title} on YouTube`} />
         </div>
       ) : null}
 
-      <div className="mt-7 flex max-w-col flex-wrap items-baseline gap-x-5 gap-y-2 text-[1.05rem]">
+      <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2 text-[1.05rem]">
         <span className="label">Download</span>
         {cards > 0 ? (
           <>
@@ -93,7 +93,7 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
       </div>
 
       {episode.note ? (
-        <p className="mt-6 max-w-col border-l border-accent pl-4 text-[1.05rem] italic leading-relaxed text-ink-muted">
+        <p className="mt-6 border-l border-accent pl-4 text-[1.05rem] italic leading-relaxed text-ink-muted">
           {episode.note}
         </p>
       ) : null}

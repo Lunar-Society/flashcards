@@ -27,10 +27,7 @@ youtube: https://youtu.be/...        # optional, embedded at the top
 substack: https://www.dwarkesh.com/p/...  # optional, for mirrored posts
 ---
 
-Whatever you have to say, any length. Footnotes[^1] become sidenotes
-in the margin on wide screens.
-
-[^1]: Like this.
+Whatever you have to say, any length.
 ```
 
 An entry covering several books can list them under `books:` as

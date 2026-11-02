@@ -42,7 +42,7 @@ export function EpisodeView({ episode }: { episode: Episode }) {
   return (
     <Shell>
       <EpisodeHeader episode={episode} />
-      <div className="mt-14 max-w-[42rem]">
+      <div className="mt-14">
         {episode.sections.length >= 4 && totalCardCount(episode) >= 20 ? <Contents episode={episode} /> : null}
         {episode.sections.map((s) => {
           const count = s.cards.length;

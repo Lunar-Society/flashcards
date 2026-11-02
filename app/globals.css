@@ -114,7 +114,6 @@ body {
   font-size: 1.2rem;
   line-height: 1.6;
   color: var(--ink);
-  counter-reset: sidenote;
 }
 .prose-book > * + * { margin-top: 1.05em; }
 .prose-book p { hyphens: auto; -webkit-hyphens: auto; }
@@ -184,20 +183,7 @@ body {
   border-radius: 2px;
 }
 
-/* Sidenotes: footnotes float into the right margin on wide screens.
-   On narrow screens they're hidden and the footnote list at the end
-   of the piece shows instead. */
-.sidenote-ref {
-  font-family: "ET Book Lining", "ET Book", serif;
-  font-size: 0.7em;
-  line-height: 0;
-  vertical-align: super;
-  padding-left: 0.05em;
-}
-.sidenote-ref a { text-decoration: none; }
-.sidenote {
-  display: none;
-}
+/* Footnotes ([^1]) collect at the end of the piece. */
 .prose-book section.footnotes {
   margin-top: 3em;
   padding-top: 1em;
@@ -206,29 +192,6 @@ body {
   color: var(--ink-muted);
 }
 .prose-book section.footnotes h2 { display: none; }
-@media (min-width: 1100px) {
-  .sidenote {
-    display: block;
-    float: right;
-    clear: right;
-    width: 15rem;
-    margin-right: -18rem;
-    margin-top: 0.3rem;
-    margin-bottom: 0.8rem;
-    font-size: 0.95rem;
-    line-height: 1.35;
-    color: var(--ink-muted);
-    position: relative;
-  }
-  .sidenote-num {
-    font-family: "ET Book Lining", "ET Book", serif;
-    font-size: 0.75em;
-    vertical-align: super;
-    line-height: 0;
-    margin-right: 0.25em;
-  }
-  .prose-book section.footnotes { display: none; }
-}
 
 /* ---------- Flashcard answers ---------- */
 
