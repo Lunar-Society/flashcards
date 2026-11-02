@@ -10,7 +10,7 @@ export function BookView({ book }: { book: Book }) {
     <Shell>
       <article>
         <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
-          {book.books ? null : (
+          {book.books || !book.cover ? null : (
             <a href={book.link.url} target="_blank" rel="noreferrer noopener" className="block w-28 shrink-0 sm:w-36">
               <img
                 src={`/covers/${book.cover}`}
@@ -39,7 +39,13 @@ export function BookView({ book }: { book: Book }) {
                 <>
                   <span className="label" aria-hidden>·</span>
                   <a href={book.substack} className="label transition-colors hover:text-accent">
-                    Also on Substack ↗
+                    {book.from ? (
+                      <>
+                        From <span className="italic">{book.from}</span> on Substack ↗
+                      </>
+                    ) : (
+                      "Also on Substack ↗"
+                    )}
                   </a>
                 </>
               ) : null}
@@ -87,7 +93,7 @@ export function BookView({ book }: { book: Book }) {
 
         {/* After reading, a last easy way to go get the book(s). */}
         <aside className="mt-14 border-t border-rule pt-4">
-          <h2 className="label">{book.books ? "The books" : "The book"}</h2>
+          <h2 className="label">{book.books ? "The books" : book.kind === "article" ? "The essay" : "The book"}</h2>
           <ul className="mt-2 space-y-1">
             {(book.books ?? [{ title: book.title, cover: book.cover, link: book.link }]).map((b) => (
               <li key={b.title} className="text-[1.1rem] leading-snug">

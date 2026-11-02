@@ -1,22 +1,29 @@
-// Book notes. Each book is one Markdown file in `content/books/`:
+// Reading notes. Each book (or article) is one Markdown file in
+// `content/books/`:
 //
 //   ---
 //   slug: his-excellency          # URL: /<slug>/ (must not clash with a deck)
 //   title: His Excellency
 //   author: Joseph J. Ellis
 //   subtitle: George Washington   # optional
+//   kind: article                 # optional; for an essay or blog post
+//                                 # rather than a book. Shelved as a title
+//                                 # card, and needs `link`.
 //   date: 2026-11-02              # when written; sorts the shelf, newest first
-//   cover: his-excellency.jpg     # file in public/covers/ (not needed
-//                                 # when `books` lists the covers)
+//   cover: his-excellency.jpg     # file in public/covers/ (optional;
+//                                 # without one the shelf shows a title
+//                                 # card)
 //   youtube: https://youtu.be/... # optional; embedded at the top of the page
 //   substack: https://...         # optional; marks this as a mirror of a
-//                                 # Substack post (sets the canonical URL)
+//                                 # Substack post (sets the canonical URL).
+//                                 # "url | Post title" for a piece that is
+//                                 # one part of a longer post.
 //   link: https://...             # optional; where to get the book. Defaults
 //                                 # to an Amazon search for title + author.
 //   books:                        # optional; for one piece about several
 //     - The Power Broker | power-broker.jpg   # books: "Title | cover", plus
-//                                 # an optional "| link". Every cover
-//                                 # shows on the shelf.
+//                                 # an optional "| link". The shelf fans
+//                                 # the first few covers into one tile.
 //   draft: true                   # optional; hides the entry
 //   ---
 //
@@ -32,17 +39,20 @@ import { episodes } from "./episodes";
 // published (some books are free online).
 export type BookLink = { url: string; label: string };
 
-export type BookRef = { title: string; cover: string; link: BookLink };
+export type BookRef = { title: string; cover?: string; link: BookLink };
 
 export type Book = {
   slug: string;
   title: string;
   author: string;
   subtitle?: string;
+  kind: "book" | "article";
   date: string;
-  cover: string;
+  cover?: string;
   youtube?: string;
   substack?: string;
+  // Title of the Substack post, when this piece is one part of it.
+  from?: string;
   link: BookLink;
   books?: BookRef[];
   body: string;
@@ -86,17 +96,22 @@ function parse(file: string): Book & { draft?: boolean } {
       })
     : undefined;
   const cover = str("cover") ?? books?.[0]?.cover;
-  if (!cover) throw new Error(`${file}: frontmatter needs "cover" (or a "books" list)`);
+  const kind = str("kind") ?? "book";
+  if (kind !== "book" && kind !== "article") throw new Error(`${file}: kind is "book" or "article"`);
+  if (kind === "article" && !str("link")) throw new Error(`${file}: an article needs a "link"`);
+  const [substack, from] = (str("substack") ?? "").split("|").map((x) => x.trim());
   const body = m[2].replace(/<!--[\s\S]*?-->/g, "").trim();
   return {
     slug: str("slug")!,
     title: str("title")!,
     author: str("author")!,
     subtitle: str("subtitle"),
+    kind,
     date: str("date")!,
     cover,
     youtube: str("youtube"),
-    substack: str("substack"),
+    substack: substack || undefined,
+    from: from || undefined,
     link: bookLink(str("link"), str("title")!, str("author")!),
     draft: str("draft") === "true",
     books: books && books.length > 1 ? books : undefined,
