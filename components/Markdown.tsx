@@ -13,7 +13,7 @@ export function Markdown({ children, className }: { children: string; className?
         rehypePlugins={[[rehypeKatex, { strict: false, trust: true }]]}
         components={{
           a: ({ href, children, ...rest }) => (
-            <a href={href} target="_blank" rel="noreferrer noopener" className="underline decoration-rule hover:decoration-accent" {...rest}>
+            <a href={href} target="_blank" rel="noreferrer noopener" {...rest}>
               {children}
             </a>
           ),

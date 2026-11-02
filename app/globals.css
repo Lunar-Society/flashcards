@@ -4,86 +4,277 @@
 
 @import 'katex/dist/katex.min.css';
 
+/* ET Book, Edward Tufte's typeface (MIT licensed, via tufte-css). */
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/roman.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Lining figures, for counts and dates that sit in columns. */
+@font-face {
+  font-family: "ET Book Lining";
+  src: url("/fonts/et-book/roman-line.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
+  --paper: #fffff8;
+  --ink: #111111;
+  --ink-muted: #4a4a45;
+  --ink-faint: #85826f;
+  --rule: #e3e0cf;
+  --accent: #9e2a1f;
+  --wash: #f6f4e7;
 }
 
-html, body {
-  background: #fafaf7;
-  color: #1a1a1a;
+html {
+  background: var(--paper);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+@media (min-width: 640px) {
+  html { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+body {
+  background: var(--paper);
+  font-family: "ET Book", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
-/* Markdown answer styling */
+::selection { background: #f0e3b4; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Shared pieces ---------- */
+
+/* Small-caps label, Tufte's substitute for bold sans headings. */
+.label {
+  font-variant: all-small-caps;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  color: var(--ink-faint);
+}
+.lining {
+  font-family: "ET Book Lining", "ET Book", Georgia, serif;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Underlined link, the only link style on the site. */
+.link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: color 120ms, text-decoration-color 120ms;
+}
+.link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* ---------- Long-form prose (book notes) ---------- */
+
+.prose-book {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--ink);
+  counter-reset: sidenote;
+}
+.prose-book > * + * { margin-top: 1.05em; }
+.prose-book p { hyphens: auto; -webkit-hyphens: auto; }
+.prose-book h2 {
+  margin-top: 2.2em;
+  font-size: 1.65rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.prose-book h3 {
+  margin-top: 1.9em;
+  font-size: 1.3rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.25;
+}
+.prose-book h2 + *, .prose-book h3 + * { margin-top: 0.6em; }
+.prose-book a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+.prose-book a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.prose-book strong { font-weight: 600; }
+.prose-book blockquote {
+  margin-left: 0;
+  padding-left: 1.25em;
+  border-left: 1px solid var(--rule);
+  color: var(--ink-muted);
+}
+.prose-book blockquote > * + * { margin-top: 0.8em; }
+.prose-book ul, .prose-book ol { padding-left: 1.3em; }
+.prose-book ul { list-style: disc; }
+.prose-book ol { list-style: decimal; }
+.prose-book li { margin-top: 0.4em; padding-left: 0.15em; }
+.prose-book li > p + p { margin-top: 0.5em; }
+.prose-book li > ul, .prose-book li > ol { margin-top: 0.4em; }
+.prose-book hr {
+  border: 0;
+  margin: 2.2em 0;
+  text-align: center;
+  height: 1em;
+}
+.prose-book hr::after {
+  content: "\2042";
+  color: var(--ink-faint);
+  font-size: 1.1rem;
+}
+.prose-book img {
+  max-width: 100%;
+  height: auto;
+}
+.prose-book figure { margin: 1.6em 0; }
+.prose-book figcaption {
+  margin-top: 0.4em;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+.prose-book code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82em;
+  background: var(--wash);
+  padding: 0.08em 0.3em;
+  border-radius: 2px;
+}
+
+/* Sidenotes: footnotes float into the right margin on wide screens.
+   On narrow screens they're hidden and the footnote list at the end
+   of the piece shows instead. */
+.sidenote-ref {
+  font-family: "ET Book Lining", "ET Book", serif;
+  font-size: 0.7em;
+  line-height: 0;
+  vertical-align: super;
+  padding-left: 0.05em;
+}
+.sidenote-ref a { text-decoration: none; }
+.sidenote {
+  display: none;
+}
+.prose-book section.footnotes {
+  margin-top: 3em;
+  padding-top: 1em;
+  border-top: 1px solid var(--rule);
+  font-size: 1rem;
+  color: var(--ink-muted);
+}
+.prose-book section.footnotes h2 { display: none; }
+@media (min-width: 1100px) {
+  .sidenote {
+    display: block;
+    float: right;
+    clear: right;
+    width: 15rem;
+    margin-right: -18rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    color: var(--ink-muted);
+    position: relative;
+  }
+  .sidenote-num {
+    font-family: "ET Book Lining", "ET Book", serif;
+    font-size: 0.75em;
+    vertical-align: super;
+    line-height: 0;
+    margin-right: 0.25em;
+  }
+  .prose-book section.footnotes { display: none; }
+}
+
+/* ---------- Flashcard answers ---------- */
+
 .answer-prose {
-  font-family: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: #2a2a2a;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: #26261f;
 }
-
-.answer-prose p {
-  margin: 0 0 0.85em 0;
-}
+.answer-prose p { margin: 0 0 0.75em 0; }
 .answer-prose p:last-child { margin-bottom: 0; }
-
-.answer-prose ul, .answer-prose ol {
-  margin: 0 0 0.85em 0;
-  padding-left: 1.4em;
-}
+.answer-prose ul, .answer-prose ol { margin: 0 0 0.75em 0; padding-left: 1.3em; }
 .answer-prose ul { list-style: disc; }
 .answer-prose ol { list-style: decimal; }
 .answer-prose li { margin: 0.25em 0; }
 .answer-prose li > p { margin: 0; }
-
-.answer-prose strong { font-weight: 600; color: #1a1a1a; }
+.answer-prose strong { font-weight: 600; color: var(--ink); }
 .answer-prose em { font-style: italic; }
-
-.answer-prose code {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.92em;
-  background: #f0eee5;
-  padding: 0.1em 0.35em;
-  border-radius: 3px;
+.answer-prose a, .question-prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
 }
-
+.answer-prose a:hover, .question-prose a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.answer-prose code, .question-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8em;
+  background: var(--wash);
+  padding: 0.08em 0.3em;
+  border-radius: 2px;
+}
 .answer-prose img {
   max-width: 100%;
   height: auto;
-  margin: 1em 0;
-  border: 1px solid #e5e3dc;
-  border-radius: 6px;
+  margin: 0.9em 0;
+  border: 1px solid var(--rule);
   background: white;
 }
-
+.answer-prose table { border-collapse: collapse; margin: 0.6em 0 0.9em; font-size: 0.95em; }
+.answer-prose th, .answer-prose td { border-bottom: 1px solid var(--rule); padding: 0.25em 0.8em 0.25em 0; text-align: left; }
+.answer-prose th { font-weight: 600; }
 .answer-prose .katex-display {
-  margin: 0.9em 0;
+  margin: 0.8em 0;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 0.25em 0;
 }
-
-.question-prose {
-  font-family: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
-}
-.question-prose .katex { font-size: 1em; }
-
-/* Smooth scroll for anchor jumps */
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-/* Subtle focus ring */
-:focus-visible {
-  outline: 2px solid #b94d2b;
-  outline-offset: 2px;
-  border-radius: 3px;
-}
-
-/* Hide scrollbar in sidebar but keep functionality */
-.sidebar-scroll::-webkit-scrollbar { width: 6px; }
-.sidebar-scroll::-webkit-scrollbar-thumb {
-  background: #d6d3c8;
-  border-radius: 3px;
-}
-.sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+.answer-prose .katex, .question-prose .katex { font-size: 1em; }
+.answer-prose .katex-display > .katex { font-size: 1.05em; }

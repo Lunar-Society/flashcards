@@ -5,6 +5,7 @@ import { Episode, totalCardCount } from "@/lib/types";
 import { EpisodeHeader } from "./EpisodeHeader";
 import { SectionView } from "./SectionView";
 import { ResourcesView, RESOURCES_ID } from "./ResourcesView";
+import { Shell } from "./Shell";
 
 export function EpisodeView({ episode }: { episode: Episode }) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
@@ -39,9 +40,9 @@ export function EpisodeView({ episode }: { episode: Episode }) {
   };
 
   return (
-    <div className="min-h-screen bg-paper">
+    <Shell>
       <EpisodeHeader episode={episode} />
-      <main className="mx-auto max-w-3xl px-5 pt-8 pb-24 sm:px-8 sm:pt-10">
+      <div className="mt-14 max-w-[42rem]">
         {episode.sections.length >= 4 && totalCardCount(episode) >= 20 ? <Contents episode={episode} /> : null}
         {episode.sections.map((s) => {
           const count = s.cards.length;
@@ -56,10 +57,11 @@ export function EpisodeView({ episode }: { episode: Episode }) {
               headerExtra={
                 count > 0 ? (
                   <button
+                    type="button"
                     onClick={() => toggleSection(s.id, count)}
-                    className="shrink-0 whitespace-nowrap text-[0.78rem] text-ink-faint underline decoration-rule decoration-1 underline-offset-[3px] transition-colors hover:text-ink hover:decoration-accent"
+                    className="label shrink-0 whitespace-nowrap transition-colors hover:text-accent"
                   >
-                    {allOpen ? "Collapse all" : "Expand all"}
+                    {allOpen ? "Hide answers" : "Show answers"}
                   </button>
                 ) : null
               }
@@ -67,50 +69,34 @@ export function EpisodeView({ episode }: { episode: Episode }) {
           );
         })}
         {episode.resources ? <ResourcesView groups={episode.resources} /> : null}
-      </main>
-    </div>
+      </div>
+    </Shell>
   );
 }
 
 function Contents({ episode }: { episode: Episode }) {
   return (
-    <nav aria-label="Contents" className="mb-14">
-      <h2 className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-ink-faint">
-        Contents
-      </h2>
-      <ol className="mt-3 border-y border-rule">
+    <nav aria-label="Contents" className="mb-16">
+      <h2 className="label">Contents</h2>
+      <ol className="mt-3 border-t border-rule">
         {episode.sections.map((s) => (
           <ContentsRow key={s.id} href={`#${s.id}`} title={s.title} meta={`${s.cards.length}`} />
         ))}
-        {episode.resources ? (
-          <ContentsRow href={`#${RESOURCES_ID}`} title="Further reading" meta="" bold />
-        ) : null}
+        {episode.resources ? <ContentsRow href={`#${RESOURCES_ID}`} title="Further reading" meta="" italic /> : null}
       </ol>
     </nav>
   );
 }
 
-function ContentsRow({
-  href,
-  title,
-  meta,
-  bold = false,
-}: {
-  href: string;
-  title: string;
-  meta: string;
-  bold?: boolean;
-}) {
+function ContentsRow({ href, title, meta, italic = false }: { href: string; title: string; meta: string; italic?: boolean }) {
   return (
-    <li className="border-b border-rule last:border-b-0">
+    <li className="border-b border-rule">
       <a
         href={href}
-        className={`group flex items-baseline justify-between gap-4 py-1.5 text-[0.95rem] transition-colors hover:text-ink ${bold ? "font-semibold text-ink" : "text-ink-muted"}`}
+        className={`group flex items-baseline justify-between gap-4 py-1.5 text-[1.08rem] leading-snug ${italic ? "italic" : ""}`}
       >
-        <span className="underline decoration-transparent decoration-1 underline-offset-[3px] group-hover:decoration-accent">
-          {title}
-        </span>
-        <span className="shrink-0 text-[0.78rem] tabular-nums text-ink-faint">{meta}</span>
+        <span className="transition-colors group-hover:text-accent">{title}</span>
+        <span className="lining shrink-0 text-[0.9rem] text-ink-faint">{meta}</span>
       </a>
     </li>
   );

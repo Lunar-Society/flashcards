@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronIcon } from "./Icons";
 import { Markdown } from "./Markdown";
 
 export function QuestionRow({
@@ -35,29 +34,30 @@ export function QuestionRow({
   }, [open]);
 
   return (
-    <li className="group border-b border-rule last:border-b-0">
+    <li className="border-b border-rule">
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-start gap-3 py-3.5 text-left"
+        className="group flex w-full items-baseline gap-3.5 py-3.5 text-left"
       >
-        <span className="mt-1.5 text-ink-faint">
-          <ChevronIcon open={open} />
-        </span>
-        <span className="select-none pt-0.5 text-xs font-medium text-ink-faint tabular-nums">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <span className="question-prose flex-1 text-[1.0625rem] leading-snug text-ink">
+        <span className="lining w-6 shrink-0 select-none text-right text-[0.9rem] text-ink-faint">{index + 1}</span>
+        <span className="question-prose flex-1 text-[1.18rem] leading-snug">
           <Markdown>{q}</Markdown>
+        </span>
+        <span
+          aria-hidden
+          className={`shrink-0 text-[1.1rem] leading-none text-ink-faint transition-transform duration-150 group-hover:text-accent ${open ? "rotate-45" : ""}`}
+        >
+          +
         </span>
       </button>
       <div
         style={{ height: typeof height === "number" ? `${height}px` : height }}
         className="overflow-hidden transition-[height] duration-200 ease-out"
       >
-        <div ref={answerRef} className="pb-5 pl-[2.4rem] pr-2">
-          <div className="border-l-2 border-accent/30 pl-4">
+        <div ref={answerRef} className="pb-6 pl-[2.375rem] pr-6">
+          <div className="border-l border-accent pl-4">
             <Markdown className="answer-prose">{a}</Markdown>
           </div>
         </div>
