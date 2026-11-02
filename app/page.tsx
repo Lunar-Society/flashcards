@@ -27,7 +27,7 @@ export default function Page() {
 
       <section id="books" className="mt-10 scroll-mt-8 sm:mt-12">
         <SectionHeading>Books</SectionHeading>
-        <ul className="mt-8 grid grid-flow-row-dense grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4">
+        <ul className="mt-8 grid grid-flow-row-dense grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4 md:gap-x-10">
           {books.map((b) => (
             <BookTile key={b.slug} book={b} />
           ))}
@@ -119,8 +119,8 @@ function MultiBookTile({ book }: { book: Book }) {
             : "grid-cols-3 sm:grid-cols-4 md:grid-cols-6";
   return (
     <li className={span}>
-      <Link href={`/${book.slug}/`} className="group -m-3 block bg-wash p-3 sm:-m-4 sm:p-4">
-        <ul className={`grid gap-x-3 gap-y-5 sm:gap-x-5 ${inner}`}>
+      <Link href={`/${book.slug}/`} className="group -m-3 flex h-[calc(100%+1.5rem)] flex-col bg-wash p-3">
+        <ul className={`mb-4 grid gap-x-3 gap-y-5 sm:gap-x-5 ${inner}`}>
           {books.map((b, i) => (
             <li key={b.title}>
               <Cover src={b.cover} alt={`Cover of ${b.title}`} video={i === 0 && !!book.youtube} />
@@ -128,7 +128,7 @@ function MultiBookTile({ book }: { book: Book }) {
             </li>
           ))}
         </ul>
-        <div className="mt-4 border-t border-rule pt-2.5">
+        <div className="mt-auto border-t border-rule pt-2.5">
           {/* The covers already name the books, so caption with the piece's
               own subtitle when it has one. */}
           <h3 className="text-[1.12rem] leading-tight transition-colors group-hover:text-accent">

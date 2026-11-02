@@ -1,0 +1,206 @@
+---
+slug: the-vital-question
+title: The Vital Question
+author: Nick Lane
+subtitle: Life is continuous with Earth’s geochemistry??
+date: 2025-10-01
+cover: the-vital-question.jpg
+link: https://www.amazon.com/dp/0393088812
+substack: https://www.dwarkesh.com/p/the-vital-question
+---
+
+I just interviewed Nick Lane yesterday. It turned out great. I’m planning on publishing the episode Friday.
+
+In the meantime, I am sharing the notes I was taking as I try to comprehend his book, *[The Vital Question: Energy, Evolution, and the Origins of Complex Life](https://www.amazon.com/Vital-Question-Evolution-Origins-Complex/dp/0393088812)*.
+
+The story the book tells of life’s evolution is both fascinating and super complicated. Hopefully there notes are helpful to others who are interested in this topic.
+
+I wrote up these notes piecemeal, part by part, on Twitter, rather than all at once at the end. This blog compiles all of them in place.
+
+## Part 1 - Why eukaryotes are so special
+
+In the intro he lists out the motivating questions:
+
+Why are bacteria so relatively simple despite being around for 4 billion years? Why is there so much shared structure between all eukaryotic cells despite the enormous morphological variety between animals, plants, fungi, and protists? Why did the endosymbiosis event that led to eukaryotes happen only once, and in the particular way that it did? And why is all life powered by proton gradients?
+
+Nick says all these questions are connected.
+
+Lane says there’s 2 different philosophies on what bottlenecks evolutionary exploration: the niches made available by the environment, OR the internal structure necessary to exploit those niches.
+
+Textbook view is that the environment constrains exploration, whereas structure is flexible and can accommodate once the right environment is in place. Nick Lane thinks it’s the opposite.
+
+There’s been 2 big oxidation events - the first one (2.4 billion years ago) paved the way for eukaryotic cells. The second one (600 million years ago) led to the Cambrian explosion, resulting in all the variety in animals and plants and other complex life we see. So it seems the environment is central. Once you get a bunch of oxygen up in the air and into the oceans, you can start making all kinds of cool shit.
+
+But hold on. Here’s what you’d expect to see if the environment was the key constraint: With this key unlock of aerobic respiration, different brands of bacteria independently evolve towards greater complexity to fill the new niches opened up (one masters osmotrophy and branches off into fungi, another photosynthesis, another phagocytosis, etc). However, you don’t see this.
+
+Instead you see that all complex life emerges from a single common eukaryotic ancestor (2.2 billion years ago). There is no independent convergent evolution towards this kind of complexity (bacteria have had 4 billion years to evolve this kind of complexity, and have stayed remarkably similar through the whole time).
+
+In fact, once you do get this key structural unlock, eukaryotic organisms proliferate widely, filling niches ranging from 100 feet long blue whales to 0.8 meter long picoplankton.
+
+What’s more:
+
+- The amount of shared structure between all eukaryotic cells is remarkable. They have almost all the same organelles and components. Nick writes:
+
+    “Most of us couldn’t distinguish between a plant cell, a kidney cell and a protist from the local pond down the electron microscope.”
+
+- There’s no intermediate proto-eukaryotes, which have some, but not all, of the functionality available to eukaryotic cells. This is wild given how evolution works. We have an extensive record of the incremental upgrades between photoreceptive amoebas and mammalian eyes. Why don’t we have proto-eukaryotic cells which reproduce via meiosis but don’t have compartmentalized nucleuses, or have mitochondria but no cytoskeleton?
+
+Nick argues that the fact that no such subset of eukaryotic traits exists suggests that it is not structurally possible to survive with only some fraction of eukaryotic equipment - you need the whole package all at once.
+
+Obviously this raised the question of how the whole package was evolved at once. Which I think he will address in future chapters.
+
+Some questions for Nick:
+
+- If his view is that structure was the main bottleneck, and we’ve had eukaryotes for 2.2 billion years, then why didn’t we have all these animals and shit for 2 billion years? Why did they only arise 600 million years ago (aka the Cambrian explosion)?
+
+- Nick argues that eukaryotic cells are a much more significant unlock than multi-cellularity. Multi-cellularity evolved independently dozens of times, but we only have evidence of one event like the emergence of the first eukaryotic cell. If multi-cellularity evolved independently so many times (between fungi, slime molds, algae, etc etc), do we see interesting differences based on the situations in which they evolved? Do they regulate the differentiation of cells, the organization of the body differently, and communication between tissues differently? TODO look it up later.
+
+A tangential thought. This whole debate about whether structure or environment matters more seems analogous to the discussion in ML of whether architecture or data matters more. And there it seems like data is quite crucial, but for meta-learning and generality to kick off, the architecture has to make it possible for information to flow in the right way. For example, in context learning is a kind of meta-learning that arises only once the model has the capability to attend to hundreds of previous tokens, which became tractable with transformers.
+
+## Part 2 - How the first cells evolved
+
+His main argument here is that life is continuous with the planet’s geochemistry.
+
+Aka a lot of the main characteristics of cells - membranes, enzymes, energy via proton gradients - descend from spontaneous processes in the Earth.
+
+But you can’t have these characteristics evolve piecemeal in different locations. You need one location that houses all the processes which could then give rise to the first cell.
+
+Important context, by the way, is that all life descends from a single common ancestor - LUCA (last universal common ancestor).
+
+Okay, so what candidate environment could give rise to LUCA? It needs two main characteristics:
+
+1.  There’s a continuous flux of carbon and energy (in some sense, all life is a flux of carbon and energy, but you need some geochemistry to maintain this disequilibrium before the first cells can co-opt it).
+
+2.  Something which concentrates and catalyzes the reactions which lead to organics (aka inorganic equivalents of cells and enzymes).
+
+This rules out a lot of old theories: a warm pond with ammonia and salts and the odd lightning bolt doesn’t drive continuous flux, nor concentrate early organics in a cell-like volume to drive forward reactions.
+
+Nick thinks alkaline sea vents are a unique fit to this challenge, and also help explain a lot of the contingent biochemistry that all life ended up using because of our shared inheritance.
+
+Okay, let’s dig in: and for context, basically Nick here is trying to explain how you end up with an early version of the reverse Krebs cycle spontaneously. Reverse Krebs cycle takes in H2 and CO2 and makes organic molecules that are the precursors of fatty acids, proteins, and sugars.
+
+Another important bit of context: All life runs on proton gradients. Burning food with oxygen (or other oxidants in anaerobic respiration) pumps H+ ions across a membrane, like filling a dam. These ions flow back through ATP synthase—a molecular turbine—which harnesses the flow to attach phosphate to ADP, creating ATP. Your body contains just 60 grams of ATP, but the ATP→ADP→ATP cycle is so rapid you process your body weight in ATP daily.
+
+Sidenote: If a solution is acidic, it means there’s a lot of H+ ions in it. And if it’s basic (aka alkaline), it means there’s a lot of OH- ions in it.
+
+Okay so what was happening in these alkaline hydrothermal vents? There’s 3 sides to this picture: the inside of the vent, the vent wall, and the ocean side of the vent.
+
+![](/books/the-vital-question/1.png)
+
+On the inside of the vent, you’ve got iron rich rock basically rusting, which lets out H2 and OH- into the stream of water piping through (aka making the water basic/alkaline).
+
+The wall is made up of catalytic minerals like FeS, and also has a ton of tiny pores which connect the inside to the outside.
+
+And the ocean side has a bunch of dissolved CO2 - early Earth was basically a giant ocean, but also had a lot of volcanoes that let out lots of CO2. And the oceans are quite acidic too, because CO2 becomes carbonic acid when dissolved in water.
+
+Within the tiny pores inside these vents, you have H2 reacting with CO2 to form simple organics like formaldehyde (CH2O) and methanol (CH3OH), instigated by the FeS in the walls, which acts as a catalyst for this reaction.
+
+Remedial chemistry: feel free to skip this para - I’m just going to include it since it took me some effort to relearn the high school chemistry involved. And it was quite satisfying to understand. Why do you need the H2 side inside to be basic? And why do you need the CO2 side outside to be acidic? My understanding is that in an alkaline solution, H2 -> H+ is favored, since the OH- (which definitionally makes the solution alkaline) really wants to react with H+ to make H2O. But now you’ve got some intermediate H+ lying around to be involved in other reactions. On the ocean side, the more acidic the water, the less likely that the marginal CO2 added will be turned into carbonic acid (since there’s so much of it around already) and will instead be available to react with.
+
+![](/books/the-vital-question/2.jpg)
+
+Now that you’ve got these early organics building up inside these tiny pores, you can kick off this positive feedback loop where these early organics act as precursors or enzymes to make more and more of the molecules life uses. You build amino acids (which become enzymes for other reactions), and fatty acids (which spontaneously form membranes because they have hydrophobic heads and hydrophilic tails), and sugars, and peptides, and eventually DNA and RNA. Claude illustrates:
+
+![](/books/the-vital-question/3.png)
+
+The fact that this early proto cell doesn’t have to generate proton gradients itself, and can just take advantage of the geochemical disequilibrium, is a huge boon: “Methanogens spend practically 98% of their energy budget on generating proton gradients by methanogenesis, and little more than 2% producing new organic matter. With natural proton gradients and leaky membranes, none of that excessive energy spend is needed. The power available is exactly the same but the overheads are cut by at least 40-fold, a very substantial advantage.”
+
+![](/books/the-vital-question/4.png)
+
+In addition to the H+ gradient, which exists spontaneously in these vents, some protocells also started to extrude Na+ ions. And since there’s no natural gradient for these, this creates an incentive for developing non-porous membranes (and for proteins on that membrane to pump protons out). Once you develop such a membrane, you can exit this wall cavity and float around like a real cell.
+
+Is the implication that inheritance only got kicked off at this point? Because beforehand, I guess you have selection amongst the pores, but you have no way to pass down traits. This buildup of organics and metabolism is happening independently across all the pores.
+
+Yet you already had DNA and RNA by this point. So what was this genetic information doing before inheritance? I guess just organizing information to facilitate buildup of more organics?
+
+Does this imply that there were millions of protocells with no shared lineage between them, each developing their own unique versions of all the basic biochemistry of life? LUCA just happened to be one that had DNA, RNA, and ATP synthase, but all 3 of those could have been wildly different based on which proto cells made it out of the nook first?
+
+Yet the fact that these three building blocks are considered across all life suggests that they are uniquely well-engineered? Or maybe it means that evolution can’t effectively improve upon its foundations. The same way that backprop can find the best network to map a function, but can’t rewire the GPU you’re training it on at the same time. Anyways, once you have this proto cell, it can ‘infect’ contiguous vent systems all across the ocean floor.
+
+Contingent biochemistry explained by this theory:
+
+- Why all life is powered by proton gradients
+
+- Why all carbon fixation pathways, whether they’re in bacteria, archaea, or eukaryotes, use acetyl-CoA as the entry point. It forms spontaneously at these vents when catalyzed by the FeS in the walls. And basically all life still uses this molecule to store energy and build other molecules.
+
+- Why a lot of the enzymes involved in energy metabolism (and the Krebs cycle specifically) still use FeS minerals as their backbone
+
+- Why Archaea and Bacteria (the two different kingdoms of eukaryotes) split up - apparently it has something to do with how they create proton gradients, but honestly the relevant biochemistry went over my head. Though this bifurcation is supposed to explain why all life shares DNA, RNA, and ATP synthase, but nothing else: not the cell membrane, nor the DNA replication enzymes, nor the pumps for excretion. Apparently all of these things were implicated in the different choice that archaea and bacteria made during this bifurcating event.
+
+Questions for Nick:
+
+- I guess this theory is incompatible with panspermia, right?
+
+- Does this Alkaline vents theory suggest that life might be very rare or very abundant in the universe? In some sense, it suggests it should be rare. It’s just a very specific type of hydrothermal vent with the right pH gradient and pore size and durability. But in another sense, it’s just a random fucking vent. There could theoretically be thousands of similar geological structures across the universe that could also drive the flux of carbon and energy across tiny membranes.
+
+- Isn’t ATP synthase super complicated? How did the first protocells have ATP synthase but almost nothing else nearly as complex?
+
+- How did all this complexity build up before evolution with heredity? All these pores are just independently building up their own microcosm of unique organics? I guess it’s possible that these early building blocks are floating from hole to hole without a fully formed membrane? DNA plus enzymes float from one pore to another, and kick off more reactions? Does Nick Lane think this is likely? If not, does it suggest that there were many other equally viable alternatives for the building blocks once LUCA was able to break out?
+
+## Part 3 - Why bacteria can’t become complex
+
+Why are bacteria relatively simple, whereas eukaryotes gave rise to all the wonderful complexity we see around us?
+
+Eukaryotes are typically 1000x bigger in volume and genome size. And of course gave rise to internal compartmentalization, multicellularity, sex, and much else
+
+![](/books/the-vital-question/5.png)
+
+Here’s a subtly wrong theory: it’s all about surface area to volume ratios. Eukaryotes generate energy in mitochondria (whose quantity scales with cell volume). Prokaryotes generate energy along the cell membrane surface (since they don’t have an internal organelle like the mitochondria to generate and store the proton gradients which power life). Surface area (aka bacteria’s energy production) scales quadratically with radius, whereas volume (aka energy consumption) scales cubicly. Ergo, bacteria can’t become as big, and therefore, can’t spawn lots of complexity.
+
+But we know it’s totally possible for membranes to be folded up in all sorts of weird ways to increase surface area/volume ratio. And we know that bacteria can create vacuoles inside (where they could presumably store a proton gradient). Why didn’t bacteria make use of these tricks to scale up the ladder of complexity?
+
+Nick Lane explains that the key advantage eukaryotes have is that the mitochondrial genome is distinct from the bacterial genome (due of course to the endosymbiotic event which engulfed the bacterial ancestor of the mitochondria).
+
+For some reason that I don’t fully understand, there needs to be super-local control of the redox reactions in the electron transport chain which drive respiration. You need the relevant genes on site. Mitochondria already have their own internal genomes and ribosomes to regulate their work.
+
+If a bacterial cell were to become much bigger, it would need to store copies of the relevant genes close to the membrane. But bacteria don’t have a way to make specific piece-meal cuts to the genome. So they would need to copy their entire genome across the entire membrane many, many times over. And also store many copies of ribosomes and other infrastructure. This is simply impractical.
+
+Nick also explains that over time, most of the original mitochondrial genes drifted to the nucleus because it’s more efficient to keep a single copy there. And only the ones that were absolutely necessary locally are kept in the mitochondria. The exact mechanism of this drift, and how it led to the evolution of the nuclear membrane and individual linear chromosomes, is best left to the book.
+
+Questions for Nick Lane:
+
+- Why are mitochondria the only organelle that needs to have its own genome right on site? Is it the case that other organelles would also benefit from local control but don’t have this unique endosymbiotic history which would plausibly have led to their own genomes? Or is it just that the Krebs cycle is so complex and fragile that you need to respond to perturbations right on site?
+
+- Why haven’t there been more endosymbiotic events?
+
+## Part 4 - Sex
+
+Why do eukaryotes have sex? And why 2 sexes in particular? Nick Lane thinks this again can be explained by (you guessed it) mitochondria.
+
+First, why sex? Solves two problems:
+
+1.  Muller’s ratchet: since almost any random mutation will be deleterious, variation via mutation produces children with lower expected fitness. Whereas variation with recombination (which doesn’t just do random bit flips - rather it randomly samples alleles which are known to be plausible) produces children with the same expected fitness.
+
+2.  Clonal interference: even if a beneficial mutation is found, without systematic pooling of genes via recombination, the different lineages are just gonna have to battle it out. One lineage has beneficial mutation X, the other lineage is beneficial mutation Y, but there’s no way to fuse those improvements. You’re either going to have to lose one or the other as each lineage tries to win over the other.
+
+Bacteria, of course, do have lateral gene transfer. But this is non-reciprocal and piecemeal. It doesn’t enable the same kind of genome-wide parallel search that recombination does.
+
+Analogize this to a Github repo. Recombination is like a normal pull request - the diff is organized, made at the same site where the previous analogous functionality was, and then merged back into the main branch if maintainer evaluates it to be better (analogy is imperfect, but this is like evolution driving that allele into fixation after the systematic pooling that recombination enables).
+
+Asexual reproduction is if you just forked the repo millions of times, making random char changes. And even if a couple of these forks end up accidentally producing an improvement, there’s no way for them to merge.
+
+Horizontal gene transfer is if you just took a random 500 line snippet and shoved it in some totally different repo in a random place. There’s no organized diff at the site of the relevant functionality.
+
+This kind of systematic parallel search across the genome became necessary once the genome size exploded after the endosymbiosis of the ancestral mitochondria (which kept shoving a bunch of its genes into the host cell’s DNA).
+
+Okay fine. But why 2 sexes? Why not just 1, so that everyone could mate with everyone else? Or failing that, why not more than 2, so that you can mate with every sex but your own? 2 is the worst possible number in terms of the number of potential mates it makes available.
+
+To explain why there can’t be one sex, we need to consider the mitochondrial DNA, which is separate from the nuclear DNA, and also doesn’t recombine. Because it doesn’t recombine, it suffers from Muller’s ratchet.
+
+Because of how important it is that your mitochondria are not fucked up and compatible with each other, you need some pre-conception selection of mitochondria. How do you do that? The best way evolution has found to control mitochondrial quality is to have only one parent pass them down. This one parent should generate millions of oocyte candidates, and then filter them down to a couple hundred eggs based on mitochondrial quality. (How this selection happens is well beyond me).
+
+So we need one sex that specializes in preserving mitochondrial quality, and another which is just there to provide the variance that sexual reproduction depends on.
+
+And there’s no benefit to a third sex. There’s two useful niches: either you transmit mitochondria or you don’t. A third sex would just be redundant with one of the first two.
+
+This then explains a ton of differences in males versus females. For example, human females start with ~6-7 million primordial germ cells during fetal development. But this drops down to a couple 100 viable eggs through their lifetime. I think Nick Lane’s theory is that partially what’s happened is that potential gametes with bad mitochondrial DNA have been purged.
+
+Also, why are women born with all their eggs, whereas men produce sperm at will? Because women are tasked with protecting mitochondrial DNA, they want to minimize mutations. The way to minimize mutations is to keep cell duplications down. There’s only 20 mitotic divisions between a primordial germ cell and an egg. Whereas there would be hundreds of divisions between a spermatogenic stem cell and sperm.
+
+Questions for Nick Lane:
+
+- I feel like my explanation for why lateral gene transfer doesn’t produce the same benefits as sexual reproduction is kind of hand-wavy. I want to get a better understanding of what’s missing. For example, in his textbook on information theory, David McKay has an interesting tangential chapter on sexual vs. asexual reproduction. And there he proves that with recombination, you can acquire information from the environment √genome-size faster, and tolerate a mutation rate √genome-size higher. What would the analogous information-theoretic bound on lateral gene transfer be?
+
+- If prokaryotes had evolved sex, is the implication of this logic that they would only have one sex? - Given the advantages of sexual reproduction (which are smaller, but still present, for the smaller genomes of bacteria) why didn’t bacteria evolve sex? Why do they just stick with horizontal gene transfer? Why did you need this endosymbiotic event to evolve sex?
+
+- Do a lot of male abnormalities and diseases originate in the Y-chromosome? Because it also goes through Muller’s ratchet, right? It would explain why the Y chromosome has been shrinking over time. According to an LLM, it had 1400 genes 300 million years ago, now only 50-70 - presumably the ones that are absolutely essential to sexual bifurcation? Did evolution come up with some clever way to screen for Y chromosome quality the way it did with mitochondrial DNA? Did evolution try to get your important genes out of the Y-chromosome? Does this in any way connect to the greater male variability hypothesis, where supposedly men supply the world with more idiots and more geniuses? To the extent this is true, the cause would have to reside in the Y chromosome, right?
