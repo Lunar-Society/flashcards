@@ -1,6 +1,5 @@
 import { Book, BookLink, showAuthor } from "@/lib/books";
 import { formatDate } from "@/lib/format";
-import { EssayCover } from "./EssayCover";
 import { Prose } from "./Prose";
 import { Shell } from "./Shell";
 import { YouTube } from "./YouTube";
@@ -13,21 +12,11 @@ export function BookView({ book }: { book: Book }) {
         <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-8">
           {book.books ? null : (
             <a href={book.link.url} target="_blank" rel="noreferrer noopener" className="block w-28 shrink-0 sm:w-36">
-              {book.cover ? (
-                <img
-                  src={`/covers/${book.cover}`}
-                  alt={`Cover of ${book.title}`}
-                  className="block w-full shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_18px_-8px_rgba(0,0,0,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
-                />
-              ) : (
-                <EssayCover
-                  title={book.title}
-                  author={book.author}
-                  source={book.source}
-                  label={book.kind === "article" ? "Essay" : "Book"}
-                  className="w-full shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_18px_-8px_rgba(0,0,0,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
-                />
-              )}
+              <img
+                src={`/covers/${book.cover}`}
+                alt={`Cover of ${book.title}`}
+                className="block w-full shadow-[0_1px_2px_rgba(0,0,0,0.12),0_6px_18px_-8px_rgba(0,0,0,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
+              />
             </a>
           )}
           <div>
@@ -50,13 +39,7 @@ export function BookView({ book }: { book: Book }) {
                 <>
                   <span className="label" aria-hidden>·</span>
                   <a href={book.substack} className="label transition-colors hover:text-accent">
-                    {book.from ? (
-                      <>
-                        From <span className="italic">{book.from}</span> on Substack ↗
-                      </>
-                    ) : (
-                      "Also on Substack ↗"
-                    )}
+                    Also on Substack ↗
                   </a>
                 </>
               ) : null}
@@ -74,19 +57,12 @@ export function BookView({ book }: { book: Book }) {
             {book.books.map((b) => (
               <li key={b.title}>
                 <a href={b.link.url} target="_blank" rel="noreferrer noopener" className="group block">
-                  {b.cover ? (
-                    <img
-                      src={`/covers/${b.cover}`}
-                      alt={`Cover of ${b.title}`}
-                      className="aspect-[2/3] w-full object-cover shadow-[0_1px_2px_rgba(0,0,0,0.12)] transition-transform duration-200 group-hover:-translate-y-0.5"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <EssayCover
-                      title={b.title}
-                      className="w-full shadow-[0_1px_2px_rgba(0,0,0,0.12)] transition-transform duration-200 group-hover:-translate-y-0.5"
-                    />
-                  )}
+                  <img
+                    src={`/covers/${b.cover}`}
+                    alt={`Cover of ${b.title}`}
+                    className="aspect-[2/3] w-full object-cover shadow-[0_1px_2px_rgba(0,0,0,0.12)] transition-transform duration-200 group-hover:-translate-y-0.5"
+                    loading="lazy"
+                  />
                   <p className="mt-1.5 text-[0.95rem] italic leading-tight text-ink-muted transition-colors group-hover:text-accent">
                     {b.title}
                   </p>
@@ -109,6 +85,19 @@ export function BookView({ book }: { book: Book }) {
           <Prose>{book.body}</Prose>
         </div>
 
+        {/* After reading, a last easy way to go get the book(s). */}
+        <aside className="mt-14 border-t border-rule pt-4">
+          <h2 className="label">{book.books ? "The books" : "The book"}</h2>
+          <ul className="mt-2 space-y-1">
+            {(book.books ?? [{ title: book.title, cover: book.cover, link: book.link }]).map((b) => (
+              <li key={b.title} className="text-[1.1rem] leading-snug">
+                <span className="italic">{b.title}</span>
+                <span className="text-ink-faint"> · </span>
+                <OutLink link={b.link} />
+              </li>
+            ))}
+          </ul>
+        </aside>
       </article>
     </Shell>
   );

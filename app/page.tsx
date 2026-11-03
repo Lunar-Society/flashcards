@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { books, Book, showAuthor } from "@/lib/books";
+import { books, Book } from "@/lib/books";
 import { siteLectures, siteSubjects } from "@/lib/episodes";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
 import { Shell } from "@/components/Shell";
-import { EssayCover } from "@/components/EssayCover";
 
 export default function Page() {
   const decks = [...siteLectures, ...siteSubjects];
@@ -12,27 +11,23 @@ export default function Page() {
     <Shell home={false} wide>
       <h1 className="max-w-col text-[1.35rem] font-normal italic leading-snug text-ink-muted">
         Notes on{" "}
-        <a href="#reading" className="link">
-          books and essays
+        <a href="#books" className="link">
+          books
         </a>{" "}
         I&rsquo;ve read, and{" "}
         <a href="#flashcards" className="link">
           flashcards
         </a>{" "}
-        for episodes of the Dwarkesh Podcast (
-        <a href="https://www.dwarkesh.com" className="link">
-          Substack
-        </a>
-        ,{" "}
+        for episodes of the{" "}
         <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
-          YouTube
+          Dwarkesh Podcast
         </a>
-        ).
+        .
       </h1>
 
-      <section id="reading" className="mt-10 scroll-mt-8 sm:mt-12">
-        <SectionHeading>Reading</SectionHeading>
-        <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4 md:gap-x-10">
+      <section id="books" className="mt-10 scroll-mt-8 sm:mt-12">
+        <SectionHeading>Books</SectionHeading>
+        <ul className="mt-8 grid grid-flow-row-dense grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4 md:gap-x-10">
           {books.map((b) => (
             <BookTile key={b.slug} book={b} />
           ))}
@@ -87,87 +82,64 @@ function Cover({ src, alt, video = false }: { src: string; alt: string; video?: 
   );
 }
 
-// Stands in for a cover: articles have none, and a book may not have one
-// yet. Same size as a cover so the shelf stays even.
-function TitleCard({ book }: { book: Book }) {
-  return (
-    <div className="relative transition-transform duration-200 group-hover:-translate-y-1">
-      <EssayCover
-        title={book.title}
-        author={book.author}
-        source={book.source}
-        label={book.kind === "article" ? "Essay" : "Book"}
-        className={coverShadow}
-      />
-      {book.youtube ? <VideoBadge /> : null}
-    </div>
-  );
-}
-
 function BookTile({ book }: { book: Book }) {
-  const books = book.books;
-  // The covers already name the books, so a multi-book tile is captioned
-  // with the piece's own subtitle when it has one.
-  const caption = books ? (book.subtitle ?? book.title) : book.title;
+  if (book.books) return <MultiBookTile book={book} />;
   return (
     <li>
       <Link href={`/${book.slug}/`} className="group block">
-        {books ? (
-          <CoverFan book={book} />
-        ) : book.cover ? (
-          <Cover src={book.cover} alt={`Cover of ${book.title}`} video={!!book.youtube} />
-        ) : (
-          <TitleCard book={book} />
-        )}
+        <Cover src={book.cover} alt={`Cover of ${book.title}`} video={!!book.youtube} />
         <h3 className="mt-3.5 text-[1.12rem] italic leading-tight transition-colors group-hover:text-accent">
-          {caption}
+          {book.title}
         </h3>
-        {showAuthor(book) || books ? (
-          <p className="mt-0.5 text-[0.98rem] leading-tight text-ink-muted">{book.author}</p>
-        ) : null}
+        <p className="mt-0.5 text-[0.98rem] leading-tight text-ink-muted">{book.author}</p>
       </Link>
     </li>
   );
 }
 
-// One piece about several books: the first few covers fanned out inside a
-// single cover's footprint, front cover bottom-left.
-const FAN = 3;
-
-function CoverFan({ book }: { book: Book }) {
+// One piece about several books: spans several shelf columns so every
+// cover shows at full size with its own title, grouped on a light panel.
+function MultiBookTile({ book }: { book: Book }) {
   const books = book.books!;
-  const shown = books.slice(0, FAN);
-  const k = shown.length;
-  // Each cover is 80% of the tile's width, stepped up and to the right.
-  const stepX = 20 / (k - 1);
-  const stepY = 20 / (k - 1);
+  const n = books.length;
+  const caption = book.subtitle ?? book.title;
+  // Columns to span on the shelf (2 on phones, 3 on small screens, 4 wide).
+  const span =
+    n === 2 ? "col-span-2" : n === 3 ? "col-span-2 sm:col-span-3" : "col-span-2 sm:col-span-3 md:col-span-4";
+  // Covers per row inside the panel.
+  const inner =
+    n === 2
+      ? "grid-cols-2"
+      : n === 3
+        ? "grid-cols-3"
+        : n === 4
+          ? "grid-cols-2 sm:grid-cols-4"
+          : n <= 6
+            ? "grid-cols-3 md:grid-cols-6"
+            : "grid-cols-3 sm:grid-cols-4 md:grid-cols-6";
   return (
-    <div className="relative aspect-[2/3] transition-transform duration-200 group-hover:-translate-y-1">
-      {shown
-        .map((b, i) => {
-          const style = { left: `${i * stepX}%`, top: `${(k - 1 - i) * stepY}%` };
-          return b.cover ? (
-            <img
-              key={b.title}
-              src={`/covers/${b.cover}`}
-              alt={`Cover of ${b.title}`}
-              loading="lazy"
-              style={style}
-              className={`absolute aspect-[2/3] w-[80%] object-cover ${coverShadow}`}
-            />
-          ) : (
-            // An essay among the books gets a generated cover.
-            <EssayCover key={b.title} title={b.title} style={style} className={`absolute w-[80%] ${coverShadow}`} />
-          );
-        })
-        .reverse()}
-      {books.length > k ? (
-        <span className="lining absolute right-0 top-0 rounded-full bg-[rgba(17,17,17,0.78)] px-2 py-0.5 text-[0.8rem] text-white">
-          +{books.length - k}
-        </span>
-      ) : null}
-      {book.youtube ? <VideoBadge /> : null}
-    </div>
+    <li className={span}>
+      <Link href={`/${book.slug}/`} className="group -m-3 flex h-[calc(100%+1.5rem)] flex-col bg-wash p-3">
+        <ul className={`mb-4 grid gap-x-3 gap-y-5 sm:gap-x-5 ${inner}`}>
+          {books.map((b, i) => (
+            <li key={b.title}>
+              <Cover src={b.cover} alt={`Cover of ${b.title}`} video={i === 0 && !!book.youtube} />
+              <p className="mt-2.5 text-[1rem] italic leading-tight">{b.title}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-auto border-t border-rule pt-2.5">
+          {/* The covers already name the books, so caption with the piece's
+              own subtitle when it has one. */}
+          <h3 className="text-[1.12rem] leading-tight transition-colors group-hover:text-accent">
+            {caption}
+            {caption.includes(book.author.split(" ").pop() ?? "") ? null : (
+              <span className="text-ink-muted"> · {book.author}</span>
+            )}
+          </h3>
+        </div>
+      </Link>
+    </li>
   );
 }
 
