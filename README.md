@@ -11,6 +11,21 @@ Built with Next.js 14 static export, Tailwind, ET Book (Tufte's
 typeface, in `public/fonts/`), and KaTeX for the flashcards. Books and
 decks both live at `/<slug>/`; the build fails if two share a slug.
 
+## Two versions of the site
+
+There are two branches, one per version, while we decide which to ship:
+
+- `claude/site-reading-only`: reading notes and flashcards. Everything
+  the two versions share lives here (books, decks, the shelf, the
+  editor, footnotes in the margin, styles).
+- `claude/dwarkesh-site-consolidation-f49595`: the same plus the podcast,
+  essays mirrored from Substack, and essay series. It's built on top of
+  the reading-only branch.
+
+Make shared changes on `claude/site-reading-only`, then merge that branch
+into the full-site one. Only full-site features go straight onto the
+full-site branch.
+
 ## Adding a book
 
 Create `content/books/<slug>.md` and drop a cover into `public/covers/`:

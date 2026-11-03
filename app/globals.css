@@ -230,7 +230,7 @@ body {
   .sidenote .sn-li { display: list-item; margin-left: 1.1em; list-style: disc; }
   .sidenote img { display: block; max-width: 100%; margin-top: 0.4em; }
   .sidenote a { overflow-wrap: anywhere; }
-  .prose-book section.footnotes { display: none; }
+  .prose-book section.footnotes, .prose-substack .footnote { display: none; }
 }
 /* Reference marks in Markdown pieces. */
 .prose-book sup a[data-footnote-ref] {
