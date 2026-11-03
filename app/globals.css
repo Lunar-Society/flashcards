@@ -193,6 +193,53 @@ body {
 }
 .prose-book section.footnotes h2 { display: none; }
 
+/* ---------- Sidenotes ----------
+   Footnotes sit in the right margin once the window has room for them
+   beside the centered column (lib/sidenotes.ts puts a copy of each note
+   next to its reference). Narrower, they stay as a list at the end. */
+
+.sidenote { display: none; }
+@media (min-width: 1280px) {
+  .sidenote {
+    display: block;
+    float: right;
+    clear: right;
+    position: relative;
+    width: 15rem;
+    margin: 0.3rem -17.5rem 0.9rem 0;
+    font-size: 0.92rem;
+    line-height: 1.42;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink-muted);
+    text-align: left;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
+  .sidenote-number {
+    font-family: "ET Book Lining", "ET Book", Georgia, serif;
+    color: var(--accent);
+    margin-right: 0.4em;
+  }
+  .sidenote .sn-p { display: block; }
+  /* The number runs into the note's first paragraph. */
+  .sidenote .sidenote-number + .sn-p { display: inline; }
+  .sidenote .sn-p + .sn-p, .sidenote .sn-quote, .sidenote .sn-list { margin-top: 0.45em; }
+  .sidenote .sn-quote { display: block; padding-left: 0.8em; border-left: 1px solid var(--rule); }
+  .sidenote .sn-list { display: block; }
+  .sidenote .sn-li { display: list-item; margin-left: 1.1em; list-style: disc; }
+  .sidenote img { display: block; max-width: 100%; margin-top: 0.4em; }
+  .sidenote a { overflow-wrap: anywhere; }
+  .prose-book section.footnotes { display: none; }
+}
+/* Reference marks in Markdown pieces. */
+.prose-book sup a[data-footnote-ref] {
+  text-decoration: none;
+  color: var(--accent);
+  font-family: "ET Book Lining", "ET Book", Georgia, serif;
+  padding: 0 0.1em;
+}
+
 /* ---------- Flashcard answers ---------- */
 
 .answer-prose {
