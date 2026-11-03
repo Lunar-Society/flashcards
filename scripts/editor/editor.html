@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reading notes editor</title>
+<style>
+  @font-face { font-family: "ET Book"; src: url("/fonts/et-book/roman.woff") format("woff"); font-style: normal; }
+  @font-face { font-family: "ET Book"; src: url("/fonts/et-book/italic.woff") format("woff"); font-style: italic; }
+  :root {
+    --paper: #fffff8; --ink: #111; --muted: #4a4a45; --faint: #85826f;
+    --rule: #e3e0cf; --wash: #f6f4e7; --accent: #9e2a1f; --side: #faf8ee;
+    --ui: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    --serif: "ET Book", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--paper); color: var(--ink); font: 14px/1.4 var(--ui); display: grid; grid-template-rows: 48px 1fr; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+
+  /* Top bar */
+  header { display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--rule); background: var(--paper); }
+  header h1 { font: italic 20px/1 var(--serif); margin: 0 12px 0 0; }
+  .status { color: var(--faint); font-size: 13px; min-width: 70px; }
+  .status.error { color: var(--accent); }
+  .spacer { flex: 1; }
+  .btn { border: 1px solid var(--rule); background: #fff; border-radius: 6px; padding: 5px 11px; }
+  .btn:hover { border-color: var(--faint); }
+  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn.on { background: var(--wash); }
+  a.btn { text-decoration: none; }
+
+  main { display: grid; grid-template-columns: 260px minmax(0, 1fr) minmax(0, 1fr); min-height: 0; }
+  main.no-preview { grid-template-columns: 260px minmax(0, 1fr); }
+  main.no-preview #preview { display: none; }
+  /* Narrow windows show the editor or the preview, not both. */
+  @media (max-width: 1100px) {
+    main, main.no-preview { grid-template-columns: 220px minmax(0, 1fr); }
+    main:not(.no-preview) #editor { display: none; }
+  }
+
+  /* Sidebar */
+  aside { border-right: 1px solid var(--rule); background: var(--side); display: flex; flex-direction: column; min-height: 0; }
+  aside input { margin: 12px; padding: 7px 10px; border: 1px solid var(--rule); border-radius: 6px; background: #fff; }
+  #list { list-style: none; margin: 0; padding: 0 6px 16px; overflow-y: auto; }
+  #list li { padding: 8px 10px; border-radius: 6px; cursor: pointer; }
+  #list li:hover { background: var(--wash); }
+  #list li.active { background: #fff; box-shadow: 0 0 0 1px var(--rule); }
+  #list .t { font: italic 16px/1.2 var(--serif); }
+  #list .m { color: var(--faint); font-size: 12px; margin-top: 3px; display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: center; }
+  .pill { white-space: nowrap; }
+  .pill { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 1px 6px; border-radius: 99px; background: #f1e3c4; color: #7a5a14; }
+  .pill.todo { background: #f6dcd6; color: var(--accent); }
+  #list li.todo .t::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin: 0 7px 2px 0; vertical-align: middle; }
+  .todo-count { color: var(--accent); font-size: 13px; }
+
+  /* Editor column */
+  #editor { overflow-y: auto; min-height: 0; }
+  .inner { max-width: 720px; margin: 0 auto; padding: 28px 32px 80px; }
+  .empty { color: var(--faint); padding: 60px 32px; text-align: center; font: italic 18px var(--serif); }
+  #f-title { width: 100%; border: 0; background: transparent; font: italic 34px/1.15 var(--serif); padding: 0; outline: none; }
+  #f-subtitle { width: 100%; border: 0; background: transparent; font: italic 20px/1.3 var(--serif); color: var(--muted); padding: 0; margin-top: 8px; outline: none; }
+  .fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 16px; margin-top: 20px; padding: 16px; background: var(--side); border: 1px solid var(--rule); border-radius: 8px; }
+  .fields label { min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--faint); }
+  .fields label.wide { grid-column: 1 / -1; }
+  .fields input, .fields select { min-width: 0; border: 1px solid var(--rule); border-radius: 5px; padding: 6px 8px; background: #fff; color: var(--ink); font-size: 14px; }
+  .fields input:focus, .fields select:focus, #body:focus, #raw:focus { outline: 2px solid color-mix(in srgb, var(--accent) 35%, transparent); outline-offset: 0; }
+  .cover-row { display: flex; gap: 10px; align-items: flex-end; }
+  .cover-row select { flex: 1; }
+  #cover-thumb { width: 44px; aspect-ratio: 2/3; object-fit: cover; border: 1px solid var(--rule); background: var(--wash); }
+  .toggle { flex-direction: row !important; align-items: center; gap: 8px !important; color: var(--ink) !important; font-size: 14px !important; }
+  .note { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--faint); font-size: 12px; }
+  #raw { width: 100%; min-height: 160px; margin-top: 8px; border: 1px solid var(--rule); border-radius: 6px; padding: 10px; font: 12.5px/1.5 ui-monospace, Menlo, monospace; background: #fff; resize: vertical; }
+  .bodybar { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; align-items: baseline; margin: 28px 0 8px; color: var(--faint); font-size: 12px; }
+  .bodybar kbd { font: 11px ui-monospace, Menlo, monospace; background: var(--wash); border: 1px solid var(--rule); border-radius: 3px; padding: 0 4px; }
+  #body { width: 100%; min-height: 60vh; border: 0; background: transparent; resize: none; overflow: hidden; font: 19px/1.6 var(--serif); padding: 0; outline: none; }
+
+  /* Preview */
+  #preview { border-left: 1px solid var(--rule); display: flex; flex-direction: column; min-height: 0; background: #fff; }
+  #preview .bar { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--rule); color: var(--faint); font-size: 12px; }
+  #preview .bar span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #frame { flex: 1; border: 0; width: 100%; }
+  #waiting { flex: 1; display: grid; place-items: center; color: var(--faint); font: italic 16px var(--serif); }
+
+  dialog { border: 1px solid var(--rule); border-radius: 10px; padding: 20px; width: 380px; background: var(--paper); }
+  dialog::backdrop { background: rgba(17, 17, 17, .25); }
+  dialog h2 { font: italic 22px var(--serif); margin: 0 0 14px; }
+  dialog label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--faint); margin-bottom: 10px; }
+  dialog input { border: 1px solid var(--rule); border-radius: 5px; padding: 7px 9px; font-size: 14px; color: var(--ink); background: #fff; }
+  dialog .row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+  dialog .err { color: var(--accent); font-size: 12px; min-height: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reading notes</h1>
+  <span id="todo-count" class="todo-count"></span>
+  <span id="status" class="status"></span>
+  <span class="spacer"></span>
+  <button id="new" class="btn">New review</button>
+  <button id="toggle-preview" class="btn on">Preview</button>
+</header>
+<main id="main">
+  <aside>
+    <input id="search" type="search" placeholder="Search" />
+    <ul id="list"></ul>
+  </aside>
+
+  <section id="editor"><div class="empty">Pick a review on the left.</div></section>
+
+  <section id="preview">
+    <div class="bar"><span id="preview-url"></span><a id="open" class="btn" target="_blank">Open ↗</a></div>
+    <div id="waiting">Starting the preview…</div>
+    <iframe id="frame" title="Preview" hidden></iframe>
+  </section>
+</main>
+
+<template id="form">
+  <div class="inner">
+    <input id="f-title" placeholder="Title" />
+    <input id="f-subtitle" placeholder="Subtitle (optional)" />
+    <div class="fields">
+      <label>Author<input id="f-author" /></label>
+      <label>Date<input id="f-date" type="date" /></label>
+      <label class="wide" id="cover-field">Cover
+        <div class="cover-row">
+          <img id="cover-thumb" alt="" />
+          <select id="f-cover"></select>
+          <button type="button" class="btn" id="upload">Upload…</button>
+          <input type="file" id="upload-file" accept="image/jpeg,image/png,image/webp" hidden />
+        </div>
+      </label>
+      <p class="note" id="multi-note" hidden>This review shows several books. Edit their titles and covers under “Everything in the header” below.</p>
+      <label class="wide">Where to get it (blank for an Amazon search)<input id="f-link" placeholder="https://" /></label>
+      <label>YouTube (a video of you reading it)<input id="f-youtube" placeholder="https://youtu.be/…" /></label>
+      <label>Substack (if it's also a post)<input id="f-substack" placeholder="https://www.dwarkesh.com/p/…" /></label>
+      <label class="toggle"><input id="f-draft" type="checkbox" /> Draft (hidden from the site)</label>
+      <label class="toggle"><input id="f-todo" type="checkbox" /> Still to write or clean up (only shown here)</label>
+    </div>
+    <details>
+      <summary>Everything in the header</summary>
+      <textarea id="raw" spellcheck="false"></textarea>
+    </details>
+    <div class="bodybar">
+      <span id="words"></span>
+      <span><kbd>⌘B</kbd> bold · <kbd>⌘I</kbd> italic · <kbd>⌘K</kbd> link · <kbd>⌘S</kbd> save · <code>&lt;!-- --&gt;</code> hidden notes · <code>[^1]</code> footnote</span>
+    </div>
+    <textarea id="body" placeholder="Write…"></textarea>
+  </div>
+</template>
+
+<dialog id="new-dialog">
+  <form method="dialog" id="new-form">
+    <h2>New review</h2>
+    <label>Title<input name="title" required /></label>
+    <label>Author<input name="author" required /></label>
+    <label>Address<input name="slug" pattern="[a-z0-9][a-z0-9\-]*" required /></label>
+    <div class="err" id="new-err"></div>
+    <div class="row">
+      <button type="button" class="btn" id="new-cancel">Cancel</button>
+      <button class="btn primary">Create draft</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+// The preview is served from this same address (see server.ts).
+const PREVIEW = "";
+const $ = (id) => document.getElementById(id);
+
+// Fields in the order they usually appear in the header, for inserting
+// one that isn't there yet.
+const ORDER = ["slug", "title", "author", "subtitle", "kind", "source", "date", "cover", "youtube", "substack", "link", "draft", "todo"];
+
+let reviews = [];
+let current = null; // { file, head: string[], body: string }
+let saveTimer = null;
+let saving = Promise.resolve();
+let covers = [];
+
+// ---------- The file: header lines plus body ----------
+
+function split(text) {
+  const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!m) return { head: [], body: text };
+  return { head: m[1].split("\n"), body: m[2].replace(/^\n/, "") };
+}
+function join() {
+  return `---\n${current.head.join("\n")}\n---\n\n${current.body.replace(/\s+$/, "")}\n`;
+}
+function lineOf(key) {
+  return current.head.findIndex((l) => l.startsWith(`${key}:`));
+}
+function get(key) {
+  const i = lineOf(key);
+  if (i < 0) return "";
+  return current.head[i].slice(key.length + 1).trim().replace(/^(["'])(.*)\1$/, "$2");
+}
+function set(key, value) {
+  const i = lineOf(key);
+  if (!value) {
+    if (i >= 0) current.head.splice(i, 1);
+    return;
+  }
+  if (i >= 0) {
+    const quote = current.head[i].slice(key.length + 1).trim().match(/^["']/)?.[0] ?? "";
+    current.head[i] = `${key}: ${quote}${value}${quote}`;
+    return;
+  }
+  // Insert after the nearest field that comes before it.
+  let at = -1;
+  for (const k of ORDER.slice(0, ORDER.indexOf(key)).reverse()) {
+    at = lineOf(k);
+    if (at >= 0) break;
+  }
+  const books = lineOf("books");
+  if (at < 0) at = books >= 0 ? books - 1 : current.head.length - 1;
+  current.head.splice(at + 1, 0, `${key}: ${value}`);
+}
+
+// ---------- Saving ----------
+
+function status(text, error = false) {
+  $("status").textContent = text;
+  $("status").className = error ? "status error" : "status";
+}
+function changed() {
+  status("Editing…");
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 700);
+}
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = null;
+  if (!current) return saving;
+  const { file } = current;
+  const text = join();
+  status("Saving…");
+  saving = saving.then(async () => {
+    const res = await fetch(`/api/books/${file}`, { method: "PUT", body: JSON.stringify({ text }) });
+    if (!res.ok) return status((await res.json()).error ?? "Couldn't save", true);
+    const s = await res.json();
+    reviews = reviews.map((r) => (r.file === file ? s : r));
+    renderList();
+    status("Saved");
+    if (current?.file === file) showPreview(s.slug, true);
+  }).catch(() => status("Couldn't save — is the editor still running?", true));
+  return saving;
+}
+
+// ---------- List ----------
+
+function renderList() {
+  const todo = reviews.filter((r) => r.todo).length;
+  $("todo-count").textContent = todo ? `${todo} to do` : "";
+  const q = $("search").value.toLowerCase();
+  $("list").innerHTML = "";
+  for (const r of reviews) {
+    if (q && !`${r.title} ${r.author}`.toLowerCase().includes(q)) continue;
+    const li = document.createElement("li");
+    li.className = [current?.file === r.file ? "active" : "", r.todo ? "todo" : ""].join(" ");
+    li.innerHTML = `<div class="t"></div><div class="m"><span class="a"></span>${r.todo ? '<span class="pill todo">To do</span>' : ""}${r.draft ? '<span class="pill">Draft</span>' : ""}</div>`;
+    li.querySelector(".t").textContent = r.title || r.file;
+    li.querySelector(".a").textContent = r.author;
+    li.onclick = () => open(r.file);
+    $("list").append(li);
+  }
+}
+
+async function loadList() {
+  reviews = await (await fetch("/api/books")).json();
+  renderList();
+}
+
+// ---------- Editing one review ----------
+
+async function open(file) {
+  if (saveTimer) await save();
+  const res = await fetch(`/api/books/${file}`);
+  if (!res.ok) return status("Couldn't open that review", true);
+  current = { file, ...split((await res.json()).text) };
+  history.replaceState(null, "", `#${file}`);
+  renderForm();
+  renderList();
+  showPreview(get("slug"));
+  status("");
+}
+
+function renderForm() {
+  const ed = $("editor");
+  ed.innerHTML = "";
+  ed.append($("form").content.cloneNode(true));
+  ed.scrollTop = 0;
+
+  const bind = (id, key) => {
+    const el = $(id);
+    el.value = get(key);
+    el.addEventListener("input", () => {
+      set(key, el.value.trim());
+      $("raw").value = current.head.join("\n");
+      changed();
+    });
+  };
+  bind("f-title", "title");
+  bind("f-subtitle", "subtitle");
+  bind("f-author", "author");
+  bind("f-date", "date");
+  bind("f-link", "link");
+  bind("f-youtube", "youtube");
+  bind("f-substack", "substack");
+
+  for (const key of ["draft", "todo"]) {
+    const box = $(`f-${key}`);
+    box.checked = get(key) === "true";
+    box.onchange = () => {
+      set(key, box.checked ? "true" : "");
+      $("raw").value = current.head.join("\n");
+      changed();
+    };
+  }
+
+  const multi = lineOf("books") >= 0;
+  $("cover-field").hidden = multi;
+  $("multi-note").hidden = !multi;
+  renderCovers();
+  $("f-cover").onchange = () => {
+    set("cover", $("f-cover").value);
+    $("raw").value = current.head.join("\n");
+    coverThumb();
+    changed();
+  };
+  $("upload").onclick = () => $("upload-file").click();
+  $("upload-file").onchange = uploadCover;
+
+  $("raw").value = current.head.join("\n");
+  $("raw").addEventListener("input", () => {
+    current.head = $("raw").value.split("\n");
+    for (const [id, key] of [["f-title", "title"], ["f-subtitle", "subtitle"], ["f-author", "author"], ["f-date", "date"], ["f-link", "link"], ["f-youtube", "youtube"], ["f-substack", "substack"]]) {
+      $(id).value = get(key);
+    }
+    $("f-draft").checked = get("draft") === "true";
+    $("f-todo").checked = get("todo") === "true";
+    $("f-cover").value = get("cover");
+    coverThumb();
+    changed();
+  });
+
+  const body = $("body");
+  body.value = current.body;
+  body.addEventListener("input", () => {
+    current.body = body.value;
+    grow();
+    words();
+    changed();
+  });
+  body.addEventListener("keydown", shortcuts);
+  grow();
+  words();
+}
+
+function grow() {
+  const b = $("body");
+  b.style.height = "auto";
+  b.style.height = `${Math.max(b.scrollHeight, window.innerHeight * 0.6)}px`;
+}
+function words() {
+  const text = current.body.replace(/<!--[\s\S]*?-->/g, "");
+  const n = text.split(/\s+/).filter(Boolean).length;
+  $("words").textContent = `${n.toLocaleString()} words · ${Math.max(1, Math.round(n / 230))} min read`;
+}
+
+function shortcuts(e) {
+  if (!(e.metaKey || e.ctrlKey)) return;
+  const k = e.key.toLowerCase();
+  if (k === "s") { e.preventDefault(); save(); return; }
+  const wrap = { b: ["**", "**"], i: ["*", "*"], k: ["[", "](https://)"] }[k];
+  if (!wrap) return;
+  e.preventDefault();
+  const b = $("body");
+  const { selectionStart: s, selectionEnd: t } = b;
+  const sel = b.value.slice(s, t);
+  b.setRangeText(wrap[0] + sel + wrap[1], s, t, "end");
+  if (k === "k") b.setSelectionRange(s + sel.length + 3, s + sel.length + 3 + 8);
+  else if (!sel) b.setSelectionRange(s + wrap[0].length, s + wrap[0].length);
+  b.dispatchEvent(new Event("input"));
+}
+
+// ---------- Covers ----------
+
+function renderCovers() {
+  const sel = $("f-cover");
+  const now = get("cover");
+  sel.innerHTML = `<option value="">No cover (a generated one)</option>` +
+    [...new Set([...covers, now].filter(Boolean))].map((c) => `<option>${c}</option>`).join("");
+  sel.value = now;
+  coverThumb();
+}
+function coverThumb() {
+  const c = $("f-cover").value;
+  $("cover-thumb").src = c ? `/covers/${encodeURIComponent(c)}` : "";
+  $("cover-thumb").style.visibility = c ? "visible" : "hidden";
+}
+async function uploadCover() {
+  const f = $("upload-file").files[0];
+  if (!f) return;
+  const ext = f.name.split(".").pop().toLowerCase().replace("jpeg", "jpg");
+  const name = `${get("slug") || current.file.replace(/\.md$/, "")}.${ext}`;
+  status("Uploading…");
+  const res = await fetch(`/api/covers/${name}`, { method: "PUT", body: f });
+  if (!res.ok) return status((await res.json()).error, true);
+  covers = await (await fetch("/api/covers")).json();
+  set("cover", name);
+  $("raw").value = current.head.join("\n");
+  renderCovers();
+  changed();
+}
+
+// ---------- Preview ----------
+
+let previewReady = false;
+let previewSlug = null;
+
+async function waitForPreview() {
+  for (;;) {
+    try {
+      const res = await fetch(`${PREVIEW}/_next/static/`, { method: "HEAD" });
+      if (res.status === 503) throw new Error("starting");
+      previewReady = true;
+      $("waiting").hidden = true;
+      $("frame").hidden = false;
+      if (previewSlug) load(previewSlug);
+      return;
+    } catch {
+      await new Promise((r) => setTimeout(r, 1500));
+    }
+  }
+}
+function load(slug, refresh = false) {
+  const url = `${PREVIEW}/${slug}/`;
+  $("preview-url").textContent = `/${slug}/`;
+  $("open").href = url;
+  if (!previewReady) return;
+  const frame = $("frame");
+  if (frame.dataset.slug !== slug) {
+    frame.dataset.slug = slug;
+    frame.dataset.y = "0";
+    frame.src = url;
+  } else if (refresh) {
+    // Same page after a save: reload it where you were reading.
+    frame.dataset.y = String(frame.contentWindow?.scrollY ?? 0);
+    frame.contentWindow?.location.reload();
+  }
+}
+$("frame").addEventListener("load", () => {
+  const y = Number($("frame").dataset.y ?? 0);
+  if (y) $("frame").contentWindow.scrollTo({ top: y, behavior: "instant" });
+});
+function showPreview(slug, refresh = false) {
+  if (!slug) return;
+  previewSlug = slug;
+  load(slug, refresh);
+}
+
+function setPreview(on) {
+  $("main").classList.toggle("no-preview", !on);
+  $("toggle-preview").classList.toggle("on", on);
+}
+$("toggle-preview").onclick = () => setPreview($("main").classList.contains("no-preview"));
+// Start with the editor alone where there's no room for both.
+setPreview(window.innerWidth > 1100);
+
+// ---------- New review ----------
+
+const slugify = (s) => s.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+$("new").onclick = () => {
+  $("new-form").reset();
+  $("new-err").textContent = "";
+  $("new-dialog").showModal();
+};
+$("new-cancel").onclick = () => $("new-dialog").close();
+$("new-form").title.addEventListener("input", (e) => ($("new-form").slug.value = slugify(e.target.value)));
+$("new-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const f = $("new-form");
+  const slug = f.slug.value;
+  const d = new Date();
+  const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const text = `---\nslug: ${slug}\ntitle: ${f.title.value.trim()}\nauthor: ${f.author.value.trim()}\ndate: ${today}\ndraft: true\n---\n\n`;
+  const res = await fetch(`/api/books/${slug}.md`, { method: "PUT", body: JSON.stringify({ text, create: true }) });
+  if (!res.ok) return ($("new-err").textContent = (await res.json()).error);
+  $("new-dialog").close();
+  await loadList();
+  open(`${slug}.md`);
+};
+
+// ---------- Start ----------
+
+$("search").addEventListener("input", renderList);
+window.addEventListener("hashchange", async () => {
+  const file = decodeURIComponent(location.hash.slice(1));
+  if (!file || file === current?.file) return;
+  if (!reviews.some((r) => r.file === file)) await loadList();
+  if (reviews.some((r) => r.file === file)) open(file);
+});
+// Pick up reviews added or renamed elsewhere when you come back.
+window.addEventListener("focus", loadList);
+window.addEventListener("resize", () => current && grow());
+window.addEventListener("beforeunload", (e) => { if (saveTimer) { save(); e.preventDefault(); } });
+
+(async () => {
+  [covers] = await Promise.all([fetch("/api/covers").then((r) => r.json()), loadList()]);
+  const start = decodeURIComponent(location.hash.slice(1));
+  if (start && reviews.some((r) => r.file === start)) open(start);
+  waitForPreview();
+})();
+</script>
+</body>
+</html>

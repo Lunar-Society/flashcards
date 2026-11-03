@@ -5,6 +5,7 @@ author: Niccolò Machiavelli
 subtitle: Notes from prepping for Ada Palmer
 date: 2026-11-02
 draft: true
+todo: true
 books:
   - The Prince | the-prince.jpg
   - Discourses on Livy | discourses-on-livy.jpg

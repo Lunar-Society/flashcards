@@ -33,6 +33,9 @@
 //                                 # ("Title | | link"): it gets a
 //                                 # generated essay cover.
 //   draft: true                   # optional; hides the entry
+//   todo: true                    # optional; flags it in the review
+//                                 # editor as still to write or clean
+//                                 # up. The site ignores it.
 //   ---
 //
 //   Body in Markdown. Footnotes ([^1]) collect at the end.
@@ -149,7 +152,8 @@ function load(): Book[] {
   const all = readdirSync(DIR)
     .filter((f) => f.endsWith(".md"))
     .map(parse)
-    .filter((b) => !b.draft);
+    // The review editor (`npm run edit`) previews drafts too.
+    .filter((b) => !b.draft || process.env.SHOW_DRAFTS === "1");
   const seen = new Set(episodes.map((e) => e.slug));
   for (const b of all) {
     if (seen.has(b.slug)) throw new Error(`Book slug "${b.slug}" clashes with another page`);

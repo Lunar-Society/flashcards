@@ -5,6 +5,7 @@ author: Stephen Kotkin
 subtitle: 1989 and the Implosion of the Communist Establishment
 date: 2025-06-27
 cover: uncivil-society.jpg
+todo: true
 ---
 
 <!-- Imported from the Google Doc "review of Uncivil Society by Steven Kotkin". -->

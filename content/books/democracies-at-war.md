@@ -4,6 +4,7 @@ title: Keynes on Churchill & Logevall on Johnson
 author: John Maynard Keynes & Fredrik Logevall
 subtitle: Why democracies have to explain their wars
 date: 2026-11-02
+todo: true
 books:
   - Essays in Biography | essays-in-biography.jpg | https://www.amazon.com/s?k=Essays+in+Biography+Keynes&i=stripbooks
   - Lyndon Johnson and Vietnam | | https://psi329.cankaya.edu.tr/uploads/files/Logevall,%20Lyndon%20Johnson%20and%20Vietnam%20(2004).pdf
