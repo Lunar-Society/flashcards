@@ -4,32 +4,55 @@ import { siteLectures, siteSubjects } from "@/lib/episodes";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
 import { Shell } from "@/components/Shell";
+import { EssayCover } from "@/components/EssayCover";
+import { Subscribe } from "@/components/Subscribe";
+import { SectionHeading } from "@/components/SectionHeading";
+import { EpisodeGrid, PostList } from "@/components/PostLists";
+import { essays, podcastEpisodes } from "@/lib/posts";
 
 export default function Page() {
   const decks = [...siteLectures, ...siteSubjects];
   return (
     <Shell home={false} wide>
-      <h1 className="max-w-col text-[1.35rem] font-normal italic leading-snug text-ink-muted">
-        Notes on{" "}
+      <h1 className="text-[2.3rem] font-normal italic leading-none sm:text-[2.6rem]">Dwarkesh Patel</h1>
+      <p className="mt-4 max-w-col text-[1.35rem] italic leading-snug text-ink-muted">
+        Interviews from the{" "}
+        <a href="#podcast" className="link">
+          Dwarkesh Podcast
+        </a>
+        ,{" "}
+        <a href="#essays" className="link">
+          essays
+        </a>
+        , notes on{" "}
         <a href="#reading" className="link">
-          books and essays
+          books
         </a>{" "}
         I&rsquo;ve read, and{" "}
         <a href="#flashcards" className="link">
           flashcards
         </a>{" "}
-        for episodes of the Dwarkesh Podcast (
-        <a href="https://www.dwarkesh.com" className="link">
-          Substack
-        </a>
-        ,{" "}
-        <a href="https://www.youtube.com/@DwarkeshPatel" className="link">
-          YouTube
-        </a>
-        ).
-      </h1>
+        for the more technical episodes.
+      </p>
+      <div className="mt-5">
+        <Subscribe />
+      </div>
 
-      <section id="reading" className="mt-10 scroll-mt-8 sm:mt-12">
+      <section id="podcast" className="mt-14 scroll-mt-8 sm:mt-16">
+        <SectionHeading>Podcast</SectionHeading>
+        <div className="mt-8">
+          <EpisodeGrid posts={podcastEpisodes.slice(0, 6)} />
+        </div>
+        <MoreLink href="/podcast/">All {podcastEpisodes.length} episodes</MoreLink>
+      </section>
+
+      <section id="essays" className="mt-20 scroll-mt-8 sm:mt-24">
+        <SectionHeading>Essays</SectionHeading>
+        <PostList posts={essays.slice(0, 8)} />
+        <MoreLink href="/essays/">All {essays.length} essays</MoreLink>
+      </section>
+
+      <section id="reading" className="mt-20 scroll-mt-8 sm:mt-24">
         <SectionHeading>Reading</SectionHeading>
         <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-4 md:gap-x-10">
           {books.map((b) => (
@@ -50,9 +73,13 @@ export default function Page() {
   );
 }
 
-function SectionHeading({ children }: { children: React.ReactNode }) {
+function MoreLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <h2 className="border-b border-rule pb-2 text-[1.5rem] font-normal italic leading-none">{children}</h2>
+    <p className="mt-6 text-[1.15rem]">
+      <Link href={href} className="link">
+        {children} →
+      </Link>
+    </p>
   );
 }
 
@@ -90,14 +117,14 @@ function Cover({ src, alt, video = false }: { src: string; alt: string; video?: 
 // yet. Same size as a cover so the shelf stays even.
 function TitleCard({ book }: { book: Book }) {
   return (
-    <div
-      className={`relative flex aspect-[2/3] flex-col border border-rule bg-wash p-4 transition-transform duration-200 group-hover:-translate-y-1 sm:p-5 ${coverShadow}`}
-    >
-      <span className="label">{book.kind === "article" ? "Essay" : "Book"}</span>
-      <span className="mt-auto text-[1.25rem] italic leading-[1.15] sm:text-[1.4rem]">{book.title}</span>
-      <span className="mt-3 border-t border-rule pt-2 text-[0.95rem] leading-tight text-ink-muted">
-        {book.author}
-      </span>
+    <div className="relative transition-transform duration-200 group-hover:-translate-y-1">
+      <EssayCover
+        title={book.title}
+        author={book.author}
+        source={book.source}
+        label={book.kind === "article" ? "Essay" : "Book"}
+        className={coverShadow}
+      />
       {book.youtube ? <VideoBadge /> : null}
     </div>
   );
@@ -143,16 +170,22 @@ function CoverFan({ book }: { book: Book }) {
   return (
     <div className="relative aspect-[2/3] transition-transform duration-200 group-hover:-translate-y-1">
       {shown
-        .map((b, i) => (
-          <img
-            key={b.title}
-            src={`/covers/${b.cover}`}
-            alt={`Cover of ${b.title}`}
-            loading="lazy"
-            style={{ left: `${i * stepX}%`, top: `${(k - 1 - i) * stepY}%` }}
-            className={`absolute aspect-[2/3] w-[80%] object-cover ${coverShadow}`}
-          />
-        ))
+        .map((b, i) => {
+          const style = { left: `${i * stepX}%`, top: `${(k - 1 - i) * stepY}%` };
+          return b.cover ? (
+            <img
+              key={b.title}
+              src={`/covers/${b.cover}`}
+              alt={`Cover of ${b.title}`}
+              loading="lazy"
+              style={style}
+              className={`absolute aspect-[2/3] w-[80%] object-cover ${coverShadow}`}
+            />
+          ) : (
+            // An essay among the books gets a generated cover.
+            <EssayCover key={b.title} title={b.title} style={style} className={`absolute w-[80%] ${coverShadow}`} />
+          );
+        })
         .reverse()}
       {books.length > k ? (
         <span className="lining absolute right-0 top-0 rounded-full bg-[rgba(17,17,17,0.78)] px-2 py-0.5 text-[0.8rem] text-white">

@@ -7,8 +7,10 @@
 //   author: Joseph J. Ellis
 //   subtitle: George Washington   # optional
 //   kind: article                 # optional; for an essay or blog post
-//                                 # rather than a book. Shelved as a title
-//                                 # card, and needs `link`.
+//                                 # rather than a book. Needs `link`, and
+//                                 # gets a generated essay cover.
+//   source: Presidential Studies Quarterly  # optional; shown on an essay
+//                                 # cover. Defaults to the link's site.
 //   date: 2026-11-02              # when written; sorts the shelf, newest first
 //   cover: his-excellency.jpg     # file in public/covers/ (optional;
 //                                 # without one the shelf shows a title
@@ -27,6 +29,9 @@
 //     - The Power Broker | power-broker.jpg   # books: "Title | cover", plus
 //                                 # an optional "| link". The shelf fans
 //                                 # the first few covers into one tile.
+//                                 # Leave the cover empty for an essay
+//                                 # ("Title | | link"): it gets a
+//                                 # generated essay cover.
 //   draft: true                   # optional; hides the entry
 //   ---
 //
@@ -56,6 +61,8 @@ export type Book = {
   substack?: string;
   // Title of the Substack post, when this piece is one part of it.
   from?: string;
+  // Where an essay was published, for its generated cover.
+  source?: string;
   link: BookLink;
   books?: BookRef[];
   body: string;
@@ -94,8 +101,9 @@ function parse(file: string): Book & { draft?: boolean } {
   const books = Array.isArray(fm.books)
     ? fm.books.map((s) => {
         const [title, cover, url] = s.split("|").map((x) => x.trim());
-        if (!title || !cover) throw new Error(`${file}: books entries look like "Title | cover.jpg"`);
-        return { title, cover, link: bookLink(url, title, str("author")!) };
+        if (!title) throw new Error(`${file}: books entries look like "Title | cover.jpg"`);
+        if (!cover && !url) throw new Error(`${file}: "${title}" has no cover, so it needs a link`);
+        return { title, cover: cover || undefined, link: bookLink(url, title, str("author")!) };
       })
     : undefined;
   const cover = str("cover") ?? books?.[0]?.cover;
@@ -115,12 +123,17 @@ function parse(file: string): Book & { draft?: boolean } {
     youtube: str("youtube"),
     substack: substack || undefined,
     from: from || undefined,
+    source: str("source") ?? (kind === "article" ? siteName(str("link")!) : undefined),
     link: bookLink(str("link"), str("title")!, str("author")!),
     draft: str("draft") === "true",
     books: books && books.length > 1 ? books : undefined,
     body,
     words: body.split(/\s+/).filter(Boolean).length,
   };
+}
+
+function siteName(url: string): string {
+  return new URL(url).hostname.replace(/^www\./, "");
 }
 
 function bookLink(url: string | undefined, title: string, author: string): BookLink {

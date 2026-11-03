@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const description = "Notes on books, and flashcards for episodes of the Dwarkesh Podcast.";
+const description = "The Dwarkesh Podcast, essays, notes on books, and flashcards.";
 
 export const metadata: Metadata = {
-  title: { default: "Dwarkesh Patel — Books & Flashcards", template: "%s — Dwarkesh Patel" },
+  title: { default: "Dwarkesh Patel", template: "%s — Dwarkesh Patel" },
   description,
-  openGraph: { title: "Dwarkesh Patel — Books & Flashcards", description, type: "website" },
+  openGraph: { title: "Dwarkesh Patel", description, type: "website" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

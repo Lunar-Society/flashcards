@@ -9,7 +9,8 @@
     "pipeline": "tsx scripts/pipeline/run.ts",
     "export-files": "tsx scripts/export-files.ts",
     "build-anki": "python3 scripts/build_anki.py",
-    "build-cards": "npm run export-files && npm run build-anki"
+    "build-cards": "npm run export-files && npm run build-anki",
+    "fetch-substack": "tsx scripts/fetch-substack.ts"
   },
   "dependencies": {
     "@cursor/sdk": "^1.0.12",
@@ -27,6 +28,7 @@
     "@types/react": "18.3.11",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.20",
+    "cheerio": "^1.0.0",
     "postcss": "8.4.47",
     "tailwindcss": "3.4.13",
     "tsx": "4.19.1",
