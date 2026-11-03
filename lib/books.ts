@@ -149,7 +149,8 @@ function load(): Book[] {
   const all = readdirSync(DIR)
     .filter((f) => f.endsWith(".md"))
     .map(parse)
-    .filter((b) => !b.draft);
+    // The review editor (`npm run edit`) previews drafts too.
+    .filter((b) => !b.draft || process.env.SHOW_DRAFTS === "1");
   const seen = new Set(episodes.map((e) => e.slug));
   for (const b of all) {
     if (seen.has(b.slug)) throw new Error(`Book slug "${b.slug}" clashes with another page`);

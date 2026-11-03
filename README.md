@@ -46,6 +46,18 @@ covers.
 Pieces mirrored from Substack set a canonical link to the Substack
 post, so search engines treat that as the original.
 
+### Editing in the browser
+
+```bash
+npm run edit
+```
+
+opens an editor at http://localhost:4321: every review in a list, form
+fields for the header, the body in ET Book, and the real page beside it
+(drafts included) that reloads as you type. It saves straight to
+`content/books/`, so commit as usual afterwards. It runs the site's own
+dev server, so stop any other `npm run dev` in the same checkout first.
+
 ## Flashcards
 
 Each episode lives at `/<slug>/` with its own Markdown, JSON/TSV,
