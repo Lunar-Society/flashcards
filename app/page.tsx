@@ -4,6 +4,7 @@ import { siteLectures, siteSubjects } from "@/lib/episodes";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
 import { Shell } from "@/components/Shell";
+import { EssayCover } from "@/components/EssayCover";
 
 export default function Page() {
   const decks = [...siteLectures, ...siteSubjects];
@@ -90,14 +91,14 @@ function Cover({ src, alt, video = false }: { src: string; alt: string; video?: 
 // yet. Same size as a cover so the shelf stays even.
 function TitleCard({ book }: { book: Book }) {
   return (
-    <div
-      className={`relative flex aspect-[2/3] flex-col border border-rule bg-wash p-4 transition-transform duration-200 group-hover:-translate-y-1 sm:p-5 ${coverShadow}`}
-    >
-      <span className="label">{book.kind === "article" ? "Essay" : "Book"}</span>
-      <span className="mt-auto text-[1.25rem] italic leading-[1.15] sm:text-[1.4rem]">{book.title}</span>
-      <span className="mt-3 border-t border-rule pt-2 text-[0.95rem] leading-tight text-ink-muted">
-        {book.author}
-      </span>
+    <div className="relative transition-transform duration-200 group-hover:-translate-y-1">
+      <EssayCover
+        title={book.title}
+        author={book.author}
+        source={book.source}
+        label={book.kind === "article" ? "Essay" : "Book"}
+        className={coverShadow}
+      />
       {book.youtube ? <VideoBadge /> : null}
     </div>
   );
@@ -143,16 +144,22 @@ function CoverFan({ book }: { book: Book }) {
   return (
     <div className="relative aspect-[2/3] transition-transform duration-200 group-hover:-translate-y-1">
       {shown
-        .map((b, i) => (
-          <img
-            key={b.title}
-            src={`/covers/${b.cover}`}
-            alt={`Cover of ${b.title}`}
-            loading="lazy"
-            style={{ left: `${i * stepX}%`, top: `${(k - 1 - i) * stepY}%` }}
-            className={`absolute aspect-[2/3] w-[80%] object-cover ${coverShadow}`}
-          />
-        ))
+        .map((b, i) => {
+          const style = { left: `${i * stepX}%`, top: `${(k - 1 - i) * stepY}%` };
+          return b.cover ? (
+            <img
+              key={b.title}
+              src={`/covers/${b.cover}`}
+              alt={`Cover of ${b.title}`}
+              loading="lazy"
+              style={style}
+              className={`absolute aspect-[2/3] w-[80%] object-cover ${coverShadow}`}
+            />
+          ) : (
+            // An essay among the books gets a generated cover.
+            <EssayCover key={b.title} title={b.title} style={style} className={`absolute w-[80%] ${coverShadow}`} />
+          );
+        })
         .reverse()}
       {books.length > k ? (
         <span className="lining absolute right-0 top-0 rounded-full bg-[rgba(17,17,17,0.78)] px-2 py-0.5 text-[0.8rem] text-white">
