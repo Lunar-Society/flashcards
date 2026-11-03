@@ -45,6 +45,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { episodes } from "./episodes";
+import { series } from "./series";
 
 // Where to get a book: an Amazon page or search, or wherever it's
 // published (some books are free online).
@@ -154,7 +155,7 @@ function load(): Book[] {
     .map(parse)
     // The review editor (`npm run edit`) previews drafts too.
     .filter((b) => !b.draft || process.env.SHOW_DRAFTS === "1");
-  const seen = new Set(episodes.map((e) => e.slug));
+  const seen = new Set([...episodes.map((e) => e.slug), ...series.map((s) => s.slug)]);
   for (const b of all) {
     if (seen.has(b.slug)) throw new Error(`Book slug "${b.slug}" clashes with another page`);
     seen.add(b.slug);

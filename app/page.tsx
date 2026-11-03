@@ -9,6 +9,7 @@ import { Subscribe } from "@/components/Subscribe";
 import { SectionHeading } from "@/components/SectionHeading";
 import { EpisodeGrid, PostList } from "@/components/PostLists";
 import { essays, podcastEpisodes } from "@/lib/posts";
+import { Series, series, readingMinutes, roman } from "@/lib/series";
 
 export default function Page() {
   const decks = [...siteLectures, ...siteSubjects];
@@ -38,7 +39,11 @@ export default function Page() {
         <Subscribe />
       </div>
 
-      <section id="podcast" className="mt-14 scroll-mt-8 sm:mt-16">
+      {series.map((sr) => (
+        <SeriesFeature key={sr.slug} series={sr} />
+      ))}
+
+      <section id="podcast" className="mt-20 scroll-mt-8 sm:mt-24">
         <SectionHeading>Podcast</SectionHeading>
         <div className="mt-8">
           <EpisodeGrid posts={podcastEpisodes.slice(0, 6)} />
@@ -70,6 +75,38 @@ export default function Page() {
         </ul>
       </section>
     </Shell>
+  );
+}
+
+// An essay series gets the top of the page: its title, and its parts
+// like a contents page.
+function SeriesFeature({ series: sr }: { series: Series }) {
+  return (
+    <section className="mt-14 border-y border-ink py-10 sm:mt-16 sm:py-12">
+      <p className="label">Essay series</p>
+      <h2 className="mt-3 text-[2.4rem] font-normal italic leading-[1.05] tracking-[-0.01em] sm:text-[3.2rem]">
+        <Link href={`/${sr.slug}/`} className="transition-colors hover:text-accent">
+          {sr.title}
+        </Link>
+      </h2>
+      <ol className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-3">
+        {sr.parts.map((p) => (
+          <li key={p.n} className="md:border-l md:border-rule md:pl-5">
+            <span className="text-[1.6rem] italic leading-none text-accent">{roman(p.n)}</span>
+            {p.out ? (
+              <Link href={`/${sr.slug}/${p.slug}/`} className="mt-2 block text-[1.2rem] leading-snug transition-colors hover:text-accent">
+                {p.title}
+              </Link>
+            ) : (
+              <span className="mt-2 block text-[1.2rem] leading-snug text-ink-muted">{p.title}</span>
+            )}
+            <span className="label lining mt-2 block">
+              {p.out ? `${readingMinutes(p.words)} min read` : p.date ? `Out ${formatDate(p.date)}` : "Coming soon"}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 

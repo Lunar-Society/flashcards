@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Post, formatDuration, kindOf, relatedPages } from "@/lib/posts";
 import { formatDay } from "@/lib/format";
+import { sidenotesInHtml } from "@/lib/sidenotes";
 import { Shell } from "./Shell";
 import { Subscribe } from "./Subscribe";
 import { YouTube } from "./YouTube";
@@ -66,7 +67,7 @@ export function PostView({ post }: { post: Post }) {
           </div>
         ) : null}
 
-        <div className="prose-book prose-substack mt-10" dangerouslySetInnerHTML={{ __html: body }} />
+        <div className="prose-book prose-substack mt-10" dangerouslySetInnerHTML={{ __html: sidenotesInHtml(body) }} />
 
         <footer className="mt-16 border-t border-rule pt-6">
           <Subscribe />

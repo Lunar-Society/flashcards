@@ -4,14 +4,26 @@ import { getSiteEpisode, siteEpisodes } from "@/lib/episodes";
 import { books, getBook } from "@/lib/books";
 import { EpisodeView } from "@/components/EpisodeView";
 import { BookView } from "@/components/BookView";
+import { getSeries, series } from "@/lib/series";
+import { SeriesView } from "@/components/SeriesView";
 
-// Books and flashcard decks share the root URL space (`/<slug>/`).
+// Books, flashcard decks and essay series share the root URL space
+// (`/<slug>/`).
 // lib/books.ts fails the build if two of them ever claim the same slug.
 export function generateStaticParams() {
-  return [...books.map((b) => ({ slug: b.slug })), ...siteEpisodes.map((e) => ({ slug: e.slug }))];
+  return [
+    ...books.map((b) => ({ slug: b.slug })),
+    ...siteEpisodes.map((e) => ({ slug: e.slug })),
+    ...series.map((s) => ({ slug: s.slug })),
+  ];
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const s = getSeries(params.slug);
+  if (s) {
+    const description = `An essay series in ${s.parts.length} parts: ${s.parts.map((p) => p.title).join("; ")}.`;
+    return { title: s.title, description, openGraph: { title: s.title, description, type: "website" } };
+  }
   const book = getBook(params.slug);
   if (book) {
     const title = `${book.title}, ${book.author}`;
@@ -35,6 +47,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
+  const s = getSeries(params.slug);
+  if (s) return <SeriesView series={s} />;
   const book = getBook(params.slug);
   if (book) return <BookView book={book} />;
   const episode = getSiteEpisode(params.slug);

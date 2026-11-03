@@ -1,15 +1,19 @@
-// Renders a book's Markdown body at build time (server component, no
-// client JavaScript). No math parsing, so dollar amounts stay dollar
-// amounts.
+// Renders Markdown at build time (server component, no client
+// JavaScript), with footnotes as sidenotes on wide screens. No math
+// parsing, so dollar amounts stay dollar amounts.
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { rehypeHeadingIds, rehypeSidenotes } from "@/lib/sidenotes";
 
-export function Prose({ children }: { children: string }) {
+// `idPrefix` keeps footnote ids apart when several pieces share a page.
+export function Prose({ children, idPrefix }: { children: string; idPrefix?: string }) {
   return (
     <div className="prose-book">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHeadingIds, rehypeSidenotes]}
+        remarkRehypeOptions={idPrefix ? { clobberPrefix: `${idPrefix}-` } : undefined}
         components={{
           a: ({ href, children, node: _node, ...rest }) => {
             const external = typeof href === "string" && /^https?:/.test(href);
