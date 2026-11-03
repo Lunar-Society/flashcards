@@ -33,6 +33,9 @@
 //                                 # ("Title | | link"): it gets a
 //                                 # generated essay cover.
 //   draft: true                   # optional; hides the entry
+//   todo: true                    # optional; flags it in the review
+//                                 # editor as still to write or clean
+//                                 # up. The site ignores it.
 //   ---
 //
 //   Body in Markdown. Footnotes ([^1]) collect at the end.

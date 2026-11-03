@@ -49,8 +49,12 @@
   #list li:hover { background: var(--wash); }
   #list li.active { background: #fff; box-shadow: 0 0 0 1px var(--rule); }
   #list .t { font: italic 16px/1.2 var(--serif); }
-  #list .m { color: var(--faint); font-size: 12px; margin-top: 3px; display: flex; gap: 6px; align-items: center; }
+  #list .m { color: var(--faint); font-size: 12px; margin-top: 3px; display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: center; }
+  .pill { white-space: nowrap; }
   .pill { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 1px 6px; border-radius: 99px; background: #f1e3c4; color: #7a5a14; }
+  .pill.todo { background: #f6dcd6; color: var(--accent); }
+  #list li.todo .t::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin: 0 7px 2px 0; vertical-align: middle; }
+  .todo-count { color: var(--accent); font-size: 13px; }
 
   /* Editor column */
   #editor { overflow-y: auto; min-height: 0; }
@@ -94,6 +98,7 @@
 <body>
 <header>
   <h1>Reading notes</h1>
+  <span id="todo-count" class="todo-count"></span>
   <span id="status" class="status"></span>
   <span class="spacer"></span>
   <button id="new" class="btn">New review</button>
@@ -134,6 +139,7 @@
       <label>YouTube (a video of you reading it)<input id="f-youtube" placeholder="https://youtu.be/…" /></label>
       <label>Substack (if it's also a post)<input id="f-substack" placeholder="https://www.dwarkesh.com/p/…" /></label>
       <label class="toggle"><input id="f-draft" type="checkbox" /> Draft (hidden from the site)</label>
+      <label class="toggle"><input id="f-todo" type="checkbox" /> Still to write or clean up (only shown here)</label>
     </div>
     <details>
       <summary>Everything in the header</summary>
@@ -168,7 +174,7 @@ const $ = (id) => document.getElementById(id);
 
 // Fields in the order they usually appear in the header, for inserting
 // one that isn't there yet.
-const ORDER = ["slug", "title", "author", "subtitle", "kind", "source", "date", "cover", "youtube", "substack", "link", "draft"];
+const ORDER = ["slug", "title", "author", "subtitle", "kind", "source", "date", "cover", "youtube", "substack", "link", "draft", "todo"];
 
 let reviews = [];
 let current = null; // { file, head: string[], body: string }
@@ -249,13 +255,15 @@ function save() {
 // ---------- List ----------
 
 function renderList() {
+  const todo = reviews.filter((r) => r.todo).length;
+  $("todo-count").textContent = todo ? `${todo} to do` : "";
   const q = $("search").value.toLowerCase();
   $("list").innerHTML = "";
   for (const r of reviews) {
     if (q && !`${r.title} ${r.author}`.toLowerCase().includes(q)) continue;
     const li = document.createElement("li");
-    li.className = current?.file === r.file ? "active" : "";
-    li.innerHTML = `<div class="t"></div><div class="m"><span class="a"></span>${r.draft ? '<span class="pill">Draft</span>' : ""}</div>`;
+    li.className = [current?.file === r.file ? "active" : "", r.todo ? "todo" : ""].join(" ");
+    li.innerHTML = `<div class="t"></div><div class="m"><span class="a"></span>${r.todo ? '<span class="pill todo">To do</span>' : ""}${r.draft ? '<span class="pill">Draft</span>' : ""}</div>`;
     li.querySelector(".t").textContent = r.title || r.file;
     li.querySelector(".a").textContent = r.author;
     li.onclick = () => open(r.file);
@@ -305,12 +313,15 @@ function renderForm() {
   bind("f-youtube", "youtube");
   bind("f-substack", "substack");
 
-  $("f-draft").checked = get("draft") === "true";
-  $("f-draft").onchange = () => {
-    set("draft", $("f-draft").checked ? "true" : "");
-    $("raw").value = current.head.join("\n");
-    changed();
-  };
+  for (const key of ["draft", "todo"]) {
+    const box = $(`f-${key}`);
+    box.checked = get(key) === "true";
+    box.onchange = () => {
+      set(key, box.checked ? "true" : "");
+      $("raw").value = current.head.join("\n");
+      changed();
+    };
+  }
 
   const multi = lineOf("books") >= 0;
   $("cover-field").hidden = multi;
@@ -332,6 +343,7 @@ function renderForm() {
       $(id).value = get(key);
     }
     $("f-draft").checked = get("draft") === "true";
+    $("f-todo").checked = get("todo") === "true";
     $("f-cover").value = get("cover");
     coverThumb();
     changed();
@@ -489,10 +501,14 @@ $("new-form").onsubmit = async (e) => {
 // ---------- Start ----------
 
 $("search").addEventListener("input", renderList);
-window.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", async () => {
   const file = decodeURIComponent(location.hash.slice(1));
-  if (file && file !== current?.file && reviews.some((r) => r.file === file)) open(file);
+  if (!file || file === current?.file) return;
+  if (!reviews.some((r) => r.file === file)) await loadList();
+  if (reviews.some((r) => r.file === file)) open(file);
 });
+// Pick up reviews added or renamed elsewhere when you come back.
+window.addEventListener("focus", loadList);
 window.addEventListener("resize", () => current && grow());
 window.addEventListener("beforeunload", (e) => { if (saveTimer) { save(); e.preventDefault(); } });
 

@@ -10,7 +10,7 @@
 // commit the files as usual when you're done.
 
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync, readdirSync, utimesSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, utimesSync, watch, writeFileSync } from "node:fs";
 import { createServer, IncomingMessage, request, ServerResponse } from "node:http";
 import { connect } from "node:net";
 import { join } from "node:path";
@@ -37,6 +37,7 @@ function summary(file: string) {
     author: field("author"),
     date: field("date"),
     draft: field("draft") === "true",
+    todo: field("todo") === "true",
   };
 }
 
@@ -107,6 +108,12 @@ async function refreshPreview() {
   utimesSync(join(ROOT, "lib/books.ts"), now, now);
   await new Promise((r) => setTimeout(r, 400));
 }
+
+// Reviews edited or added outside the editor show up in the preview too.
+watch(BOOKS, () => {
+  const now = new Date();
+  utimesSync(join(ROOT, "lib/books.ts"), now, now);
+});
 
 // Everything that isn't the editor goes to the site's dev server.
 function proxy(req: IncomingMessage, res: ServerResponse) {

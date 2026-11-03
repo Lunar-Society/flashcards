@@ -6,6 +6,7 @@ subtitle: Kepler was a high temperature LLM
 date: 2026-03-25
 cover: clockwork-universe.jpg
 link: https://www.amazon.com/dp/006171951X
+todo: true
 ---
 
 <!-- Imported from the Google Doc "Kepler was a high temperature LLM". The
