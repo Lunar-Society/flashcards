@@ -5,22 +5,22 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"ET Book"', "Palatino", '"Palatino Linotype"', "Georgia", "serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Source Serif 4"', '"Source Serif Pro"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
         ink: {
-          DEFAULT: "var(--ink)",
-          muted: "var(--ink-muted)",
-          faint: "var(--ink-faint)",
+          DEFAULT: '#1a1a1a',
+          muted: '#5a5a5a',
+          faint: '#8a8a8a',
         },
-        paper: "var(--paper)",
-        wash: "var(--wash)",
-        rule: "var(--rule)",
-        accent: "var(--accent)",
+        paper: '#fafaf7',
+        rule: '#e5e3dc',
+        accent: '#b94d2b',
       },
       maxWidth: {
-        col: "36rem",
+        prose: '68ch',
       },
     },
   },

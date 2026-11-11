@@ -1,1 +1,0 @@
-ET Book fonts from tufte-css (https://github.com/edwardtufte/tufte-css), MIT License, Copyright (c) 2014 Dave Liepmann.
