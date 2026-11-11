@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { Episode, totalCardCount } from "@/lib/types";
 import { formatDate } from "@/lib/format";
+import { BackIcon, CheckIcon, CopyIcon, DownloadIcon } from "./Icons";
 import { Markdown } from "./Markdown";
-import { YouTube } from "./YouTube";
 
 export function EpisodeHeader({ episode }: { episode: Episode }) {
   const [copied, setCopied] = useState(false);
@@ -12,12 +13,15 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
   const cards = totalCardCount(episode);
   const isSubject = episode.kind === "subject";
   const upcoming = !isSubject && !episode.youtubeUrl && !episode.date;
+  const youtubeEmbedUrl = episode.youtubeUrl ? toYouTubeEmbed(episode.youtubeUrl) : null;
+
   const transcriptHref = `/exports/${slug}/transcript.md`;
 
   const onCopyTranscript = async () => {
     try {
       const res = await fetch(transcriptHref);
-      await navigator.clipboard.writeText(await res.text());
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
@@ -25,78 +29,161 @@ export function EpisodeHeader({ episode }: { episode: Episode }) {
     }
   };
 
-  const meta = [
-    "Flashcards",
-    episode.date ? formatDate(episode.date) : null,
-    `${cards} card${cards === 1 ? "" : "s"}`,
-    upcoming ? "Upcoming" : null,
-  ].filter(Boolean) as string[];
+  const metaItems: React.ReactNode[] = [];
+  if (episode.date)
+    metaItems.push(
+      <span key="date" className="tabular-nums">
+        {formatDate(episode.date)}
+      </span>,
+    );
+  metaItems.push(
+    <span key="cards" className="tabular-nums">
+      {cards} card{cards === 1 ? "" : "s"}
+    </span>,
+  );
+  if (upcoming)
+    metaItems.push(
+      <span key="upcoming" className="text-accent">
+        Upcoming
+      </span>,
+    );
 
   return (
-    <header>
-      <div>
-        <p className="label lining">{meta.join(" · ")}</p>
-        <h1 className="mt-3 text-[2.3rem] font-normal leading-[1.1] tracking-[-0.01em] sm:text-[2.8rem]">
-          {episode.title}
+    <header className="border-b border-rule bg-paper/95 backdrop-blur">
+      <div className="mx-auto max-w-3xl px-5 pt-6 pb-6 sm:px-8 sm:pt-8 sm:pb-7">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-[0.78rem] text-ink-faint transition-colors hover:text-ink"
+        >
+          <BackIcon />
+          <span>All flashcards</span>
+        </Link>
+
+        <div className="mt-7 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+          {metaItems.map((item, i) => (
+            <span key={i} className="contents">
+              {i > 0 ? <span className="text-rule">·</span> : null}
+              {item}
+            </span>
+          ))}
+        </div>
+
+        <h1 className="mt-2 font-serif text-[1.6rem] font-medium leading-snug tracking-tight text-ink sm:text-[1.9rem]">
+          {episode.substackUrl ? (
+            <a
+              href={episode.substackUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="transition-colors hover:text-accent"
+              title={isSubject ? "Read the post" : "Read on Substack"}
+            >
+              {episode.title}
+            </a>
+          ) : (
+            episode.title
+          )}
+          {episode.blurb ? <span className="text-ink-muted">: {episode.blurb}</span> : null}
         </h1>
-        {episode.blurb ? (
-          <p className="mt-3 text-[1.35rem] italic leading-snug text-ink-muted">{episode.blurb}</p>
-        ) : null}
         {episode.credit ? (
-          <Markdown className="question-prose mt-4 text-[1.02rem] italic leading-relaxed text-ink-faint">
+          <Markdown className="mt-2 max-w-prose font-serif text-[0.95rem] italic leading-relaxed text-ink-faint [&_a]:text-ink-muted [&_a]:transition-colors hover:[&_a]:text-accent">
             {episode.credit}
           </Markdown>
         ) : null}
-        {episode.substackUrl ? (
-          <p className="mt-4 text-[1.1rem]">
-            <a href={episode.substackUrl} target="_blank" rel="noreferrer noopener" className="link">
-              {isSubject ? "Read the post" : "Read on Substack"}
-            </a>{" "}
-            <span aria-hidden className="text-ink-faint">↗</span>
-          </p>
-        ) : null}
-      </div>
 
-      {episode.youtubeUrl ? (
-        <div className="mt-9">
-          <YouTube url={episode.youtubeUrl} title={`${episode.title} on YouTube`} />
+        {isSubject && episode.substackUrl ? (
+          <a
+            href={episode.substackUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-3 inline-flex items-center gap-1 text-[0.875rem] text-ink-muted transition-colors hover:text-accent"
+          >
+            <span className="underline decoration-rule decoration-1 underline-offset-[3px] hover:decoration-accent">
+              Read the post
+            </span>
+            <span aria-hidden>→</span>
+          </a>
+        ) : null}
+
+        {youtubeEmbedUrl ? (
+          <div className="mt-6 aspect-video w-full overflow-hidden rounded-md border border-rule bg-ink/5">
+            <iframe
+              src={youtubeEmbedUrl}
+              title={`${episode.title} on YouTube`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              className="h-full w-full"
+            />
+          </div>
+        ) : null}
+
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+            Download
+          </span>
+          {cards > 0 ? (
+            <>
+              <ExportLink href={`/exports/${slug}/flashcards.apkg`} label="Anki deck" />
+              <ExportLink href={`/exports/${slug}/flashcards.md`} label="Markdown" />
+            </>
+          ) : null}
+          {episode.transcriptPath ? (
+            <>
+              <ExportLink href={transcriptHref} label="Transcript" />
+              <button
+                onClick={onCopyTranscript}
+                className="inline-flex items-center gap-1.5 text-[0.875rem] text-ink-muted transition-colors hover:text-ink"
+                title="Copy transcript to clipboard for pasting into an LLM"
+              >
+                {copied ? <CheckIcon /> : <CopyIcon />}
+                <span className="underline decoration-rule decoration-1 underline-offset-[3px] hover:decoration-accent">
+                  {copied ? "Copied" : "Copy transcript"}
+                </span>
+              </button>
+            </>
+          ) : null}
         </div>
-      ) : null}
 
-      <div className="mt-7 flex flex-wrap items-baseline gap-x-5 gap-y-2 text-[1.05rem]">
-        <span className="label">Download</span>
-        {cards > 0 ? (
-          <>
-            <a href={`/exports/${slug}/flashcards.apkg`} download className="link">
-              Anki deck
-            </a>
-            <a href={`/exports/${slug}/flashcards.md`} download className="link">
-              Markdown
-            </a>
-          </>
-        ) : null}
-        {episode.transcriptPath ? (
-          <>
-            <a href={transcriptHref} download className="link">
-              Transcript
-            </a>
-            <button
-              type="button"
-              onClick={onCopyTranscript}
-              className="link"
-              title="Copy the transcript to paste into an LLM"
-            >
-              {copied ? "Copied ✓" : "Copy transcript"}
-            </button>
-          </>
+        {episode.note ? (
+          <div className="mt-5 rounded-md border border-accent/20 bg-accent/[0.04] px-4 py-3 text-[0.9rem] leading-relaxed text-ink-muted">
+            {episode.note}
+          </div>
         ) : null}
       </div>
-
-      {episode.note ? (
-        <p className="mt-6 border-l border-accent pl-4 text-[1.05rem] italic leading-relaxed text-ink-muted">
-          {episode.note}
-        </p>
-      ) : null}
     </header>
   );
+}
+
+function ExportLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      download
+      className="inline-flex items-center gap-1.5 text-[0.875rem] text-ink-muted transition-colors hover:text-ink"
+    >
+      <DownloadIcon />
+      <span className="underline decoration-rule decoration-1 underline-offset-[3px] hover:decoration-accent">
+        {label}
+      </span>
+    </a>
+  );
+}
+
+function toYouTubeEmbed(url: string): string | null {
+  try {
+    const u = new URL(url);
+    let id: string | null = null;
+    if (u.hostname === "youtu.be") {
+      id = u.pathname.slice(1).split("/")[0] || null;
+    } else if (u.hostname.endsWith("youtube.com")) {
+      id = u.searchParams.get("v");
+      if (!id && u.pathname.startsWith("/embed/")) {
+        id = u.pathname.slice("/embed/".length).split("/")[0] || null;
+      }
+    }
+    return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+  } catch {
+    return null;
+  }
 }

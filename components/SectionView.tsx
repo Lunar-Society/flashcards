@@ -18,7 +18,9 @@ export function SectionView({
   headerExtra?: ReactNode;
 }) {
   const youtubeTimestamp =
-    section.timestamp && episodeUrl ? sectionTimestampToYouTube(section.timestamp, episodeUrl) : null;
+    section.timestamp && episodeUrl
+      ? sectionTimestampToYouTube(section.timestamp, episodeUrl)
+      : null;
 
   return (
     <section id={section.id} className="scroll-mt-6 pb-14">
@@ -29,25 +31,31 @@ export function SectionView({
               href={youtubeTimestamp}
               target="_blank"
               rel="noreferrer noopener"
-              className="lining text-[0.92rem] text-ink-faint transition-colors hover:text-accent"
+              className="font-mono text-[0.78rem] tabular-nums text-ink-faint transition-colors hover:text-accent"
               title="Jump to this section on YouTube"
             >
-              {section.timestamp} ↗
+              {section.timestamp}
             </a>
           ) : (
-            <span className="lining text-[0.92rem] text-ink-faint">{section.timestamp}</span>
+            <span className="font-mono text-[0.78rem] tabular-nums text-ink-faint">
+              {section.timestamp}
+            </span>
           )
         ) : null}
-        <div className={`flex items-baseline justify-between gap-4 ${section.timestamp ? "mt-0.5" : ""}`}>
-          <h2 className="text-[1.65rem] font-normal italic leading-tight">{section.title}</h2>
+        <div className={`flex items-baseline justify-between gap-3 ${section.timestamp ? "mt-1" : ""}`}>
+          <h2 className="font-serif text-[1.55rem] font-medium leading-tight tracking-tight text-ink">
+            {section.title}
+          </h2>
           {headerExtra}
         </div>
       </div>
 
       {section.cards.length === 0 ? (
-        <p className="text-[1.05rem] italic text-ink-muted">No flashcards for this section yet.</p>
+        <p className="text-[0.95rem] italic text-ink-muted">
+          No flashcards for this section yet.
+        </p>
       ) : (
-        <ol className="border-t border-rule">
+        <ul className="border-y border-rule">
           {section.cards.map((c, i) => {
             const cardId = `${section.id}-${i}`;
             return (
@@ -61,7 +69,7 @@ export function SectionView({
               />
             );
           })}
-        </ol>
+        </ul>
       )}
     </section>
   );

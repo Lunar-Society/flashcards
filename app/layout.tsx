@@ -1,22 +1,34 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const description = "Notes on books, and flashcards for episodes of the Dwarkesh Podcast.";
-
 export const metadata: Metadata = {
-  title: { default: "Dwarkesh Patel — Books & Flashcards", template: "%s — Dwarkesh Patel" },
-  description,
-  openGraph: { title: "Dwarkesh Patel — Books & Flashcards", description, type: "website" },
+  title: "Dwarkesh Podcast Flashcards",
+  description:
+    "Flashcards for episodes of the Dwarkesh Podcast.",
+  openGraph: {
+    title: "Dwarkesh Podcast Flashcards",
+    description:
+      "Flashcards for episodes of the Dwarkesh Podcast.",
+    type: "website",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="/fonts/et-book/roman.woff" as="font" type="font/woff" crossOrigin="" />
-        <link rel="preload" href="/fonts/et-book/italic.woff" as="font" type="font/woff" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="font-serif text-ink">{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
